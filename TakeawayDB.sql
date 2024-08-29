@@ -1,4 +1,4 @@
--- 1. 用户管理 (User Management)
+-- 1. 用户表 (User)
 CREATE TABLE User (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -6,7 +6,7 @@ CREATE TABLE User (
     profile_picture VARCHAR(255)
 );
 
--- 2. 地址管理 (Address Management)
+-- 2. 地址表 (Address)
 CREATE TABLE Address (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -18,7 +18,7 @@ CREATE TABLE Address (
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
--- 3. 商家管理 (Merchant Management)
+-- 3. 商家表 (Merchant)
 CREATE TABLE Merchant (
     merchant_id INT AUTO_INCREMENT PRIMARY KEY,
     merchant_username VARCHAR(255) NOT NULL UNIQUE,
@@ -35,7 +35,7 @@ CREATE TABLE Merchant (
     packaging_fee_per_item DECIMAL(10, 2) NOT NULL
 );
 
--- 3.1 商品表 (Product)
+-- 4. 商品表 (Product)
 CREATE TABLE Product (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     merchant_id INT,
@@ -47,7 +47,7 @@ CREATE TABLE Product (
     FOREIGN KEY (merchant_id) REFERENCES Merchant(merchant_id)
 );
 
--- 4. 订单管理 (Order Management)
+-- 5. 订单表 (Order)
 CREATE TABLE `Order` (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     merchant_id INT,
@@ -69,7 +69,7 @@ CREATE TABLE `Order` (
     FOREIGN KEY (address_id) REFERENCES Address(address_id)
 );
 
--- 4.1 订单明细表 (Order_Item)
+-- 6. 订单明细表 (Order_Item)
 CREATE TABLE Order_Item (
     order_item_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
