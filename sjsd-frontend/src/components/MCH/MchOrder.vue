@@ -4,15 +4,18 @@
     <div class="container">
         <span class="timeselecter">
             <span style="font-size: 17px;">筛选时间：</span>
-            <el-time-picker
-                is-range
-                size="small"
+                <el-date-picker
                 v-model="date"
+                size="small"
+                clearable
+                type="daterange"
+                align="right"
+                unlink-panels
                 range-separator="至"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                placeholder="选择时间范围">
-            </el-time-picker>
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions">
+                </el-date-picker>
         </span>
         <span class="searcher">
             <el-autocomplete
@@ -36,7 +39,11 @@
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
-                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120">
+                            <template v-slot="scope">
+                                {{ scope.row.ordertime.split(' ')[1] }}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
                         <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
                             <template v-slot="scope">
@@ -49,11 +56,11 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'">接单</el-button>
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'">拒单</el-button>
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'">取消</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="acceptOrder(scope.$index)">接单</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="rejectOrder(scope.$index)">拒单</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'" @click="cancelOrder(scope.$index)">取消</el-button>
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -68,23 +75,23 @@
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
-                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120">
+                            <template v-slot="scope">
+                                {{ scope.row.ordertime.split(' ')[1] }}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
                         <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
                             <template v-slot="scope">
                                 <span v-if="scope.row.orderstate === '1'">待接单</span>
-                                <span v-else-if="scope.row.orderstate === '2'">待派送</span>
-                                <span v-else-if="scope.row.orderstate === '3'">派送中</span>
-                                <span v-else-if="scope.row.orderstate === '4'">已完成</span>
-                                <span v-else-if="scope.row.orderstate === '5'">已取消</span>
                             </template>
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'">接单</el-button>
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'">拒单</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="acceptOrder(scope.$index)">接单</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="rejectOrder(scope.$index)">拒单</el-button>
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -99,7 +106,11 @@
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
-                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120">
+                            <template v-slot="scope">
+                                {{ scope.row.ordertime.split(' ')[1] }}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
                         <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
                             <template v-slot="scope">
@@ -108,9 +119,9 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'">取消</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'" @click="cancelOrder(scope.$index)">取消</el-button>
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -125,7 +136,11 @@
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
-                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120">
+                            <template v-slot="scope">
+                                {{ scope.row.ordertime.split(' ')[1] }}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
                         <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
                             <template v-slot="scope">
@@ -135,7 +150,7 @@
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -150,7 +165,11 @@
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
-                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120">
+                            <template v-slot="scope">
+                                {{ scope.row.ordertime.split(' ')[1] }}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
                         <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
                             <template v-slot="scope">
@@ -160,7 +179,7 @@
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" v-if="scope.row.orderstate === '4'">查看</el-button>
-                                <el-button type="text" size="small">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -175,7 +194,11 @@
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
-                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120">
+                            <template v-slot="scope">
+                                {{ scope.row.ordertime.split(' ')[1] }}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
                         <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
                             <template v-slot="scope">
@@ -184,8 +207,8 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '5'">查看</el-button>
-                                <el-button type="text" size="small">删除订单</el-button>
+                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -201,8 +224,34 @@
                 // tabs=======================================================================================================
                 activeName: 'first',
                 //timeselecter=======================================================================================================
-                
-                date: [],
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                date: '',
                 //searcher=======================================================================================================
                 restaurants: [],
                 searchQuery: '',
@@ -216,7 +265,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'1'
                 }, {
@@ -224,7 +273,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'2'
                 }, {
@@ -232,7 +281,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'3'
                 }, {
@@ -240,7 +289,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'4'
                 },{
@@ -248,7 +297,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'3'
                 },{
@@ -256,7 +305,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'2'
                 },{
@@ -264,7 +313,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'1'
                 },{
@@ -272,7 +321,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'2'
                 },{
@@ -280,7 +329,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'4'
                 },{
@@ -288,7 +337,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'2'
                 },{
@@ -296,7 +345,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'5'
                 },{
@@ -304,7 +353,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'5'
                 },{
@@ -312,7 +361,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'5'
                 },{
@@ -320,7 +369,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'5'
                 },{
@@ -328,7 +377,7 @@
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19:36:11',
+                    ordertime:'2024-08-30 10:30:45',
                     money:'¥  154',
                     orderstate:'5'
                 }]
@@ -338,6 +387,7 @@
             // 搜索功能
             handleSearch() {
                 this.filteredData;
+                
             },
             // 时间选择功能
             handleDateChange() {
@@ -419,6 +469,142 @@
             },
             handleSelect(item) {
                 console.log(item);
+            },
+            acceptOrder(index) {
+                // 如果当前标签页是“全部订单”
+                if (this.activeName === 'first') {
+                this.tableData[index].orderstate = '2';
+                } 
+                // 如果当前标签页是“待接单”
+                else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
+                // 计算在“待接单”标签页中索引对应的订单
+                let count = 0;
+                for (let i = 0; i < this.tableData.length; i++) {
+                    if (this.tableData[i].orderstate === '1') {
+                    if (count === index) {
+                        this.tableData[i].orderstate = '2';
+                        break;
+                    }
+                    count++;
+                    }
+                }
+                }
+            },
+            rejectOrder(index) {
+                // 如果当前标签页是“全部订单”
+                if (this.activeName === 'first') {
+                this.tableData[index].orderstate = '5';
+                } 
+                // 如果当前标签页是“待接单”
+                else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
+                // 计算在“待接单”标签页中索引对应的订单
+                let count = 0;
+                for (let i = 0; i < this.tableData.length; i++) {
+                    if (this.tableData[i].orderstate === '1') {
+                    if (count === index) {
+                        this.tableData[i].orderstate = '5';
+                        break;
+                    }
+                    count++;
+                    }
+                }
+                }
+            },
+            cancelOrder(index) {
+                // 如果当前标签页是“全部订单”
+                if (this.activeName === 'first') {
+                this.tableData[index].orderstate = '5';
+                } 
+                // 如果当前标签页是“待接单”
+                else if (this.activeName === 'third') {  // 假设“待接单”标签页的 name 是 'second'
+                // 计算在“待接单”标签页中索引对应的订单
+                let count = 0;
+                for (let i = 0; i < this.tableData.length; i++) {
+                    if (this.tableData[i].orderstate === '2') {
+                    if (count === index) {
+                        this.tableData[i].orderstate = '5';
+                        break;
+                    }
+                    count++;
+                    }
+                }
+                }
+            },
+            deleteOrder(index) {
+                // 如果当前标签页是“全部订单”
+                if (this.activeName === 'first') {
+                    this.tableData.splice(index, 1);
+                } 
+                // 如果当前标签页是“待接单”
+                else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
+                // 计算在“待接单”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '1') {
+                        if (count === index) {
+                            this.tableData.splice(i, 1);
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                // 如果当前标签页是“待派送”
+                else if (this.activeName === 'third') {  // 假设“待派送”标签页的 name 是 'third'
+                // 计算在“待派送”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '2') {
+                        if (count === index) {
+                            this.tableData.splice(i, 1);
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                // 如果当前标签页是“派送中”
+                else if (this.activeName === 'fourth') {  // 假设“派送中”标签页的 name 是 'fourth'
+                // 计算在“派送中”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '3') {
+                        if (count === index) {
+                            this.tableData.splice(i, 1);
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                // 如果当前标签页是“已完成”
+                else if (this.activeName === 'fifth') {  // 假设“已完成”标签页的 name 是 'fifth'
+                // 计算在“已完成”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '4') {
+                        if (count === index) {
+                            this.tableData.splice(i, 1);
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                // 如果当前标签页是“已取消”
+                else if (this.activeName === 'sixth') {  // 假设“已取消”标签页的 name 是 'sixth'
+                // 计算在“已取消”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '5') {
+                        if (count === index) {
+                            this.tableData.splice(i, 1);
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
             }
         },
         mounted() {
@@ -510,4 +696,5 @@
     /deep/ .el-table__item {
         font-size: 17px;
     }
+    
 </style>
