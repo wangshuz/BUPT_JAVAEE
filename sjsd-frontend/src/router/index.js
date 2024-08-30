@@ -12,22 +12,22 @@ const routes = [
   {
     path: '/mch/order',
     name: 'MchOrder',
-    component: () => import( '../views/MCH/MchOrder.vue')
+    component: () => import( '../components/MCH/MchOrder.vue')
   },
   {
     path: '/mch/menu',
     name: 'MchMenu',
-    component: () => import( '../views/MCH/MchMenu.vue')
+    component: () => import( '../components/MCH/MchMenu.vue')
   },
   {
     path: '/mch/detail',
     name: 'MchDetail',
-    component: () => import( '../views/MCH/MchDetail.vue')
+    component: () => import( '../components/MCH/MchDetail.vue')
   },
   {
     path: '/mch/data',
     name: 'MchData',
-    component: () => import( '../views/MCH/MchData.vue')
+    component: () => import( '../components/MCH/MchData.vue')
   },
   {
     path: '/clt',
