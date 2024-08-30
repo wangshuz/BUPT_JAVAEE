@@ -1,18 +1,18 @@
 <!-- 商家首页 -->
-<!-- "#/mch" -->
+ <!-- "#/mch" -->
 
-<template>
+ <template>
   <div class="home">
-    <el-container>
-      <el-header style="background-color: aqua">
+    <el-container style="font-size: 17px;">
+      <el-header style="background-color: #FFAC00 ; height: 65px;" >
         <el-menu
           :default-active="activeIndex"
           class="MCH-menu-h"
           mode="horizontal"
           @select="handleSelect"
-          style="background-color: aqua"
+          style="background-color: #FFAC00; font-size:17px; height: 100%" 
         >
-          <el-menu-item index="1">
+          <el-menu-item index="1" style="font-size:17px">
               <router-link to="/">LOGO</router-link>
           </el-menu-item>
           <el-menu-item index="2" id="photo">
@@ -24,44 +24,35 @@
 
       <el-container class="container">
         <div class="aside">
-          <el-aside width="150px" height="100%">
+          <el-aside width="200px" height="100%">
             <el-col :span="24">
               <el-menu
                 default-active="1"
                 class="MCH-menu-v"
-                background-color="#545c64"
-                text-color="#fff"
+                background-color="#333333"
+                text-color="#F8F8FF"
                 active-text-color="#ffd04b"
+                active-background-color="#CECECE"
               >
                 <el-menu-item index="1">
                   <i class="el-icon-house"></i>
-                  <span slot="title">
-                      <router-link to="/mch"> 首页 </router-link>
-                  </span>
+                  <span slot="title">商家首页</span>
                 </el-menu-item>
                 <el-menu-item index="2">
                   <i class="el-icon-tickets"></i>
-                  <span slot="title">
-                      <router-link to="/mch/order">订单管理</router-link>
-                  </span>
+                  <span slot="title">订单管理</span>
                 </el-menu-item>
                 <el-menu-item index="3">
                   <i class="el-icon-menu"></i>
-                  <span slot="title">
-                      <router-link to="/mch/menu">菜品管理</router-link>
-                  </span>
+                  <span slot="title">菜品管理</span>
                 </el-menu-item>
                 <el-menu-item index="4">
                   <i class="el-icon-setting"></i>
-                  <span slot="title">
-                      <router-link to="/mch/detail">商家详情</router-link>
-                  </span>
+                  <span slot="title">商家详情</span>
                 </el-menu-item>
                 <el-menu-item index="5">
                   <i class="el-icon-odometer"></i>
-                  <span slot="title">
-                      <router-link to="/mch/data">数据统计</router-link>
-                  </span>
+                  <span slot="title">>数据统计</span>
                 </el-menu-item>
               </el-menu>
             </el-col>
@@ -75,8 +66,8 @@
     </el-container>
   </div>
 </template>
-  
-  
+
+
 <script>
 export default {
   data() {
@@ -94,8 +85,20 @@ export default {
 </script>
 
 <style>
+.el-menu {
+  font-size: 17px;
+}
+
 .MCH-menu-v {
   height: 90vh;
+}
+
+.el-menu{
+  font-size:17px;
+}
+
+.el-menu-item {
+  font-size:17px
 }
 
 #photo {
@@ -105,4 +108,11 @@ export default {
 #name {
   left: 75%;
 }
+
+.MCH-menu-v .el-menu-item.is-active {
+  background-color: #CECECE !important;
+  color:black !important;
+}
+
 </style>
+
