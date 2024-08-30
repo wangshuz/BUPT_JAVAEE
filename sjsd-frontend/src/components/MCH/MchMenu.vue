@@ -223,6 +223,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .flex-item {
@@ -232,6 +233,7 @@ export default {
 
 .flex-item:last-child {
   margin-right: 0;
+  align-items: right;
 }
 
 
