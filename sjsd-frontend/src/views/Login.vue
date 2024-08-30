@@ -61,7 +61,7 @@
     </div>
 </template>
 
-<script>
+<script scoped>
 export default {
     mounted() {
         this.initEventListeners();
