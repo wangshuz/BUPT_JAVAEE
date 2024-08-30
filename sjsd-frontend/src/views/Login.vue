@@ -119,7 +119,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* 初始化样式 */
 * {
     margin: 0;
