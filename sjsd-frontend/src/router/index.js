@@ -13,63 +13,68 @@ const routes = [
   {
     path: '/mch',
     name: 'MchHome',
-    component: () => import( '../views/MchHome.vue')
-  },
-  {
-    path: '/mch/main',
-    name: 'MchMain',
-    component: () => import( '../components/MCH/MchMain.vue')
-  },
-  {
-    path: '/mch/order',
-    name: 'MchOrder',
-    component: () => import( '../components/MCH/MchOrder.vue')
-  },
-  {
-    path: '/mch/menu',
-    name: 'MchMenu',
-    component: () => import( '../components/MCH/MchMenu.vue')
-  },
-  {
-    path: '/mch/detail',
-    name: 'MchDetail',
-    component: () => import( '../components/MCH/MchDetail.vue')
-  },
-  {
-    path: '/mch/data',
-    name: 'MchData',
-    component: () => import( '../components/MCH/MchData.vue')
+    component: () => import( '../views/MchHome.vue'),
+    children: [
+      {
+        path: 'main',
+        name: 'MchMain',
+        component: () => import( '../components/MCH/MchMain.vue')
+      },
+      {
+        path: 'order',
+        name: 'MchOrder',
+        component: () => import( '../components/MCH/MchOrder.vue')
+      },
+      {
+        path:'menu',
+        name:'MchMenu',
+        component: () => import( '../components/MCH/MchMenu.vue')
+      },
+      {
+        path:'detail',
+        name:'MchDetail',
+        component: () => import( '../components/MCH/MchDetail.vue')
+      },
+      {
+        path:'data',
+        name:'MchData',
+        component: () => import( '../components/MCH/MchData.vue')
+      },
+    ]
   },
   {
     path: '/clt',
     name: 'CltHome',
-    component: () => import( '../views/CltHome.vue')
+    component: () => import( '../views/CltHome.vue'),
+    children: [
+      {
+        path: 'main',
+        name: 'CltMain',
+        component: () => import( '../components/CLT/CltMain.vue')
+      },
+      {
+        path: 'order',
+        name: 'CltOrder',
+        component: () => import( '../components/CLT/CltOrder.vue')
+      },
+      {
+        path: 'payment',
+        name: 'CltPayment',
+        component: () => import( '../components/CLT/CltPayment.vue')
+      },
+      {
+        path: 'store',
+        name: 'CltStore',
+        component: () => import( '../components/CLT/CltStore.vue')
+      },
+      {
+        path: 'orderDetail',
+        name: 'CltOrderDetail',
+        component: () => import( '../components/CLT/CltOrderDetail.vue')
+      },
+    ]
   },
-  {
-    path: '/clt/main',
-    name: 'CltMain',
-    component: () => import( '../components/CLT/CltMain.vue')
-  },
-  {
-    path: '/clt/order',
-    name: 'CltOrder',
-    component: () => import( '../components/CLT/CltOrder.vue')
-  },
-  {
-    path: '/clt/payment',
-    name: 'CltPayment',
-    component: () => import( '../components/CLT/CltPayment.vue')
-  },
-  {
-    path: '/clt/store',
-    name: 'CltStore',
-    component: () => import( '../components/CLT/CltStore.vue')
-  },
-  {
-    path: '/clt/order/detail',
-    name: 'CltOrderDetail',
-    component: () => import( '../components/CLT/CltOrderDetail.vue')
-  },
+  
   
 ]
 

@@ -1,16 +1,12 @@
 <template>
   <div id="app">   
     <!-- 首页 -->
-    <!-- 通过router-link切换到view/Login.vue -->
-     <login></login>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Login from './views/Login.vue'
 export default {
-  components: { Login },
   
 }
 </script>
