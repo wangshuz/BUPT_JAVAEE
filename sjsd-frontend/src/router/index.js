@@ -6,6 +6,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import( '../views/Login.vue')
+  },
+  {
     path: '/mch',
     name: 'MchHome',
     component: () => import( '../views/MchHome.vue')
@@ -65,11 +70,7 @@ const routes = [
     name: 'CltOrderDetail',
     component: () => import( '../components/CLT/CltOrderDetail.vue')
   },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import( '../views/Login.vue')
-  },
+  
 ]
 
 const router = new VueRouter({

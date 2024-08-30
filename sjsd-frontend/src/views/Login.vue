@@ -1,4 +1,3 @@
-// 登录首页,通过router-link切换到view/CltHome.vue或view/MchHome.vue
 <template>
     <div class="container">
         <div class="form-box">
@@ -50,73 +49,74 @@
             <p>快来登录<span>点外卖</span>吧</p>
             <img src="../assets/images/login/1.png" alt="">
             <p>我是商家</p>
-            <button id="merchant">去入驻</button>
+            <button id="merchant" @click="showMerchant">去入驻</button>
         </div>
         <div class="con-box left">
             <h2>欢迎来到<span>邮外卖</span></h2>
             <p>快来入驻<span>商家</span>吧</p>
             <img src="../assets/images/login/2.png" alt="">
             <p>我是顾客</p>
-            <button id="customer">去购物</button>
+            <button id="customer" @click="showCustomer">去购物</button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    
+    mounted() {
+        this.initEventListeners();
+    },
+    methods: {
+        initEventListeners() {
+            let login_titles = document.querySelectorAll('.login-title');
+            let register_titles = document.querySelectorAll('.register-title');
+
+            login_titles.forEach(title => {
+                title.addEventListener('click', (e) => {
+                    let container = e.target.closest('.merchant-container, .customer-container');
+                    let login_box = container.querySelector('.merchant-box, .customer-box');
+                    let register_box = container.querySelector('.merchant-register-box, .customer-register-box');
+                    
+                    if (register_box.classList.contains('slide-up')) {
+                        register_box.classList.remove('slide-up');
+                        login_box.classList.add('slide-up');
+                    }
+                });
+            });
+
+            register_titles.forEach(title => {
+                title.addEventListener('click', (e) => {
+                    let container = e.target.closest('.merchant-container, .customer-container');
+                    let login_box = container.querySelector('.merchant-box, .customer-box');
+                    let register_box = container.querySelector('.merchant-register-box, .customer-register-box');
+                    
+                    if (login_box.classList.contains('slide-up')) {
+                        login_box.classList.remove('slide-up');
+                        register_box.classList.add('slide-up');
+                    }
+                });
+            });
+        },
+        showMerchant() {
+            let form_box = document.getElementsByClassName('form-box')[0];
+            let merchant_container = document.getElementsByClassName('merchant-container')[0];
+            let customer_container = document.getElementsByClassName('customer-container')[0];
+
+            form_box.style.transform = 'translateX(80%)';
+            customer_container.classList.add('hidden');
+            merchant_container.classList.remove('hidden');
+        },
+        showCustomer() {
+            let form_box = document.getElementsByClassName('form-box')[0];
+            let merchant_container = document.getElementsByClassName('merchant-container')[0];
+            let customer_container = document.getElementsByClassName('customer-container')[0];
+
+            form_box.style.transform = 'translateX(0%)';
+            merchant_container.classList.add('hidden');
+            customer_container.classList.remove('hidden');
+        }
+    }
 }
-// 获取元素
-let customer = document.getElementById('customer');
-let merchant = document.getElementById('merchant');
-let form_box = document.getElementsByClassName('form-box')[0];
-let merchant_container = document.getElementsByClassName('merchant-container')[0];
-let customer_container = document.getElementsByClassName('customer-container')[0];
-
-// 左右滑动
-merchant.addEventListener('click', () => {
-    form_box.style.transform = 'translateX(80%)';
-    customer_container.classList.add('hidden');
-    merchant_container.classList.remove('hidden');
-});
-
-customer.addEventListener('click', () => {
-    form_box.style.transform = 'translateX(0%)';
-    merchant_container.classList.add('hidden');
-    customer_container.classList.remove('hidden');
-});
-
-// 上下滑动
-let login_titles = document.querySelectorAll('.login-title');
-let register_titles = document.querySelectorAll('.register-title');
-
-login_titles.forEach(title => {
-    title.addEventListener('click', (e) => {
-        let container = e.target.closest('.merchant-container, .customer-container');
-        let login_box = container.querySelector('.merchant-box, .customer-box');
-        let register_box = container.querySelector('.merchant-register-box, .customer-register-box');
-        
-        if (register_box.classList.contains('slide-up')) {
-            register_box.classList.remove('slide-up');
-            login_box.classList.add('slide-up');
-        }
-    });
-});
-
-register_titles.forEach(title => {
-    title.addEventListener('click', (e) => {
-        let container = e.target.closest('.merchant-container, .customer-container');
-        let login_box = container.querySelector('.merchant-box, .customer-box');
-        let register_box = container.querySelector('.merchant-register-box, .customer-register-box');
-        
-        if (login_box.classList.contains('slide-up')) {
-            login_box.classList.remove('slide-up');
-            register_box.classList.add('slide-up');
-        }
-    });
-});
-
-
 </script>
 
 <style>
@@ -319,6 +319,4 @@ h2 {
     background-color: #d3b7d8;
     color: #fff;
 }
-
-
 </style>
