@@ -37,22 +37,22 @@ const routes = [
   {
     path: '/clt/order',
     name: 'CltOrder',
-    component: () => import( '../views/CLT/CltOrder.vue')
+    component: () => import( '../components/CLT/CltOrder.vue')
   },
   {
     path: '/clt/payment',
     name: 'CltPayment',
-    component: () => import( '../views/CLT/CltPayment.vue')
+    component: () => import( '../components/CLT/CltPayment.vue')
   },
   {
     path: '/clt/store',
     name: 'CltStore',
-    component: () => import( '../views/CLT/CltStore.vue')
+    component: () => import( '../components/CLT/CltStore.vue')
   },
   {
     path: '/clt/order/detail',
     name: 'CltOrderDetail',
-    component: () => import( '../views/CLT/CltOrderDetail.vue')
+    component: () => import( '../components/CLT/CltOrderDetail.vue')
   },
 ]
 
