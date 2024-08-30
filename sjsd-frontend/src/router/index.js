@@ -7,7 +7,12 @@ const routes = [
   {
     path: '/mch',
     name: 'MchHome',
-    component: () => import( '../views/MCH/MchHome.vue')
+    component: () => import( '../views/MchHome.vue')
+  },
+  {
+    path: '/mch/main',
+    name: 'MchMain',
+    component: () => import( '../components/MCH/MchMain.vue')
   },
   {
     path: '/mch/order',
@@ -32,7 +37,12 @@ const routes = [
   {
     path: '/clt',
     name: 'CltHome',
-    component: () => import( '../views/CLT/CltHome.vue')
+    component: () => import( '../views/CltHome.vue')
+  },
+  {
+    path: '/clt/main',
+    name: 'CltMain',
+    component: () => import( '../components/CLT/CltMain.vue')
   },
   {
     path: '/clt/order',
