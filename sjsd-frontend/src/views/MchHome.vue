@@ -60,7 +60,7 @@
         </div>
 
         <el-main>
-          <!-- 核心区域代码 -->
+          <router-view/>    <!-- 组件 -->
         </el-main>
       </el-container>
     </el-container>
@@ -84,7 +84,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-menu {
   font-size: 17px;
 }
@@ -112,6 +112,14 @@ export default {
 .MCH-menu-v .el-menu-item.is-active {
   background-color: #CECECE !important;
   color:black !important;
+}
+
+.MCH-menu-h .el-menu-item:hover{
+  background-color: #FFAC00 !important;
+}
+
+.MCH-menu-h .el-menu-item.is-active{
+  background-color: #FFAC00 !important;
 }
 
 </style>
