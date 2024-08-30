@@ -2,8 +2,10 @@
 <!-- #/mch/detail -->
 <template>
   <div class="merchant-detail-container">
+
     <!-- 商家名称展示 -->
     <div class="merchant-name-container">
+        <i class="el-icon-edit"></i>
       <span class="merchant-name-label">商家名称</span>
       <span class="merchant-name-content">
         {{ merchantName }}
@@ -27,14 +29,15 @@
     </el-dialog>
 
     <!-- 商家品类 -->
+    <i class="el-icon-edit"></i>
     <span class="merchant-name-label">商家品类</span>
     <el-select
-      v-model="value"
+      v-model="value1"
       placeholder="请选择"
       class="merchant-name-content"
     >
       <el-option
-        v-for="item in options"
+        v-for="item in options1"
         :key="item.value"
         :label="item.label"
         :value="item.value"
@@ -43,6 +46,7 @@
     </el-select>
 
     <!-- 商家头像 -->
+    <i class="el-icon-edit"></i>
     <span class="merchant-name-label">商家头像</span>
     <el-upload
       class="avatar-uploader"
@@ -58,7 +62,39 @@
     <br>
 
     <!-- 营业状态 -->
+    <i class="el-icon-edit"></i>
+    <span class="merchant-name-label">营业状态</span>
+    <el-select v-model="value2" placeholder="请选择">
+    <el-option
+      v-for="item in options2"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
 
+  <!-- 营业时间 -->
+  <i class="el-icon-edit"></i>
+  <span class="merchant-name-label">营业时间</span>
+  <el-time-select
+    placeholder="起始时间"
+    v-model="startTime"
+    :picker-options="{
+      start: '08:30',
+      step: '00:15',
+      end: '18:30'
+    }">
+  </el-time-select>
+  <el-time-select
+    placeholder="结束时间"
+    v-model="endTime"
+    :picker-options="{
+      start: '08:30',
+      step: '00:15',
+      end: '18:30',
+      minTime: startTime
+    }">
+  </el-time-select>
 
   </div>
 </template>
@@ -74,7 +110,7 @@ export default {
       },
       formLabelWidth: "80px", // 表单标签宽度
 
-      options: [
+      options1: [
         {
           value: "选项1",
           label: "快餐便当",
@@ -96,8 +132,20 @@ export default {
           label: "奶茶咖啡",
         },
       ],
-      value: "",
+      value1: "",       // 商家品类
       imageUrl: "", // 商家头像
+
+      options2: [{
+          value: '选项1',
+          label: '营业中'
+        }, {
+          value: '选项2',
+          label: '休息中'
+        }],
+        value2: '', // 营业状态
+
+        startTime: '',    // 营业开始时间
+        endTime: ''      // 营业结束时间
     };
   },
   methods: {
