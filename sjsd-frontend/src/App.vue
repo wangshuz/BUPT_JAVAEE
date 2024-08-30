@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    
-    <router-view/>
+  <div id="app">   
+    <!-- 首页 -->
+    <!-- 通过router-link切换到view/Login.vue -->
   </div>
 </template>
 
