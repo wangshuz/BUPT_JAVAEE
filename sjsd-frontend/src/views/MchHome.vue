@@ -52,7 +52,7 @@
                 </el-menu-item>
                 <el-menu-item index="5">
                   <i class="el-icon-odometer"></i>
-                  <span slot="title">>数据统计</span>
+                  <span slot="title">数据统计</span>
                 </el-menu-item>
               </el-menu>
             </el-col>

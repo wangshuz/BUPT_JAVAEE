@@ -1,67 +1,69 @@
 <template>
-    <div class="container">
-        <div class="form-box">
-            <!-- 商家登录和注册 -->
-            <div class="merchant-container hidden">
-                <div class="merchant-box">
-                    <h2 class="login-title"><span>没有账号，去</span>注册</h2>
-                    
-                    <div class="input-box">
-                        <input type="text" placeholder="用户名">
-                        <input type="password" placeholder="密码">
+    <body>
+        <div class="container">
+            <div class="form-box">
+                <!-- 商家登录和注册 -->
+                <div class="merchant-container hidden">
+                    <div class="merchant-box">
+                        <h2 class="login-title"><span>没有账号，去</span>注册</h2>
+                        
+                        <div class="input-box">
+                            <input type="text" placeholder="用户名">
+                            <input type="password" placeholder="密码">
+                        </div>
+                        <button>登录</button>
                     </div>
-                    <button>登录</button>
+                    <div class="merchant-register-box slide-up">
+                        <h2 class="register-title"><span>已有账号，去</span>登录</h2>
+                        
+                        <div class="input-box">
+                            <input type="text" placeholder="用户名">
+                            <input type="password" placeholder="密码">
+                            <input type="password" placeholder="确认密码">
+                        </div>
+                        <button>注册</button>
+                    </div>
                 </div>
-                <div class="merchant-register-box slide-up">
-                    <h2 class="register-title"><span>已有账号，去</span>登录</h2>
-                    
-                    <div class="input-box">
-                        <input type="text" placeholder="用户名">
-                        <input type="password" placeholder="密码">
-                        <input type="password" placeholder="确认密码">
+                <!-- 顾客登录和注册 -->
+                <div class="customer-container">
+                    <div class="customer-box">
+                        <h2 class="login-title"><span>没有账号，去</span>注册</h2>
+                        <div class="input-box">
+                            <input type="text" placeholder="用户名">
+                            <input type="password" placeholder="密码">
+                        </div>
+                        <button>登录</button>
                     </div>
-                    <button>注册</button>
+                    <div class="customer-register-box slide-up">
+                        <h2 class="register-title"><span>已有账号，去</span>登录</h2>
+                        <div class="input-box">
+                            <input type="text" placeholder="用户名">
+                            <input type="password" placeholder="密码">
+                            <input type="password" placeholder="确认密码">
+                        </div>
+                        <button>注册</button>
+                    </div>
                 </div>
             </div>
-            <!-- 顾客登录和注册 -->
-            <div class="customer-container">
-                <div class="customer-box">
-                    <h2 class="login-title"><span>没有账号，去</span>注册</h2>
-                    <div class="input-box">
-                        <input type="text" placeholder="用户名">
-                        <input type="password" placeholder="密码">
-                    </div>
-                    <button>登录</button>
-                </div>
-                <div class="customer-register-box slide-up">
-                    <h2 class="register-title"><span>已有账号，去</span>登录</h2>
-                    <div class="input-box">
-                        <input type="text" placeholder="用户名">
-                        <input type="password" placeholder="密码">
-                        <input type="password" placeholder="确认密码">
-                    </div>
-                    <button>注册</button>
-                </div>
+            <div class="con-box right">
+                <h2>欢迎来到<span>邮外卖</span></h2>
+                <p>快来登录<span>点外卖</span>吧</p>
+                <img src="../assets/images/login/1.png" alt="">
+                <p>我是商家</p>
+                <button id="merchant" @click="showMerchant">去入驻</button>
+            </div>
+            <div class="con-box left">
+                <h2>欢迎来到<span>邮外卖</span></h2>
+                <p>快来入驻<span>商家</span>吧</p>
+                <img src="../assets/images/login/2.png" alt="">
+                <p>我是顾客</p>
+                <button id="customer" @click="showCustomer">去购物</button>
             </div>
         </div>
-        <div class="con-box right">
-            <h2>欢迎来到<span>邮外卖</span></h2>
-            <p>快来登录<span>点外卖</span>吧</p>
-            <img src="../assets/images/login/1.png" alt="">
-            <p>我是商家</p>
-            <button id="merchant" @click="showMerchant">去入驻</button>
-        </div>
-        <div class="con-box left">
-            <h2>欢迎来到<span>邮外卖</span></h2>
-            <p>快来入驻<span>商家</span>吧</p>
-            <img src="../assets/images/login/2.png" alt="">
-            <p>我是顾客</p>
-            <button id="customer" @click="showCustomer">去购物</button>
-        </div>
-    </div>
+    </body>
 </template>
 
-<script scoped>
+<script>
 export default {
     mounted() {
         this.initEventListeners();
