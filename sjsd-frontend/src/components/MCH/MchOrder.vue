@@ -1,71 +1,194 @@
 <!-- 商家订单管理 -->
 <!-- #/mch/order -->
 <template>
-    <div calss="container">
+    <div class="container">
         <span class="timeselecter">
             <span style="font-size: 17px;">筛选时间：</span>
-            <el-date-picker
-            size="small"
-            v-model="date"
-            type="datetimerange"
-            :picker-options="pickerOptions"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
-            </el-date-picker>
+            <el-time-picker
+                is-range
+                size="small"
+                v-model="date"
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                placeholder="选择时间范围">
+            </el-time-picker>
         </span>
         <span class="searcher">
             <el-autocomplete
-            size="small"
-            v-model="state"
-            :fetch-suggestions="querySearchAsync"
-            placeholder="请输入内容"
-            @select="handleSelect"
-            ></el-autocomplete>
+                size="small"
+                v-model="searchQuery"
+                :fetch-suggestions="querySearchAsync"
+                placeholder="请输入用户名"
+                @input="handleSearch"
+            >
+            </el-autocomplete>
         </span>
         <span>
-            <el-tabs class="tab" v-model="activeName" @tab-click="handleClick">
+            <el-tabs class="tab" v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane class="tabtext" label="全部订单" name="first">
                     <el-table
-                        :data="tableData"
+                        :data="filteredData"
                         stripe
                         style="width: 100%"
                         height="750px">
-                        <el-table-column prop="orderID" label="订单号" width="200">
+                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="username" label="用户名" width="140"></el-table-column>
+                        <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
+                        <el-table-column prop="location" label="地址" width="290"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
+                        <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
+                            <template v-slot="scope">
+                                <span v-if="scope.row.orderstate === '1'">待接单</span>
+                                <span v-else-if="scope.row.orderstate === '2'">待派送</span>
+                                <span v-else-if="scope.row.orderstate === '3'">派送中</span>
+                                <span v-else-if="scope.row.orderstate === '4'">已完成</span>
+                                <span v-else-if="scope.row.orderstate === '5'">已取消</span>
+                            </template>
                         </el-table-column>
-                        <el-table-column prop="username" label="用户名" width="120">
-                        </el-table-column>
-                        <el-table-column prop="phonenumber" label="手机号" width="140">
-                        </el-table-column>
-                        <el-table-column prop="location" label="地址" width="270">
-                        </el-table-column>
-                        <el-table-column prop="ordertime" label="下单时间" width="120">
-                        </el-table-column>
-                        <el-table-column prop="money" label="实收金额" width="120">
-                        </el-table-column>
-                        <el-table-column prop="orderstate" label="订单状态" width="120">
-                        </el-table-column>
-                        <el-table-column prop="operation" label="操作" width="300">
-                            <template >
-                                
+                        <el-table-column prop="operation" label="操作" width="200" align="right">
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'">接单</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'">拒单</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'">取消</el-button>
+                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small">删除订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </el-tab-pane>
                 <el-tab-pane class="tabtext" label="待接单" name="second">
-                    待接单
+                    <el-table
+                        :data="filteredData"
+                        stripe
+                        style="width: 100%"
+                        height="750px">
+                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="username" label="用户名" width="140"></el-table-column>
+                        <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
+                        <el-table-column prop="location" label="地址" width="290"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
+                        <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
+                            <template v-slot="scope">
+                                <span v-if="scope.row.orderstate === '1'">待接单</span>
+                                <span v-else-if="scope.row.orderstate === '2'">待派送</span>
+                                <span v-else-if="scope.row.orderstate === '3'">派送中</span>
+                                <span v-else-if="scope.row.orderstate === '4'">已完成</span>
+                                <span v-else-if="scope.row.orderstate === '5'">已取消</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="operation" label="操作" width="200" align="right">
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'">接单</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'">拒单</el-button>
+                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small">删除订单</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </el-tab-pane>
                 <el-tab-pane class="tabtext" label="待派送" name="third">
-                    待派送
+                    <el-table
+                        :data="filteredData"
+                        stripe
+                        style="width: 100%"
+                        height="750px">
+                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="username" label="用户名" width="140"></el-table-column>
+                        <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
+                        <el-table-column prop="location" label="地址" width="290"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
+                        <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
+                            <template v-slot="scope">
+                                <span v-if="scope.row.orderstate === '2'">待派送</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="operation" label="操作" width="200" align="right">
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'">取消</el-button>
+                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small">删除订单</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </el-tab-pane>
                 <el-tab-pane class="tabtext" label="派送中" name="fourth">
-                    派送中
+                    <el-table
+                        :data="filteredData"
+                        stripe
+                        style="width: 100%"
+                        height="750px">
+                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="username" label="用户名" width="140"></el-table-column>
+                        <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
+                        <el-table-column prop="location" label="地址" width="290"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
+                        <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
+                            <template v-slot="scope">
+                                <span v-if="scope.row.orderstate === '3'">派送中</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="operation" label="操作" width="200" align="right">
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small">删除订单</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </el-tab-pane>
                 <el-tab-pane class="tabtext" label="已完成" name="fifth">
-                    已完成
+                    <el-table
+                        :data="filteredData"
+                        stripe
+                        style="width: 100%"
+                        height="750px">
+                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="username" label="用户名" width="140"></el-table-column>
+                        <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
+                        <el-table-column prop="location" label="地址" width="290"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
+                        <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
+                            <template v-slot="scope">
+                                <span v-if="scope.row.orderstate === '4'">已完成</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="operation" label="操作" width="200" align="right">
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '4'">查看</el-button>
+                                <el-button type="text" size="small">删除订单</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </el-tab-pane>
                 <el-tab-pane class="tabtext" label="已取消" name="sixth">
-                    已取消
+                    <el-table
+                        :data="filteredData"
+                        stripe
+                        style="width: 100%"
+                        height="750px">
+                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="username" label="用户名" width="140"></el-table-column>
+                        <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
+                        <el-table-column prop="location" label="地址" width="290"></el-table-column>
+                        <el-table-column prop="ordertime" label="下单时间" width="120"></el-table-column>
+                        <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
+                        <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
+                            <template v-slot="scope">
+                                <span v-if="scope.row.orderstate === '5'">已取消</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="operation" label="操作" width="200" align="right">
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '5'">查看</el-button>
+                                <el-button type="text" size="small">删除订单</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </el-tab-pane>
             </el-tabs>
         </span>
@@ -78,88 +201,152 @@
                 // tabs=======================================================================================================
                 activeName: 'first',
                 //timeselecter=======================================================================================================
-                pickerOptions: {
-                shortcuts: [{
-                    text: '最近一周',
-                    onClick(picker) {
-                    const end = new Date();
-                    const start = new Date();
-                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                    picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近一个月',
-                    onClick(picker) {
-                    const end = new Date();
-                    const start = new Date();
-                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                    picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近三个月',
-                    onClick(picker) {
-                    const end = new Date();
-                    const start = new Date();
-                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                    picker.$emit('pick', [start, end]);
-                    }
-                }]
-                },
-                date: '',
+                
+                date: [],
                 //searcher=======================================================================================================
                 restaurants: [],
+                searchQuery: '',
                 state: '',
                 timeout:  null,
                 //table========================================================================================================
-                tableData: [{
+                tableData: [
+                // orderstate: 1.待接单  2.待派送  3.派送中  4.已完成  5.已取消
+                {
                     orderID:'1332666559995544599',
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19-36-11',
+                    ordertime:'19:36:11',
                     money:'¥  154',
-                    orderstate:'待接单',
-                    operation:''
+                    orderstate:'1'
                 }, {
                     orderID:'1332666559995544599',
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19-36-11',
+                    ordertime:'19:36:11',
                     money:'¥  154',
-                    orderstate:'待接单',
-                    operation:''
+                    orderstate:'2'
                 }, {
                     orderID:'1332666559995544599',
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19-36-11',
+                    ordertime:'19:36:11',
                     money:'¥  154',
-                    orderstate:'待接单',
-                    operation:''
+                    orderstate:'3'
                 }, {
                     orderID:'1332666559995544599',
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19-36-11',
+                    ordertime:'19:36:11',
                     money:'¥  154',
-                    orderstate:'待接单',
-                    operation:''
+                    orderstate:'4'
                 },{
                     orderID:'1332666559995544599',
                     username:'爱吃海底捞',
                     phonenumber:'13655263459',
                     location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'19-36-11',
+                    ordertime:'19:36:11',
                     money:'¥  154',
-                    orderstate:'待接单',
-                    operation:''
+                    orderstate:'3'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'2'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'1'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'2'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'4'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'2'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'5'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'5'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'5'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'5'
+                },{
+                    orderID:'1332666559995544599',
+                    username:'爱吃海底捞',
+                    phonenumber:'13655263459',
+                    location:'北京邮电大学学十三公寓美团外卖柜',
+                    ordertime:'19:36:11',
+                    money:'¥  154',
+                    orderstate:'5'
                 }]
             };
         },
         methods: {
+            // 搜索功能
+            handleSearch() {
+                this.filteredData;
+            },
+            // 时间选择功能
+            handleDateChange() {
+                this.filteredData;
+            },
+            // 标签页切换功能
+            handleTabClick(tab) {
+                this.filteredData;
+            },
             //searcher=======================================================================================================
             handleClick(tab, event) {
                 console.log(tab, event);
@@ -237,6 +424,43 @@
         mounted() {
             //searcher=======================================================================================================
             this.restaurants = this.loadAll();
+        },
+        computed: {
+            filteredData() {
+                let filtered = this.tableData;
+
+                // 按用户名搜索
+                if (this.searchQuery) {
+                    filtered = filtered.filter(item =>
+                        item.username.includes(this.searchQuery)
+                    );
+                }
+
+                // 按时间范围筛选
+                if (this.date.length === 2) {
+                    const [startDate, endDate] = this.date;
+                    filtered = filtered.filter(item => {
+                        const orderDate = new Date(item.ordertime);
+                        return orderDate >= startDate && orderDate <= endDate;
+                    });
+                }
+
+                // 按标签页状态筛选
+                if (this.activeName !== 'first') {
+                    const stateMap = {
+                        second: '1',
+                        third: '2',
+                        fourth: '3',
+                        fifth: '4',
+                        sixth: '5'
+                    };
+                    filtered = filtered.filter(item =>
+                        item.orderstate === stateMap[this.activeName]
+                    );
+                }
+
+                return filtered;
+            }
         }
     };
 </script>
@@ -247,14 +471,14 @@
     /* timeselecter========================================================================================================= */
     .timeselecter {
         position: absolute;
-        top: 120px; /* Adjust as needed */
+        top: 20px; /* Adjust as needed */
         right: 230px; /* Adjust as needed */
         z-index: 2; /* Ensure time picker is on top */
     }
     /* searcher========================================================================================================= */
     .searcher {
         position: absolute;
-        top: 120px; /* Adjust as needed */
+        top: 20px; /* Adjust as needed */
         right: 20px; /* Adjust as needed */
         z-index: 2; /* Ensure time picker is on top */
     }
@@ -263,7 +487,10 @@
 
     /* tab========================================================================================================= */
     .tab {
+        position: absolute;
         z-index: 1; /* Ensure tabs are underneath the time picker */
+        top: 20px;
+        left: 50px;
     }
     /deep/ .el-tabs__item.is-active {
         color: black !important; /* 修改选中标签的文字颜色为绿色 */
