@@ -24,7 +24,7 @@
 
       <el-container class="container">
         <div class="aside">
-          <el-aside width="200px" height="100%">
+          <el-aside width="160px" height="100%">
             <el-col :span="24">
               <el-menu
                 default-active="1"
@@ -59,7 +59,7 @@
           </el-aside>
         </div>
 
-        <el-main>
+        <el-main class="main">
           <router-view/>    <!-- 组件 -->
         </el-main>
       </el-container>
@@ -85,17 +85,21 @@ export default {
 </script>
 
 <style scoped>
+
+.main{
+  padding: 0px;
+  margin: 0px;
+}
+
 .el-menu {
   font-size: 17px;
+
 }
 
 .MCH-menu-v {
   height: 90vh;
 }
 
-.el-menu{
-  font-size:17px;
-}
 
 .el-menu-item {
   font-size:17px
