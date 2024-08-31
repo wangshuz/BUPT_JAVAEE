@@ -6,7 +6,7 @@
     <el-container style="font-size: 17px;">
       <el-header style="background-color: #FFAC00 ; height: 65px;" >
         <el-menu
-          :default-active="activeIndex"
+          default-active="1"
           class="CLT-menu-h"
           mode="horizontal"
           @select="handleSelect"
@@ -30,7 +30,6 @@
             </el-col>
           </el-menu-item>
 
-
          <el-menu-item index="2" id="photo">
             <el-avatar :size="40" :src="circleUrl"></el-avatar>
           </el-menu-item>
@@ -38,26 +37,6 @@
         </el-menu>
       </el-header>
 
-      <div class="CLT-aside-bar">
-          <el-col :span="24">
-          <el-menu
-            default-active="1"
-            class="CLT-menu-v"
-            text-color="#000"
-            active-text-color="#ffd04b" 
-            >
-            <span v-for="(item, idx) in listData" :key="idx">
-              <el-menu-item :index="idx">
-                <i class="el-icon-dish"></i>
-                <span slot="title">{{item.typeName}}</span>
-              </el-menu-item>
-            </span>
-            
-          </el-menu>
-        </el-col>
-
-
-      </div>
 
       <el-main style="padding:0px">
         <router-view/>    <!-- 组件 -->
@@ -80,21 +59,6 @@
         state2: '',
         circleUrl:
           "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-        listData:[
-          {
-            "typeName":"主食",
-          },
-          {
-            "typeName":"菜品",
-          },
-          {
-            "typeName":"西餐",
-          },
-          {
-            "typeName":"清真",
-          },
-
-        ]
       };
     },
     methods: {
@@ -139,39 +103,6 @@
 .inline-input{
   width:200px;
   caret-color: #333;
-}
-
-
-.CLT-aside-bar{
-  background-color:#CECECE ;
-  width:160px;
-  height: 75vh;
-  position: absolute;
-  overflow-x:hidden;
-  overflow-y:auto;
-  border-radius: 15px;
-  left: 5%;
-  top: 15%;
-  opacity: 0.7;
-  z-index: 100;
-}
-
-.CLT-menu-v .el-menu-item{
-  opacity: 1;
-  font-size: 20px;
-  background-color:#CECECE ;
-}
-
-.CLT-menu-v .el-menu-item.is-active{
-  opacity: 1;
-  font-size: 20px;
-  background-color: #333;
-}
-
-
-
-.CLT-aside-bar::-webkit-scrollbar {
-  	display: none;
 }
 
 .el-menu {

@@ -15,10 +15,17 @@ const routes = [
     name: 'MchHome',
     component: () => import( '../views/MchHome.vue'),
     children: [
+      // {
+      //   path: 'main',
+      //   name: 'MchMain',
+      //   component: () => import( '../components/MCH/MchMain.vue')
+      // },
       {
         path: 'main',
         name: 'MchMain',
-        component: () => import( '../components/MCH/MchMain.vue')
+        component:{
+          sideBar: () => import( '../components/MCH/MchMain.vue')
+        }
       },
       {
         path: 'order',

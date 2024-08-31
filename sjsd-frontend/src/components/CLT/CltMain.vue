@@ -25,11 +25,18 @@
             </el-col>
         </el-row>
 
+        
+        <side-bar :listData="listData" />
+        
+
     </div>
 </template>
 
 <script>
+import SideBar from '../SideBar.vue';
+
 export default {
+    components: { SideBar },
     name: "TopPicture",
     props: {},
     data(){
@@ -76,13 +83,39 @@ export default {
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
             ],
-            
+            listData:[
+                {
+                    "id":10001,
+                    "typeName":"主食",
+                    "cb":function(){
+                        alert("主食");
+                    },
+                },
+                {
+                    "id":10002,
+                    "typeName":"配菜",
+                    "cb":function(){},
+                },
+                {
+                    "id":10003,
+                    "typeName":"西餐",
+                    "cb":function(){},
+                },
+                {
+                    "id":10004,
+                    "typeName":"面点",
+                    "cb":function(){},
+                },
+                {
+                    "id":10005,
+                    "typeName":"素食",
+                    "cb":function(){},
+                },
+            ]
         };
 
     },
     methods(){
-
-
     }
 }
 </script>
@@ -146,5 +179,36 @@ export default {
   .clearfix:after {
       clear: both
   }
+
+
+/* .side-bar{
+  background-color:#CECECE ;
+  width:160px;
+  height: 75vh;
+  position: absolute;
+  overflow-x:hidden;
+  overflow-y:auto;
+  border-radius: 15px;
+  left: 5%;
+  top: 15%;
+  opacity: 0.7;
+  z-index: 100;
+}
+
+.side-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-v .el-menu-item{
+  opacity: 1;
+  font-size: 20px;
+  background-color:#CECECE ;
+}
+
+.menu-v .el-menu-item.is-active{
+  opacity: 1;
+  font-size: 20px;
+  background-color: #333;
+} */
 
 </style>
