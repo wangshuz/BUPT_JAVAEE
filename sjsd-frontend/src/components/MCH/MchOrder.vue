@@ -32,9 +32,10 @@
                 <el-tab-pane class="tabtext" label="全部订单" name="first">
                     <el-table
                         :data="filteredData"
-                        stripe
+                        
                         style="width: 100%"
-                        height="750px">
+                        height="750px"
+                        :row-style="rowStyle">
                         <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
@@ -56,11 +57,19 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="acceptOrder(scope.$index)">接单</el-button>
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="rejectOrder(scope.$index)">拒单</el-button>
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'" @click="cancelOrder(scope.$index)">取消</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="acceptOrder(scope.$index)">
+                                    <span style="color: green;">接单</span>
+                                </el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="rejectOrder(scope.$index)">
+                                    <span style="color: red;">拒单</span>
+                                </el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'" @click="cancelOrder(scope.$index)">
+                                    <span style="color: red;">取消</span>
+                                </el-button>
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                    <span style="color: red;">删除订单</span>
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -88,10 +97,16 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="acceptOrder(scope.$index)">接单</el-button>
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="rejectOrder(scope.$index)">拒单</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="acceptOrder(scope.$index)">
+                                    <span style="color: green;">接单</span>
+                                </el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="rejectOrder(scope.$index)">
+                                    <span style="color: red;">拒单</span>
+                                </el-button>
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                    <span style="color: red;">删除订单</span>
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -119,9 +134,13 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'" @click="cancelOrder(scope.$index)">取消</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '2'" @click="cancelOrder(scope.$index)">
+                                    <span style="color: red;">取消</span>
+                                </el-button>
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                    <span style="color: red;">删除订单</span>
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -150,7 +169,9 @@
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                    <span style="color: red;">删除订单</span>
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -179,7 +200,9 @@
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" v-if="scope.row.orderstate === '4'">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                    <span style="color: red;">删除订单</span>
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -208,7 +231,9 @@
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">删除订单</el-button>
+                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                    <span style="color: red;">删除订单</span>
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -218,6 +243,8 @@
     </div>
 </template>
 <script>
+import { color } from 'echarts';
+
     export default {
         data() {
             return {
@@ -384,6 +411,13 @@
             };
         },
         methods: {
+            rowStyle({ rowIndex }) {
+                // 如果行索引是偶数，则返回灰色背景
+                if (rowIndex % 2 === 0) {
+                    return { backgroundColor: '#CECECE', color: 'black' }; // 浅灰色
+                }
+                return { color: 'black' }; // 默认样式
+            },
             // 搜索功能
             handleSearch() {
                 this.filteredData;
@@ -678,23 +712,22 @@
         top: 20px;
         left: 50px;
     }
-    /deep/ .el-tabs__item.is-active {
-        color: black !important; /* 修改选中标签的文字颜色为绿色 */
+    ::v-deep .el-tabs__item.is-active {
+        color: black !important; /* 修改选中标签的文字颜色为黑色 */
         font-weight: bold !important; /* 使选中标签的文字加粗 */
     }
-    /deep/ .el-tabs__item {
+    ::v-deep .el-tabs__item {
         color: black; /* 修改标签文字颜色 */
         font-size: 17px;
         width: 70px; /* 设置每个tab头部的固定宽度 */
         text-align: center; /* 可选：让标签内容居中 */
     }
-    /deep/ .el-tabs__active-bar {
+    ::v-deep .el-tabs__active-bar {
         background-color: black !important; /* 修改选中标签底部横线的颜色 */
     }
 
-    /* form========================================================================================================== */
-    /deep/ .el-table__item {
-        font-size: 17px;
+    ::v-deep .el-table .gray-row {
+        background: #CECECE;
     }
-    
+
 </style>
