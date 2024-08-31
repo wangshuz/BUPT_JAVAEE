@@ -44,60 +44,15 @@
             default-active="1"
             class="CLT-menu-v"
             text-color="#000"
-            active-text-color="#ffd04b">
-
-            <el-menu-item index="1">
-              <i class="el-icon-dish"></i>
-              <span slot="title">商家首页</span>
-            </el-menu-item>
-            <el-menu-item index="2">
-              <i class="el-icon-tickets"></i>
-              <span slot="title">订单管理</span>
-            </el-menu-item>
-            <el-menu-item index="3">
-              <i class="el-icon-menu"></i>
-              <span slot="title">菜品管理</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-              <i class="el-icon-setting"></i>
-              <span slot="title">商家详情</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <i class="el-icon-odometer"></i>
-              <span slot="title">数据统计</span>
-            </el-menu-item>
+            active-text-color="#ffd04b" 
+            >
+            <span v-for="(item, idx) in listData" :key="idx">
+              <el-menu-item :index="idx">
+                <i class="el-icon-dish"></i>
+                <span slot="title">{{item.typeName}}</span>
+              </el-menu-item>
+            </span>
+            
           </el-menu>
         </el-col>
 
@@ -106,10 +61,7 @@
 
       <el-main style="padding:0px">
         <router-view/>    <!-- 组件 -->
-      </el-main>
-
-
-        
+      </el-main>       
 
 
 
@@ -125,7 +77,24 @@
       return {
         restaurants: [],
         state1: '',
-        state2: ''
+        state2: '',
+        circleUrl:
+          "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+        listData:[
+          {
+            "typeName":"主食",
+          },
+          {
+            "typeName":"菜品",
+          },
+          {
+            "typeName":"西餐",
+          },
+          {
+            "typeName":"清真",
+          },
+
+        ]
       };
     },
     methods: {
@@ -169,16 +138,14 @@
 
 .inline-input{
   width:200px;
-
   caret-color: #333;
-  
 }
 
 
 .CLT-aside-bar{
   background-color:#CECECE ;
   width:160px;
-  height: 80vh;
+  height: 75vh;
   position: absolute;
   overflow-x:hidden;
   overflow-y:auto;
@@ -186,6 +153,7 @@
   left: 5%;
   top: 15%;
   opacity: 0.7;
+  z-index: 100;
 }
 
 .CLT-menu-v .el-menu-item{
@@ -233,7 +201,7 @@
   background-color: #FFAC00 !important;
 }
 
-.MCH-menu-h .el-menu-item.is-active{
+.CLT-menu-h .el-menu-item.is-active{
   background-color: #FFAC00 !important;
 }
 </style>
