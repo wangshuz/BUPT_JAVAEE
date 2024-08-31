@@ -46,14 +46,14 @@ export default {
                     "id":"10001",
                     "url":"https://th.bing.com/th?id=OIP.iLWguBQMXDriaDoVC4IBoQHaHa&w=250&h=250&c=8&rs=1&qlt=90&r=0&o=6&dpr=2&pid=3.1&rm=2"
                 },
-                {
-                    "id":"10001",
-                    "url":"https://ts1.cn.mm.bing.net/th?id=OIP-C.Ge0ka-likMYd2EIeZjNfTgHaFV&w=294&h=212&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.5&pid=3.1&rm=2"
-                },
-                {
-                    "id":"10001",
-                    "url":"https://img-baofun.zhhainiao.com/fs/3fc54f2b553dc552c23fd2df0ee0159e.jpg"
-                },
+                // {
+                //     "id":"10002",
+                //     "url":"https://ts1.cn.mm.bing.net/th?id=OIP-C.Ge0ka-likMYd2EIeZjNfTgHaFV&w=294&h=212&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.5&pid=3.1&rm=2"
+                // },
+                // {
+                //     "id":"10003",
+                //     "url":"https://img-baofun.zhhainiao.com/fs/3fc54f2b553dc552c23fd2df0ee0159e.jpg"
+                // },
 
                 
             ],
@@ -62,24 +62,28 @@ export default {
                     "id":"10001",
                     "name":"汉堡王",
                     "intro":"好吃的汉堡",
+                    "label":"",
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
                 {
                     "id":"10002",
                     "name":"汉堡王",
                     "intro":"好吃的汉堡",
+                    "label":"",
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
                 {
                     "id":"10003",
                     "name":"汉堡王",
                     "intro":"好吃的汉堡",
+                    "label":"",
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
                 {
                     "id":"10004",
                     "name":"汉堡王",
                     "intro":"好吃的汉堡",
+                    "label":"",
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
             ],
@@ -180,35 +184,5 @@ export default {
       clear: both
   }
 
-
-/* .side-bar{
-  background-color:#CECECE ;
-  width:160px;
-  height: 75vh;
-  position: absolute;
-  overflow-x:hidden;
-  overflow-y:auto;
-  border-radius: 15px;
-  left: 5%;
-  top: 15%;
-  opacity: 0.7;
-  z-index: 100;
-}
-
-.side-bar::-webkit-scrollbar {
-  display: none;
-}
-
-.menu-v .el-menu-item{
-  opacity: 1;
-  font-size: 20px;
-  background-color:#CECECE ;
-}
-
-.menu-v .el-menu-item.is-active{
-  opacity: 1;
-  font-size: 20px;
-  background-color: #333;
-} */
 
 </style>

@@ -126,5 +126,9 @@ export default {
   background-color: #FFAC00 !important;
 }
 
+*{
+  caret-color: transparent;
+}
+
 </style>
 
