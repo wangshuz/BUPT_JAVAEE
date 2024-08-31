@@ -34,25 +34,25 @@
                 active-text-color="#ffd04b"
                 active-background-color="#CECECE"
               >
-                <el-menu-item index="1">
+                <el-menu-item index="1" @click="handleClick(1)">
                   <i class="el-icon-house"></i>
-                  <span slot="title">商家首页</span>
+                  <span>商家首页</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="2" @click="handleClick(2)">
                   <i class="el-icon-tickets"></i>
-                  <span slot="title">订单管理</span>
+                  <span>订单管理</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="3" @click="handleClick(3)">
                   <i class="el-icon-menu"></i>
-                  <span slot="title">菜品管理</span>
+                  <span>菜品管理</span>
                 </el-menu-item>
-                <el-menu-item index="4">
+                <el-menu-item index="4" @click="handleClick(4)">
                   <i class="el-icon-setting"></i>
-                  <span slot="title">商家详情</span>
+                  <span>商家详情</span>
                 </el-menu-item>
-                <el-menu-item index="5">
+                <el-menu-item index="5" @click="handleClick(5)">
                   <i class="el-icon-odometer"></i>
-                  <span slot="title">数据统计</span>
+                  <span>数据统计</span>
                 </el-menu-item>
               </el-menu>
             </el-col>
@@ -79,6 +79,36 @@ export default {
   methods: {
     handleSelect: function () {
       // alert("Select");
+    },
+    handleClick: function (idx) {
+      var path_ = ""
+      var query_ = {}
+      const current_path = this.$route.path
+      switch (idx) {
+        case 1:
+          path_ = "/mch/main"
+          break;
+        case 2:
+          path_ = "/mch/order"
+          break;
+        case 3:
+          path_ = "/mch/menu"
+          break;
+        case 4:
+          path_ = "/mch/detail"
+          break;
+        case 5:
+          path_ = "/mch/data"
+         break;
+        
+      }
+      if(current_path!=path_) {
+        this.$router.push(
+          {
+            path:path_
+          }
+        )
+      }
     },
   },
 };

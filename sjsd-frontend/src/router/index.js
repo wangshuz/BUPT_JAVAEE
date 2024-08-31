@@ -21,36 +21,14 @@ const routes = [
     component: () => import( '../components/UploadPicture.vue')
   },
   {
-    path: '/setnickname',
-    name: 'SetNickname',
-    component: () => import( '../components/SetNickname.vue')
-  },
-  {
-    path: '/setpassword',
-    name: 'SetPassword',
-    component: () => import( '../components/SetPassword.vue')
-  },
-  {
-    path: '/setaddress',
-    name: 'SetAddress',
-    component: () => import( '../components/SetAddress.vue')
-  },
-  {
     path: '/mch',
     name: 'MchHome',
     component: () => import( '../views/MchHome.vue'),
     children: [
-      // {
-      //   path: 'main',
-      //   name: 'MchMain',
-      //   component: () => import( '../components/MCH/MchMain.vue')
-      // },
       {
         path: 'main',
         name: 'MchMain',
-        component:{
-          sideBar: () => import( '../components/MCH/MchMain.vue')
-        }
+        component: () => import( '../components/MCH/MchMain.vue')
       },
       {
         path: 'order',
