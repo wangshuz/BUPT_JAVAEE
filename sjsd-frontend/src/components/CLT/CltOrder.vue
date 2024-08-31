@@ -3,7 +3,7 @@
 <template>
     <div>
         <el-table
-            :data="tableData"
+            :data="filteredData"
             stripe
             style="width: 100%"
             height="800px"
@@ -83,6 +83,7 @@ import SideBar from '../SideBar.vue';
     components: { SideBar },
     data() {
       return {
+        pagestate: '0',
         tableData: [
         // state:  1.待收货  2.已完成  3.已取消
         {
@@ -395,28 +396,28 @@ import SideBar from '../SideBar.vue';
                     "id":10001,
                     "typeName":"全部",
                     "cb":function(){
-
+                      
                     },
                 },
                 {
                     "id":10002,
                     "typeName":"待收货",
                     "cb":function(){
-
+                      
                     },
                 },
                 {
                     "id":10003,
                     "typeName":"已完成",
                     "cb":function(){
-
+                      
                     },
                 },
                 {
                     "id":10004,
                     "typeName":"已取消",
                     "cb":function(){
-
+                      
                     },
                 },
             ]
@@ -429,7 +430,26 @@ import SideBar from '../SideBar.vue';
             return { backgroundColor: '#eeeeee', color: 'black' }; // 浅灰色
         }
         return { color: 'black' }; // 默认样式
+      },
+      changepagestate(newstate)
+      {
+        this.data.pagestate = newstate;
+        this.filteredData;
       }
+    },
+    computed: {
+        filteredData() {
+            let filtered = this.tableData;
+
+            // 按标签页状态筛选
+            if (this.pagestate !== '0') {
+                filtered = filtered.filter(item =>
+                    item.state === this.pagestate
+                );
+            }
+
+            return filtered;
+        }
     }
   }
 </script>
