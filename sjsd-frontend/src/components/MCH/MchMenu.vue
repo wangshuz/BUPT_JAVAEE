@@ -190,6 +190,7 @@ export default {
     handleSelectionChange(val) {
       this.selectedProducts = val;
     },
+    // 批量删除
     deleteSelected() {
       this.products = this.products.filter(
         product => !this.selectedProducts.includes(product)
@@ -201,9 +202,11 @@ export default {
     editProduct(product) {
       // 逻辑来编辑产品
     },
+    // 单个删除
     deleteProduct(index) {
       this.products.splice(index, 1);
     },
+    // 切换状态
     toggleStatus(product) {
       product.status = product.status === '启售' ? '停售' : '启售';
     },

@@ -11,21 +11,24 @@ const routes = [
     component: () => import( '../views/Login.vue')
   },
   {
+    path: '/',
+    name: 'Home',
+    component: () => import( '../views/HomePage.vue')
+  },
+  {
+    path: '/uploadpicture',
+    name: 'UploadPicture',
+    component: () => import( '../components/UploadPicture.vue')
+  },
+  {
     path: '/mch',
     name: 'MchHome',
     component: () => import( '../views/MchHome.vue'),
     children: [
-      // {
-      //   path: 'main',
-      //   name: 'MchMain',
-      //   component: () => import( '../components/MCH/MchMain.vue')
-      // },
       {
         path: 'main',
         name: 'MchMain',
-        component:{
-          sideBar: () => import( '../components/MCH/MchMain.vue')
-        }
+        component: () => import( '../components/MCH/MchMain.vue')
       },
       {
         path: 'order',

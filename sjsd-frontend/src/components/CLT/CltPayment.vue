@@ -30,10 +30,10 @@
       <!-- 步骤二：展示二维码 -->
       <div v-if="activeStep === 1">
         <div v-if="selectedPayment === 'wechat'">
-          <img src="path_to_wechat_qr_code" alt="微信支付二维码"/>
+          <img src="../../assets/images/payment/weixin.jpg" alt="微信支付二维码" style="width: 200px; height: 200px;"/>
         </div>
         <div v-else-if="selectedPayment === 'alipay'">
-          <img src="path_to_alipay_qr_code" alt="支付宝支付二维码"/>
+          <img src="../../assets/images/payment/alipay.jpg" alt="支付宝支付二维码" style="width: 200px; height: 200px;"/>
         </div>
         <el-button type="primary" @click="simulatePaymentSuccess">完成支付</el-button>
       </div>
