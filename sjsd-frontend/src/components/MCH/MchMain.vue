@@ -146,7 +146,7 @@ export default {
                     path_ = "/mch/menu"
                     break;
                 case 4:
-
+                    path_ = "/mch/detail"
                     break;
                 case 5:
 
