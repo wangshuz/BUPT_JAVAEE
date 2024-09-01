@@ -8,7 +8,7 @@
         <span class="orderstate" v-if="state === '3'" style="color: red;">已取消</span>
         <hr class="top_line_hr">
         <div class="scroll-box">
-            <div id="pdtcard" v-for="(item, index) in info" :key="index" style="background-color: #CECECE; border-radius: 20px;">
+            <div id="pdtcard" v-for="(item, index) in info" :key="index" style="background-color: #CECECE; border-radius: 20px; border: 1px solid #000;">
                 <!-- 图片部分 -->
                 <div>
                     <img id="msgpicture" class="msgcmp" :src="item[0]" alt="商品图片">
