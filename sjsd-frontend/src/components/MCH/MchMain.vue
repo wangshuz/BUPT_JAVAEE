@@ -149,7 +149,6 @@ export default {
                     path_ = "/mch/detail"
                     break;
                 case 5:
-
                     break;
             }
             this.$router.push(

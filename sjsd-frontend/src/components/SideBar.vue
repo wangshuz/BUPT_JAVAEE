@@ -53,7 +53,9 @@ export default{
   },
   methods:{
     clickHandler(cb) {
-      cb();
+      if(typeof cb === 'function'){
+        cb.call(this);
+      }
     }
   }
 
