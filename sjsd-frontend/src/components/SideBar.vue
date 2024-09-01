@@ -53,7 +53,7 @@ export default{
   },
   methods:{
     clickHandler(cb) {
-      cb();
+      cb(this);
     }
   }
 
