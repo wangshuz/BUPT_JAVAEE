@@ -1,8 +1,25 @@
 <!-- 用户订单 -->
 <!-- "#/clt/order" -->
 <template>
-    <div>
+    <div id="container">
+      <div id="timeselecter">
+        <span>筛选日期：</span>
+        <el-date-picker
+          v-model="date"
+          size="small"
+          clearable
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions">
+        </el-date-picker>
+      </div>
+      
         <el-table
+            id="table"
             :data="filteredData"
             stripe
             style="width: 100%"
@@ -14,7 +31,7 @@
             label="订单信息"
             width="700">
             <template #default="{ row }">
-              <div style="font-size: 17px; margin-top: 5px; margin-bottom: 5px; height: 30px;">{{ row.mchname }}</div>
+              <div style="font-size: 17px; margin-top: 5px; margin-bottom: 5px; height: 30px;"  @click="goToOrder">{{ row.mchname }}</div>
               <div class="scroll-box">
                 <!-- 使用 v-for 循环订单信息 -->
                 <div id="msgbox" v-for="(order, index) in row.info" :key="index" style="display: flex; align-items: flex-start; margin-right: 20px; background-color: #CECECE; border-radius: 10px;">
@@ -51,28 +68,27 @@
             </el-table-column>
             <el-table-column
             label="操作">
-              <template #default="{ row }">
-                <div>
-                  <el-button type="text" v-if="row.state === '1'">
+              <template slot-scope="scope">
+                <el-button type="text" v-if="scope.row.state === '1'" @click="confirmreceipt(scope.$index)">
                     <span style="color: green;">确认收货</span>
                   </el-button>
-                  <el-button type="text" v-if="row.state === '1'">
+                  <el-button type="text" v-if="scope.row.state === '1'" @click="cancleorder(scope.$index)">
                     <span style="color: red;">取消订单</span>
                   </el-button>
-                  <el-button type="text" v-if="row.state != '1'">
+                  <el-button type="text" v-if="scope.row.state != '1'" @click="goToStore">
                     <span style="color: green;">再来一单</span>
                   </el-button>
-                  <el-button type="text" v-if="row.state != '1'">
+                  <el-button type="text" v-if="scope.row.state != '1'" @click="deleteOrder(scope.$index)">
                     <span style="color: red">删除订单</span>
-                  </el-button>
-                  <el-button type="text">
+                  </el-button >
+                  <el-button type="text" @click="goToStore">
                     <span>查看详情</span>
                   </el-button>
-                </div>
               </template>
             </el-table-column>
         </el-table>
-        <side-bar :listData="listData" />
+        
+        <side-bar :listData="listData" @change-pagestate="changepagestate" />
     </div>
 </template>
 
@@ -83,6 +99,34 @@ import SideBar from '../SideBar.vue';
     components: { SideBar },
     data() {
       return {
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        date: '',
         pagestate: '0',
         tableData: [
         // state:  1.待收货  2.已完成  3.已取消
@@ -396,6 +440,7 @@ import SideBar from '../SideBar.vue';
                     "id":10001,
                     "typeName":"全部",
                     "cb":function(){
+                      this.$emit('change-pagestate','0');
                       
                     },
                 },
@@ -403,27 +448,30 @@ import SideBar from '../SideBar.vue';
                     "id":10002,
                     "typeName":"待收货",
                     "cb":function(){
-                      
+                      this.$emit('change-pagestate','1');
                     },
                 },
                 {
                     "id":10003,
                     "typeName":"已完成",
                     "cb":function(){
-                      
+                      this.$emit('change-pagestate','2');
                     },
                 },
                 {
                     "id":10004,
                     "typeName":"已取消",
                     "cb":function(){
-                      
+                      this.$emit('change-pagestate','3');
                     },
                 },
             ]
       }
     },
     methods: {
+      handleDateChange() {
+          this.filteredData();
+      },
       rowStyle({ rowIndex }) {
         // 如果行索引是偶数，则返回灰色背景
         if (rowIndex % 2 === 0) {
@@ -433,13 +481,116 @@ import SideBar from '../SideBar.vue';
       },
       changepagestate(newstate)
       {
-        this.data.pagestate = newstate;
-        this.filteredData;
-      }
+        this.pagestate = newstate;
+        this.filteredData();
+      },
+      goToStore() {
+        this.$router.push({ name: 'CltStore' }); // 通过路由的名称跳转
+      },
+      goToOrder() {
+        this.$router.push({ name: 'CltOrderDetail' }); // 通过路由的名称跳转
+      },
+      confirmreceipt(index) {
+        // 如果当前标签页是“全部订单”
+        if (this.pagestate === '0') {
+        this.tableData[index].state = '2';
+        } 
+        // 如果当前标签页是“待接单”
+        else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
+        // 计算在“待接单”标签页中索引对应的订单
+        let count = 0;
+        for (let i = 0; i < this.tableData.length; i++) {
+            if (this.tableData[i].state === '1') {
+            if (count === index) {
+                this.tableData[i].state = '2';
+                break;
+            }
+            count++;
+            }
+        }
+        }
+      },
+      cancleorder(index) {
+          // 如果当前标签页是“全部订单”
+          if (this.pagestate === '0') {
+          this.tableData[index].state = '3';
+          } 
+          // 如果当前标签页是“待接单”
+          else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
+          // 计算在“待接单”标签页中索引对应的订单
+          let count = 0;
+          for (let i = 0; i < this.tableData.length; i++) {
+              if (this.tableData[i].state === '1') {
+              if (count === index) {
+                  this.tableData[i].state = '3';
+                  break;
+              }
+              count++;
+              }
+          }
+          }
+      },
+      deleteOrder(index) {
+        // 如果当前标签页是“全部订单”
+        if (this.pagestate === '0') {
+            this.tableData.splice(index, 1);
+        } 
+        // 如果当前标签页是“待接单”
+        else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
+        // 计算在“待接单”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '1') {
+                if (count === index) {
+                    this.tableData.splice(i, 1);
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+        // 如果当前标签页是“待派送”
+        else if (this.pagestate === '2') {  // 假设“待派送”标签页的 name 是 'third'
+        // 计算在“待派送”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '2') {
+                if (count === index) {
+                    this.tableData.splice(i, 1);
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+        // 如果当前标签页是“派送中”
+        else if (this.pagestate === '3') {  // 假设“派送中”标签页的 name 是 'fourth'
+        // 计算在“派送中”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '3') {
+                if (count === index) {
+                    this.tableData.splice(i, 1);
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+    }
     },
     computed: {
         filteredData() {
             let filtered = this.tableData;
+
+            // 按时间范围筛选
+            if (this.date.length === 2) {
+                    const [startDate, endDate] = this.date;
+                    filtered = filtered.filter(item => {
+                        const date = new Date(item.date);
+                        return date >= startDate && date <= endDate;
+                    });
+                }
 
             // 按标签页状态筛选
             if (this.pagestate !== '0') {
@@ -496,5 +647,11 @@ import SideBar from '../SideBar.vue';
     #msgnum {
       margin-top: 50px;
       margin-left: 100px;
+    }
+    #timeselecter {
+      position:absolute;
+      left: 450px;
+      top: 80px;
+      z-index: 2;
     }
 </style>

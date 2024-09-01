@@ -79,7 +79,8 @@
                         :data="filteredData"
                         stripe
                         style="width: 100%"
-                        height="750px">
+                        height="750px"
+                        :row-style="rowStyle">
                         <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
@@ -116,7 +117,8 @@
                         :data="filteredData"
                         stripe
                         style="width: 100%"
-                        height="750px">
+                        height="750px"
+                        :row-style="rowStyle">
                         <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
@@ -150,7 +152,8 @@
                         :data="filteredData"
                         stripe
                         style="width: 100%"
-                        height="750px">
+                        height="750px"
+                        :row-style="rowStyle">
                         <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
@@ -181,7 +184,8 @@
                         :data="filteredData"
                         stripe
                         style="width: 100%"
-                        height="750px">
+                        height="750px"
+                        :row-style="rowStyle">
                         <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
@@ -212,7 +216,8 @@
                         :data="filteredData"
                         stripe
                         style="width: 100%"
-                        height="750px">
+                        height="750px"
+                        :row-style="rowStyle">
                         <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
