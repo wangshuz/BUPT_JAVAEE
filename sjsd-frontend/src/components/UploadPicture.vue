@@ -20,6 +20,24 @@
           <!-- action指定文件上传的服务器端接口 URL   on-success绑定液体个函数当文件上传成功之后调用这个函数
           before-upload指定上传前的校验用来检查文件类型和大小，只有返回值为true的时候才会上传文件    show-file-list表示不显示上传文件的列表
           on-change当文件状态发生变化时（例如文件添加、上传成功、上传失败等），会触发 handleAvatarChange 方法-->
+
+
+
+
+         <!--  点击加号选择第一个图片：
+
+                beforeAvatarUpload(file)
+                handleAvatarChange(file, fileList)
+                handleAvatarSuccess(res, file)
+                点击加号选择第二个图片：
+
+                beforeAvatarUpload(file)
+                handleAvatarChange(file, fileList)
+                handleAvatarSuccess(res, file)
+                点击“确定”按钮：
+
+                submitUpload()
+                 -->
         <img v-if="imageUrl" :src="imageUrl" class="avatar"> <!-- 如果 imageUrl 有值，显示上传的头像图片 -->
         <i v-else class="el-icon-plus avatar-uploader-icon"></i> <!-- 默认上传图标 -->
       </el-upload>
@@ -52,16 +70,17 @@ export default {
         type: 'success',
       });
       // 假设res包含了上传成功后的图片URL
-      this.imageUrl = res.url;
-      this.dialogVisible = false;
+      this.imageUrl = URL.createObjectURL(file.raw);
+      // this.imageUrl = res.url;
+      // this.dialogVisible = false;
     },
     handleAvatarChange(file, fileList) {
       this.imageUrl = ''; // 清空之前的预览
       fileList = []; // 清空之前的文件列表
-      fileList =[file];
-      // if (file.raw) {
-      //   this.imageUrl = URL.createObjectURL(file.raw);
-      // }
+      this.fileList =[file];
+      if (file.raw) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      }
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
@@ -86,7 +105,7 @@ export default {
           message: '成功更改头像',
           type: 'success'
         });
-        // this.dialogVisible = false; // 关闭浮窗
+        this.dialogVisible = false; // 关闭浮窗
       } else {
         this.$message.warning('请先上传头像');
       }
