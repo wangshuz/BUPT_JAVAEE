@@ -35,7 +35,64 @@ export default {
 //     // 发送 GET 请求到 /items 端点
 //     return apiClient.get('/items');
 //   }
+  /**
+   * 获取商家信息
+   * 
+   * 获取特定商家的所有详细信息。
+   * 
+   * @param {number} merchantId - 商家的唯一标识符
+   * @returns {Promise} 包含商家信息的 Promise 对象
+   */
+  getMerchantDetails(merchantId) {
+    // 发送 GET 请求到 /api/merchants/{merchant_id} 端点
+    return apiClient.get(`/api/merchants/${merchantId}`);
+  },
+
+  /**
+   * 更新商家信息
+   * 
+   * 更新特定商家的详细信息。
+   * 
+   * @param {number} merchantId - 商家的唯一标识符
+   * @param {Object} merchantData - 包含商家信息的对象
+   * @returns {Promise} 包含操作结果的 Promise 对象
+   */
+  updateMerchantDetails(merchantId, merchantData) {
+    // 发送 PUT 请求到 /api/merchants/{merchant_id} 端点
+    return apiClient.put(`/api/merchants/${merchantId}`, merchantData);
+  },
+
+  /**
+   * 上传商家头像或图片
+   * 
+   * 上传商家的头像或店铺图片。
+   * 
+   * @param {number} merchantId - 商家的唯一标识符
+   * @param {FormData} formData - 包含文件数据的 FormData 对象
+   * @returns {Promise} 包含操作结果的 Promise 对象
+   */
+  uploadMerchantImage(merchantId, formData) {
+    // 发送 POST 请求到 /api/merchants/{merchant_id}/upload-avatar 或 /upload-image 端点
+    return apiClient.post(`/api/merchants/${merchantId}/upload-avatar`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
+
+  /**
+   * 获取商家类型选项
+   * 
+   * 获取商家类型的选项列表。
+   * 
+   * @returns {Promise} 包含商家类型选项列表的 Promise 对象
+   */
+  getMerchantTypes() {
+    // 发送 GET 请求到 /api/merchant-types 端点
+    return apiClient.get('/api/merchant-types');
+  }
 };
+
 
 /**
  * 使用示例：
