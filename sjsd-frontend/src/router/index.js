@@ -11,6 +11,21 @@ const routes = [
     component: () => import( '../views/Login.vue')
   },
   {
+    path: '/setnickname',
+    name: 'SetNickname',
+    component: () => import( '../components/SetNickname.vue')
+  },
+  {
+    path: '/setpassword',
+    name: 'SetPassword',
+    component: () => import( '../components/SetPassword.vue')
+  },
+  {
+    path: '/setaddress',
+    name: 'SetAddress',
+    component: () => import( '../components/SetAddress.vue')
+  },
+  {
     path: '/',
     name: 'Home',
     component: () => import( '../views/HomePage.vue')
