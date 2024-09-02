@@ -12,8 +12,8 @@
         </div>
 
         <el-row>
-            <el-col :span="4" v-for="(item, index) in cardData" :key="index" :offset="index%3 == 0 ? 6 : 2">
-                <el-card class="card_item" :body-style="{ padding: '0px'}">
+            <el-col :span="4" v-for="(item, index) in filteredData" :key="index" :offset="index%3 == 0 ? 6 : 2">
+                <el-card class="card_item" :body-style="{ padding: '0px'}" @click.native="clickCard(item.id)">
                     <img :src="item.url" class="image">
                     <div style="padding: 14px;">
                         <span>{{ item.name }}</span>
@@ -26,7 +26,7 @@
         </el-row>
 
         
-        <side-bar :listData="listData" />
+        <side-bar :listData="listData" @changeLabel="changeLabel"/>
         
 
     </div>
@@ -41,6 +41,7 @@ export default {
     props: {},
     data(){
         return {
+            label:"0",
             TopPicture: [
                 {
                     "id":"10001",
@@ -54,72 +55,159 @@ export default {
                 //     "id":"10003",
                 //     "url":"https://img-baofun.zhhainiao.com/fs/3fc54f2b553dc552c23fd2df0ee0159e.jpg"
                 // },
-
-                
             ],
             cardData: [
                 {
                     "id":"10001",
-                    "name":"汉堡王",
+                    "name":"1",
                     "intro":"好吃的汉堡",
-                    "label":"",
+                    "label":"1", 
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
                 {
                     "id":"10002",
-                    "name":"汉堡王",
+                    "name":"1",
                     "intro":"好吃的汉堡",
-                    "label":"",
+                    "label":"1",
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
                 {
                     "id":"10003",
-                    "name":"汉堡王",
+                    "name":"2",
                     "intro":"好吃的汉堡",
-                    "label":"",
+                    "label":"2",
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
                 {
                     "id":"10004",
-                    "name":"汉堡王",
+                    "name":"2",
                     "intro":"好吃的汉堡",
-                    "label":"",
+                    "label":"2",
+                    "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id":"10001",
+                    "name":"2",
+                    "intro":"好吃的汉堡",
+                    "label":"2",
+                    "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id":"10002",
+                    "name":"3",
+                    "intro":"好吃的汉堡",
+                    "label":"3",
+                    "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id":"10003",
+                    "name":"4",
+                    "intro":"好吃的汉堡",
+                    "label":"4",
+                    "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id":"10004",
+                    "name":"4",
+                    "intro":"好吃的汉堡",
+                    "label":"4",
+                    "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id":"10001",
+                    "name":"4",
+                    "intro":"好吃的汉堡",
+                    "label":"4",
+                    "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id":"10002",
+                    "name":"4",
+                    "intro":"好吃的汉堡",
+                    "label":"4",
+                    "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id":"10003",
+                    "name":"5",
+                    "intro":"好吃的汉堡",
+                    "label":"5",
+                    "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id":"10004",
+                    "name":"5",
+                    "intro":"好吃的汉堡",
+                    "label":"5",
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 },
             ],
             listData:[
                 {
                     "id":10001,
-                    "typeName":"主食",
+                    "typeName":"全部",
                     "cb":function(){
-                        alert("主食");
+                      this.$emit('changeLabel','0');
                     },
                 },
                 {
                     "id":10002,
                     "typeName":"配菜",
-                    "cb":function(){},
+                    "cb":function(){
+                      this.$emit('changeLabel','1');
+                    },
                 },
                 {
                     "id":10003,
                     "typeName":"西餐",
-                    "cb":function(){},
+                    "cb":function(){
+                      this.$emit('changeLabel','2');
+                    },
                 },
                 {
                     "id":10004,
                     "typeName":"面点",
-                    "cb":function(){},
+                    "cb":function(){
+                      this.$emit('changeLabel','3');
+                    },
                 },
                 {
                     "id":10005,
                     "typeName":"素食",
-                    "cb":function(){},
+                    "cb":function(){
+                      this.$emit('changeLabel','4');
+                    },
                 },
             ]
         };
-
+    
     },
-    methods(){
+    methods: {
+        changeLabel(label)
+        {
+            this.label = label;
+            this.filteredData();
+        },
+        clickCard(id){
+            this.$router.push({ 
+                name: 'CltStore',
+                query :{
+                    id:id
+                } 
+            }); // 通过路由的名称跳转
+        }
+    },
+    computed: {
+        filteredData() {
+            let filtered = this.cardData;
+
+            if (this.label !== '0') {
+                filtered = filtered.filter(item =>
+                    item.label === this.label
+                );
+            }
+            return filtered;
+        }
     }
 }
 </script>
