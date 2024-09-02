@@ -344,7 +344,7 @@ export default {
             if (this.label !== '0'||this.content!=="") {
                 filtered = filtered.filter(item =>{
                     return(
-                        (this.label=='0' || item.label === this.label )&&(this.content==="" || item.name.includes(this.content))
+                        (this.label=='0' || item.label === this.label )&&(this.content==="" || item.name.includes(this.content) || item.intro.includes(this.content))
                     )
                 }
                     
