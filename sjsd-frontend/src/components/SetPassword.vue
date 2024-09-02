@@ -85,7 +85,8 @@
         }
       },
       handleClose() {
-        this.dialogVisible = false; // 关闭浮窗
+        // this.dialogVisible = false; // 关闭浮窗
+        this.$emit('close'); // 触发 close 事件，通知父组件
       }
     }
   };
