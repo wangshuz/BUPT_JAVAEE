@@ -37,6 +37,7 @@ CREATE TABLE Merchant (
     merchant_username VARCHAR(255) NOT NULL UNIQUE,
     merchant_password VARCHAR(255) NOT NULL,
     merchant_name VARCHAR(255) NOT NULL,
+    merchant_avatar VARCHAR(255),
     merchant_address VARCHAR(255),
     phone_number VARCHAR(20),
     opening_hours VARCHAR(255),
@@ -52,6 +53,7 @@ CREATE TABLE Merchant (
 -- 商家用户名 (merchant_username): 候选关键字，标识商家的唯一登录名
 -- 商家密码 (merchant_password): 商家登录的密码，建议加密存储
 -- 商家名称 (merchant_name): 商家的显示名称
+-- 商家头像 (merchant_avatar): 存储商家头像的URL或路径
 -- 商家地址 (merchant_address): 商家的物理地址
 -- 电话号码 (phone_number): 商家的联系电话
 -- 营业时间 (opening_hours): 商家的营业时间
