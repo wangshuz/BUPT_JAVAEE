@@ -4,7 +4,7 @@
       <!-- <el-button type="primary" @click="openAddressManager">管理地址</el-button> -->
   
       <!-- 地址管理浮窗 -->
-      <el-dialog title="管理地址" :visible.sync="addressManagerVisible" width="500px">
+      <el-dialog title="管理地址" :visible.sync="addressManagerVisible" width="500px"  @close="handleClose">
         <el-form>  <!-- 包裹了整个表单 -->
           <el-form-item label="默认地址">  <!-- 包裹了每个表单控件 -->
             <el-select v-model="defaultAddressId" placeholder="请选择默认地址">  <!-- 下拉选择框的选项 -->
@@ -155,6 +155,9 @@
       editAddress(address) {
         this.addressForm = { ...address };
         this.openAddressForm('edit');
+      },
+      handleClose() {
+        this.$emit('close'); // 触发 close 事件，通知父组件
       },
       deleteAddress(address) {
         this.$confirm('确定要删除这个地址吗?', '提示', {
