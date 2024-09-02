@@ -16,7 +16,7 @@
           </el-menu-item>
 
           <el-menu-item index="2" id="photo">
-            <el-avatar :size="40" :src="circleUrl" ></el-avatar>
+            <upload-picture />
           </el-menu-item>
           <el-menu-item index="3" id="name">
             <personal-setting/>
@@ -38,9 +38,10 @@
 
 <script>
 import PersonalSetting from '../components/PersonalSetting.vue';
+import UploadPicture from '../components/UploadPicture.vue';
 
   export default {
-  components: { PersonalSetting },
+  components: { PersonalSetting, UploadPicture },
     data() {
       return {
         restaurants: [],
