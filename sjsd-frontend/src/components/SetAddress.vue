@@ -1,7 +1,7 @@
 <template>
     <div>
       <!-- 按钮用于打开地址管理浮窗 -->
-      <el-button type="primary" @click="openAddressManager">管理地址</el-button>
+      <!-- <el-button type="primary" @click="openAddressManager">管理地址</el-button> -->
   
       <!-- 地址管理浮窗 -->
       <el-dialog title="管理地址" :visible.sync="addressManagerVisible" width="500px">
@@ -95,7 +95,8 @@
   export default {
     data() {
       return {
-        addressManagerVisible: false,
+        // addressManagerVisible: false,
+        addressManagerVisible: true,
         addressFormVisible: false,
         addresses: [
           { id: 1, address: '北京市朝阳区', phone: '13800138000' },
@@ -122,9 +123,9 @@
       },
     },
     methods: {
-      openAddressManager() {
-        this.addressManagerVisible = true;
-      },
+      // openAddressManager() {
+      //   this.addressManagerVisible = true;
+      // },
       openAddressForm(mode) {
         this.editMode = mode;
         if (mode === 'edit' && this.addressForm.id) {
