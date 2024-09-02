@@ -59,6 +59,9 @@
   </script>
   
   <style scoped>
+  *{
+     caret-color: black;
+  }
   .dialog-footer {
     text-align: right;
   }
