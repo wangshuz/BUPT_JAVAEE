@@ -1,21 +1,21 @@
 <template>
-    <div class="side-bar">
-      <el-col :span="24">
-        <el-menu
-            default-active="1"
-            class="menu-v"
-            text-color="#000"
-            active-text-color="#ffd04b" 
-            >
-            <span v-for="(item, idx) in listData" :key="idx">
-            <el-menu-item :index="idx" @click="clickHandler(item.cb)" >
-                <i class="el-icon-dish"></i>
-                <span slot="title">{{item.typeName}}</span>
-            </el-menu-item>
-            </span>
-        </el-menu>
-      </el-col>
-    </div>
+  <div class="side-bar">
+    <el-col :span="24">
+      <el-menu
+          default-active="1"
+          class="menu-v"
+          text-color="#000"
+          active-text-color="#ffd04b" 
+          >
+          <span v-for="(item, idx) in listData" :key="idx">
+          <el-menu-item :index="idx" @click="clickHandler(item.cb)" >
+              <i class="el-icon-dish"></i>
+              <span slot="title">{{item.typeName}}</span>
+          </el-menu-item>
+          </span>
+      </el-menu>
+    </el-col>
+  </div>
 </template>
 
 <script>

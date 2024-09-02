@@ -32,7 +32,8 @@
         background layout="sizes, prev, pager, next, jumper, total" :total="1000">
         </el-pagination>
 
-        <search-box />
+        <search-box :childContent.sync='content' />
+
         <side-bar :listData="listData" @changeLabel="changeLabel"/>
         
 
@@ -46,11 +47,12 @@ import SideBar from '../SideBar.vue';
 export default {
     components: { SideBar,SearchBox },
     name: "TopPicture",
-    props: {},
+    props: { },
     data(){
         return {
             label:"0",
             page: 1,
+            content: "",
             pageSize:12,
             TopPicture: [
                 {
@@ -76,7 +78,7 @@ export default {
                 },
                 {
                     "id":"10001",
-                    "name":"汉堡",
+                    "name":"薯条",
                     "intro":"第二类",
                     "label":"2", 
                     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
@@ -332,18 +334,23 @@ export default {
         },
         handleSizeChange: function(val){
             this.pageSize = val;
-        }
+        },
+        
     },
     computed: {
         filteredData() {
             let filtered = this.cardData;
 
-            if (this.label !== '0') {
-                filtered = filtered.filter(item =>
-                    item.label === this.label
+            if (this.label !== '0'||this.content!=="") {
+                filtered = filtered.filter(item =>{
+                    return(
+                        (this.label=='0' || item.label === this.label )&&(this.content==="" || item.name.includes(this.content))
+                    )
+                }
+                    
                 );
             }
-            // let page = parseInt(this.page);
+            // 按照页数筛选数据
             let size = this.pageSize;
             let start = (this.page-1)*size;
             let end = start + size;
