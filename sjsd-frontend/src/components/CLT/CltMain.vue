@@ -345,9 +345,13 @@ export default {
         api.getMerchantIntros().then(result => {
             this.mchIntro = result.data.data;
         });
-        // api.getMerchantTypes().then(result => {
-        //     this.mchTypes = result.data.data;
-        // });
+        api.getMerchantTypes().then(result => {
+            this.mchTypes = [];
+            for(i in result.data.data){
+                let t = i;
+                t["cb"] = function(){this.$emit('changeLabel',t.id);};  
+            }
+        });
         
     },
     computed: {
@@ -357,7 +361,7 @@ export default {
             if (this.label != '0'||this.content!=="") {
                 filtered = filtered.filter(item =>{
                     return(
-                        (this.label=='0' || item.label == this.label )&&(this.content==="" || item.name.includes(this.content) || item.intro.includes(this.content))
+                        (this.label=='0' || item.label == this.label)&&(this.content==="" || item.name.includes(this.content) || item.intro.includes(this.content))
                     )
                 }
                     
