@@ -32,7 +32,7 @@
             label="订单信息"
             width="700">
             <template #default="{ row }">
-              <div style="font-size: 17px; margin-top: 5px; margin-bottom: 5px; height: 30px;"  @click="goToOrder">{{ row.mchname }}</div>
+              <div style="font-size: 17px; margin-top: 5px; margin-bottom: 5px; height: 30px;"  @click="goToStore">{{ row.mchname }}</div>
               <div class="scroll-box">
                 <!-- 使用 v-for 循环订单信息 -->
                 <div id="msgbox" v-for="(order, index) in row.info" :key="index" style="display: flex; align-items: flex-start; margin-right: 20px; background-color: #CECECE; border-radius: 10px;">
@@ -82,7 +82,7 @@
                   <el-button type="text" v-if="scope.row.state != '1'" @click="deleteOrder(scope.$index)">
                     <span style="color: red">删除订单</span>
                   </el-button >
-                  <el-button type="text" @click="goToStore">
+                  <el-button type="text" @click="goToOrder">
                     <span>查看详情</span>
                   </el-button>
               </template>
