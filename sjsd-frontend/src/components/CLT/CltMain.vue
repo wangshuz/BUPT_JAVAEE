@@ -69,7 +69,6 @@ export default {
                 //     "url":"https://img-baofun.zhhainiao.com/fs/3fc54f2b553dc552c23fd2df0ee0159e.jpg"
                 // },
             ],
-            // mchIntro: [
             //     {
             //         "id":"10001",
             //         "name":"汉堡",
@@ -182,13 +181,13 @@ export default {
             //         "label":"1", 
             //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
             //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
+                // {
+                //     "id":"10001",
+                //     "name":"汉堡",
+                //     "intro":"第一类",
+                //     "label":"1", 
+                //     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                // },
             //     {
             //         "id":"10001",
             //         "name":"汉堡",
@@ -339,30 +338,31 @@ export default {
             this.pageSize = val;
         },
         
-        mounted() {
-            api.getMerchantIntros().then(result => {
-                this.mchIntro = result.data;
-            });
-            api.getMerchantTypes().then(result => {
-                this.mchTypes = result.data;
-            });
-        },
+        
+    },
+    mounted() {
+        api.getMerchantIntros().then(result => {
+            this.mchIntro = result.data.data;
+        });
+        // api.getMerchantTypes().then(result => {
+        //     this.mchTypes = result.data.data;
+        //     this.filteredData();
+        // });
         
     },
     computed: {
         filteredData() {
             let filtered = this.mchIntro;
 
-            if (this.label !== '0'||this.content!=="") {
+            if (this.label != '0'||this.content!=="") {
                 filtered = filtered.filter(item =>{
                     return(
-                        (this.label=='0' || item.label === this.label )&&(this.content==="" || item.name.includes(this.content) || item.intro.includes(this.content))
+                        (this.label=='0' || item.label == this.label )&&(this.content==="" || item.name.includes(this.content) || item.intro.includes(this.content))
                     )
                 }
                     
                 );
             }
-            // 按照页数筛选数据
             let size = this.pageSize;
             let start = (this.page-1)*size;
             let end = start + size;

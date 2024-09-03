@@ -99,7 +99,7 @@ export default {
    */ 
   getMerchantIntros() {
     // 发送 GET 请求到 /api/merchant-intros 端点
-    return apiClient.get('/api/merchant-intros');
+    return axios.get('/api/merchant-intros');
   },
 
   
