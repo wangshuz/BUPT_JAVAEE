@@ -115,7 +115,13 @@
     </div>
 
     <!-- 修改商家信息对话框 -->
-    <el-dialog title="修改商家信息" :visible.sync="isDialogVisible" width="50%" top="2vh" custom-class="enhanced-dialog">
+    <el-dialog
+      title="修改商家信息"
+      :visible.sync="isDialogVisible"
+      width="50%"
+      top="2vh"
+      custom-class="enhanced-dialog"
+    >
       <el-form :model="form">
         <!-- 商家名称 -->
         <el-form-item label="商家名称" :label-width="formLabelWidth">
@@ -239,12 +245,12 @@
 </template>
 
 <script>
-//import api from '@/api/api'; // 请根据实际文件路径替换
+import api from "@/api/api"; // 请根据实际文件路径替换
 
 export default {
   data() {
     return {
-      merchant_id: 1, // 假设从其他地方传入或计算出来
+      merchant_id: "", // 假设从其他地方传入或计算出来
       merchant_name: "XX快餐",
       phone_number: "1234567890",
       merchant_address: "XX街道XX号",
@@ -289,21 +295,27 @@ export default {
     async fetchMerchantDetails() {
       try {
         const response = await api.getMerchantDetails(this.merchant_id);
-        const data = response.data;
-        this.merchant_name = data.merchant_name;
-        this.phone_number = data.phone_number;
-        this.merchant_address = data.merchant_address;
-        this.business_type = data.business_type;
-        this.is_open = data.is_open;
-        this.opening_hours = {
-          start: data.opening_hours.split("-")[0],
-          end: data.opening_hours.split("-")[1],
-        };
-        this.merchant_description = data.merchant_description;
-        this.delivery_fee = data.delivery_fee;
-        this.minimum_order_amount = data.minimum_order_amount;
-        this.packaging_fee_per_item = data.packaging_fee_per_item;
-        this.imageUrl = data.image_url;
+        if (response.data) {
+          const data = response.data;
+          // 如果数据存在，初始化商家信息
+          this.merchant_name = data.merchant_name || "";
+          this.phone_number = data.phone_number || "";
+          this.merchant_address = data.merchant_address || "";
+          this.business_type = data.business_type || "";
+          this.is_open = data.is_open || false;
+          this.opening_hours = {
+            start: data.opening_hours ? data.opening_hours.split("-")[0] : "",
+            end: data.opening_hours ? data.opening_hours.split("-")[1] : "",
+          };
+          this.merchant_description = data.merchant_description || "";
+          this.delivery_fee = data.delivery_fee || 0;
+          this.minimum_order_amount = data.minimum_order_amount || 0;
+          this.packaging_fee_per_item = data.packaging_fee_per_item || 0;
+          this.imageUrl = data.image_url || "";
+        } else {
+          // 如果没有数据，表示这是第一次登录，保持所有信息为空或默认值
+          console.log("商家信息为空，可能是首次登录");
+        }
       } catch (error) {
         console.error("获取商家信息失败:", error);
         this.$message.error("获取商家信息失败，请稍后重试。");
@@ -331,23 +343,6 @@ export default {
       } catch (error) {
         console.error("更新商家信息失败:", error);
         this.$message.error("更新商家信息失败，请稍后重试。");
-      }
-    },
-
-    async uploadAvatar(file) {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        const response = await api.uploadMerchantImage(
-          this.merchant_id,
-          formData
-        );
-        this.imageUrl = response.data.image_url;
-        this.$message.success("头像上传成功！");
-      } catch (error) {
-        console.error("上传头像失败:", error);
-        this.$message.error("上传头像失败，请稍后重试。");
       }
     },
 
@@ -456,7 +451,7 @@ export default {
 }
 
 .enhanced-dialog {
-  border-radius: 30px; 
+  border-radius: 30px;
   box-shadow: 0 4px 20px rgba(148, 129, 129, 0.1);
   transition: transform 0.3s ease;
 }
@@ -464,7 +459,6 @@ export default {
 .el-dialog__wrapper {
   background-color: rgba(132, 103, 103, 0.3); /* 弹窗外部背景色 */
 }
-
 
 .select-content,
 .time-select {
@@ -525,5 +519,4 @@ export default {
   gap: 20px;
   align-items: center;
 }
-
 </style>

@@ -18,21 +18,20 @@
                 </el-date-picker>
         </span>
         <span class="searcher">
-            <el-autocomplete
+            <el-input
                 size="small"
-                v-model="searchQuery"
-                :fetch-suggestions="querySearchAsync"
+                clearable
+                v-model="input"
                 placeholder="请输入用户名"
                 @input="handleSearch"
             >
-            </el-autocomplete>
+            </el-input>
         </span>
         <span>
             <el-tabs class="tab" v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane class="tabtext" label="全部订单" name="first">
                     <el-table
                         :data="filteredData"
-                        
                         style="width: 100%"
                         height="750px"
                         :row-style="rowStyle">
@@ -45,7 +44,13 @@
                                 {{ scope.row.ordertime.split(' ')[1] }}
                             </template>
                         </el-table-column>
-                        <el-table-column prop="money" label="实收金额" width="140" align="center"></el-table-column>
+                        <el-table-column label="实收金额" width="140" align="center">
+                            <template v-slot="scope">
+                                <div>
+                                    ¥ {{ scope.row.money }}
+                                </div>
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="orderstate" label="订单状态" width="100" align="center">
                             <template v-slot="scope">
                                 <span v-if="scope.row.orderstate === '1'">待接单</span>
@@ -66,7 +71,7 @@
                                 <el-button type="text" size="small" v-if="scope.row.orderstate === '2'" @click="cancelOrder(scope.$index)">
                                     <span style="color: red;">取消</span>
                                 </el-button>
-                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
                                 <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
@@ -104,7 +109,7 @@
                                 <el-button type="text" size="small" v-if="scope.row.orderstate === '1'" @click="rejectOrder(scope.$index)">
                                     <span style="color: red;">拒单</span>
                                 </el-button>
-                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
                                 <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
@@ -139,7 +144,7 @@
                                 <el-button type="text" size="small" v-if="scope.row.orderstate === '2'" @click="cancelOrder(scope.$index)">
                                     <span style="color: red;">取消</span>
                                 </el-button>
-                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
                                 <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
@@ -171,7 +176,7 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
                                 <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
@@ -203,7 +208,7 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" v-if="scope.row.orderstate === '4'">查看</el-button>
+                                <el-button type="text" size="small" v-if="scope.row.orderstate === '4'" @click="handleopen(scope.$index)">查看</el-button>
                                 <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
@@ -235,7 +240,7 @@
                         </el-table-column>
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small">查看</el-button>
+                                <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
                                 <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
@@ -245,6 +250,75 @@
                 </el-tab-pane>
             </el-tabs>
         </span>
+        <el-dialog
+            title="订单详情"
+            :visible.sync="dialogVisible"
+            width="50%">
+            <div style="color: black; font-size: 20px;">
+                <div style="font-size: 30px;">
+                    <span>订单号：{{ dialogitem.orderID }}</span>
+                    <span style="margin-left: 10%;">
+                        <span>订单状态：</span>
+                        <span v-if="dialogitem.orderstate === '1'" style="color: red;">待接单</span>
+                        <span v-if="dialogitem.orderstate === '2'" style="color: orange">待派送</span>
+                        <span v-if="dialogitem.orderstate === '3'" style="color: orange;">派送中</span>
+                        <span v-if="dialogitem.orderstate === '4'" style="color: green;">已完成</span>
+                        <span v-if="dialogitem.orderstate === '5'" style="color: #CECECE;">已取消</span>
+                    </span>
+                </div>
+                <div class="containbox" style="background-color: #CECECE; border-radius: 20px; position: relative;margin-top: 10px;">
+                    <div style="padding-top: 10px; display: flex;">
+                        <div style="margin-left: 2%; width: 500px;">用户名：{{ dialogitem.username }}</div>
+                        <div style="margin-left: 4%;">手机号：{{ dialogitem.phonenumber }}</div>
+                    </div>
+                    <div style="margin-top: 10px; margin-left: 2%; max-width: 750px; white-space: normal;">备注：{{ dialogitem.note }}</div>
+                    <div style="margin-top: 10px; margin-left: 2%; padding-bottom: 10px;">
+                        <span>下单时间：{{ dialogitem.ordertime }}</span>
+                        <span style="margin-left: 14.5%;">预计送达时间：{{ dialogitem.perdicttime }}</span>
+                    </div>
+                </div>
+                <div class="containbox" style="margin-top: 5px; background-color: #CECECE; border-radius: 20px; position: relative; padding-top: 10px; padding-left: 2%; padding-bottom: 10px; padding-right: 2%;">
+                    <div>
+                        <span>菜品名称</span>
+                        <span style="margin-left: 68%;">数量</span>
+                        <span style="margin-left: 6%;">单价</span>
+                    </div>
+                    <hr style="height: 1px; border-top: 3px solid black;">
+                    <div v-for="(item) in dialogitem.info" style="margin-top: 10px; display: flex;">
+                        <div style="width: 500px; white-space: normal;">{{ item.name }}</div>
+                        <div style="margin-left: 13%;">x{{ item.num }}</div>
+                        <div style="margin-left: 6%;">￥ {{ item.price }}</div>
+                    </div>
+                    <hr style="height: 1px; border-top: 3px solid black;">
+                    <div>
+                        <span>菜品小计：</span>
+                        <span style="margin-left: 74%">￥ {{ dialogitem.totalmchpricenote }}</span>
+                    </div>
+                </div>
+                <div class="containbox" style="margin-top: 5px; background-color: #CECECE; border-radius: 20px; position: relative; padding-top: 10px; padding-left: 2%; padding-bottom: 10px; padding-right: 2%;">
+                    <div style="display: flex;">
+                        <div style="width: 300px;">派送费：￥ {{ dialogitem.deliveryCharge }}</div>
+                        <div style="margin-left: 41%;">打包费：￥ {{ dialogitem.packingCharge }}</div>
+                    </div>
+                    <div style="margin-top: 10px;">菜品小计：￥ {{ dialogitem.totalmchpricenote }}</div>
+                    <div style="margin-top: 10px;">送达时间：{{ dialogitem.ordertime }}</div>
+                    <div style="margin-top: 10px;">支付方式：{{ dialogitem.realtime }}</div>
+                    <div style="margin-top: 10px; margin-left: 65%;">合计：
+                        <span style=" font-size: 50px;">
+                            ￥{{ dialogitem.money }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">关 闭</el-button>
+                <el-button type="danger" @click="handledialogdelete">删 除</el-button>
+                <el-button type="danger" @click="handledialogreject" v-if="tableData[dialogindex].orderstate === '1'">拒 单</el-button>
+                
+                <el-button type="danger" @click="handledialogcancle" v-if="tableData[dialogindex].orderstate === '2'">取 消</el-button>
+                <el-button type="primary" @click="handledialogaccept" v-if="tableData[dialogindex].orderstate === '1'">接 单</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -255,6 +329,62 @@ import { color } from 'echarts';
             return {
                 // tabs=======================================================================================================
                 activeName: 'first',
+                dialogVisible: false,
+                dialogindex:0,
+                dialogitem:{
+                        orderID:'1332666559995544599',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'1'
+                    },
                 //timeselecter=======================================================================================================
                 pickerOptions: {
                     shortcuts: [{
@@ -285,134 +415,330 @@ import { color } from 'echarts';
                 },
                 date: '',
                 //searcher=======================================================================================================
-                restaurants: [],
-                searchQuery: '',
-                state: '',
-                timeout:  null,
+                input:'',
                 //table========================================================================================================
                 tableData: [
-                // orderstate: 1.待接单  2.待派送  3.派送中  4.已完成  5.已取消
-                {
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'1'
-                }, {
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'2'
-                }, {
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'3'
-                }, {
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'4'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'3'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'2'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'1'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'2'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'4'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'2'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'5'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'5'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'5'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'5'
-                },{
-                    orderID:'1332666559995544599',
-                    username:'爱吃海底捞',
-                    phonenumber:'13655263459',
-                    location:'北京邮电大学学十三公寓美团外卖柜',
-                    ordertime:'2024-08-30 10:30:45',
-                    money:'¥  154',
-                    orderstate:'5'
-                }]
+                    // orderstate: 1.待接单  2.待派送  3.派送中  4.已完成  5.已取消
+                    {
+                        orderID:'1332666559995544599',
+                        username:'不爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'1'
+                    }, {
+                        orderID:'1332666559995544598',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'2'
+                    },  {
+                        orderID:'1332666559995544597',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'3'
+                    },  {
+                        orderID:'1332666559995544596',
+                        username:'不爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'4'
+                    },  {
+                        orderID:'1332666559995544595',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'5'
+                    },  {
+                        orderID:'1332666559995544594',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'1'
+                    }, 
+                ]
             };
         },
         methods: {
@@ -440,72 +766,8 @@ import { color } from 'echarts';
             handleClick(tab, event) {
                 console.log(tab, event);
             },
-            loadAll() {
-                return [
-                { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
-                { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" },
-                { "value": "新旺角茶餐厅", "address": "上海市普陀区真北路988号创邑金沙谷6号楼113" },
-                { "value": "泷千家(天山西路店)", "address": "天山西路438号" },
-                { "value": "胖仙女纸杯蛋糕（上海凌空店）", "address": "上海市长宁区金钟路968号1幢18号楼一层商铺18-101" },
-                { "value": "贡茶", "address": "上海市长宁区金钟路633号" },
-                { "value": "豪大大香鸡排超级奶爸", "address": "上海市嘉定区曹安公路曹安路1685号" },
-                { "value": "茶芝兰（奶茶，手抓饼）", "address": "上海市普陀区同普路1435号" },
-                { "value": "十二泷町", "address": "上海市北翟路1444弄81号B幢-107" },
-                { "value": "星移浓缩咖啡", "address": "上海市嘉定区新郁路817号" },
-                { "value": "阿姨奶茶/豪大大", "address": "嘉定区曹安路1611号" },
-                { "value": "新麦甜四季甜品炸鸡", "address": "嘉定区曹安公路2383弄55号" },
-                { "value": "Monica摩托主题咖啡店", "address": "嘉定区江桥镇曹安公路2409号1F，2383弄62号1F" },
-                { "value": "浮生若茶（凌空soho店）", "address": "上海长宁区金钟路968号9号楼地下一层" },
-                { "value": "NONO JUICE  鲜榨果汁", "address": "上海市长宁区天山西路119号" },
-                { "value": "CoCo都可(北新泾店）", "address": "上海市长宁区仙霞西路" },
-                { "value": "快乐柠檬（神州智慧店）", "address": "上海市长宁区天山西路567号1层R117号店铺" },
-                { "value": "Merci Paul cafe", "address": "上海市普陀区光复西路丹巴路28弄6号楼819" },
-                { "value": "猫山王（西郊百联店）", "address": "上海市长宁区仙霞西路88号第一层G05-F01-1-306" },
-                { "value": "枪会山", "address": "上海市普陀区棕榈路" },
-                { "value": "纵食", "address": "元丰天山花园(东门) 双流路267号" },
-                { "value": "钱记", "address": "上海市长宁区天山西路" },
-                { "value": "壹杯加", "address": "上海市长宁区通协路" },
-                { "value": "唦哇嘀咖", "address": "上海市长宁区新泾镇金钟路999号2幢（B幢）第01层第1-02A单元" },
-                { "value": "爱茜茜里(西郊百联)", "address": "长宁区仙霞西路88号1305室" },
-                { "value": "爱茜茜里(近铁广场)", "address": "上海市普陀区真北路818号近铁城市广场北区地下二楼N-B2-O2-C商铺" },
-                { "value": "鲜果榨汁（金沙江路和美广店）", "address": "普陀区金沙江路2239号金沙和美广场B1-10-6" },
-                { "value": "开心丽果（缤谷店）", "address": "上海市长宁区威宁路天山路341号" },
-                { "value": "超级鸡车（丰庄路店）", "address": "上海市嘉定区丰庄路240号" },
-                { "value": "妙生活果园（北新泾店）", "address": "长宁区新渔路144号" },
-                { "value": "香宜度麻辣香锅", "address": "长宁区淞虹路148号" },
-                { "value": "凡仔汉堡（老真北路店）", "address": "上海市普陀区老真北路160号" },
-                { "value": "港式小铺", "address": "上海市长宁区金钟路968号15楼15-105室" },
-                { "value": "蜀香源麻辣香锅（剑河路店）", "address": "剑河路443-1" },
-                { "value": "北京饺子馆", "address": "长宁区北新泾街道天山西路490-1号" },
-                { "value": "饭典*新简餐（凌空SOHO店）", "address": "上海市长宁区金钟路968号9号楼地下一层9-83室" },
-                { "value": "焦耳·川式快餐（金钟路店）", "address": "上海市金钟路633号地下一层甲部" },
-                { "value": "动力鸡车", "address": "长宁区仙霞西路299弄3号101B" },
-                { "value": "浏阳蒸菜", "address": "天山西路430号" },
-                { "value": "四海游龙（天山西路店）", "address": "上海市长宁区天山西路" },
-                { "value": "樱花食堂（凌空店）", "address": "上海市长宁区金钟路968号15楼15-105室" },
-                { "value": "壹分米客家传统调制米粉(天山店)", "address": "天山西路428号" },
-                { "value": "福荣祥烧腊（平溪路店）", "address": "上海市长宁区协和路福泉路255弄57-73号" },
-                { "value": "速记黄焖鸡米饭", "address": "上海市长宁区北新泾街道金钟路180号1层01号摊位" },
-                { "value": "红辣椒麻辣烫", "address": "上海市长宁区天山西路492号" },
-                { "value": "(小杨生煎)西郊百联餐厅", "address": "长宁区仙霞西路88号百联2楼" },
-                { "value": "阳阳麻辣烫", "address": "天山西路389号" },
-                { "value": "南拳妈妈龙虾盖浇饭", "address": "普陀区金沙江路1699号鑫乐惠美食广场A13" }
-                ];
-            },
-            querySearchAsync(queryString, cb) {
-                var restaurants = this.restaurants;
-                var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
-
-                clearTimeout(this.timeout);
-                this.timeout = setTimeout(() => {
-                cb(results);
-                }, 3000 * Math.random());
-            },
-            createStateFilter(queryString) {
-                return (state) => {
-                return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-                };
-            },
+            
+            
             handleSelect(item) {
                 console.log(item);
             },
@@ -644,6 +906,106 @@ import { color } from 'echarts';
                         }
                     }
                 }
+            },
+            handleopen(newdialogindex)
+            {
+                // 如果当前标签页是“待接单”
+                if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
+                // 计算在“待接单”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '1') {
+                        if (count === newdialogindex) {
+                            newdialogindex = i;
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                // 如果当前标签页是“待派送”
+                else if (this.activeName === 'third') {  // 假设“待派送”标签页的 name 是 'third'
+                // 计算在“待派送”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '2') {
+                        if (count === newdialogindex) {
+                            newdialogindex = i;
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                // 如果当前标签页是“派送中”
+                else if (this.activeName === 'fourth') {  // 假设“派送中”标签页的 name 是 'fourth'
+                // 计算在“派送中”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '3') {
+                        if (count === newdialogindex) {
+                            newdialogindex = i;
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                // 如果当前标签页是“已完成”
+                else if (this.activeName === 'fifth') {  // 假设“已完成”标签页的 name 是 'fifth'
+                // 计算在“已完成”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '4') {
+                        if (count === newdialogindex) {
+                            newdialogindex = i;
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                // 如果当前标签页是“已取消”
+                else if (this.activeName === 'sixth') {  // 假设“已取消”标签页的 name 是 'sixth'
+                // 计算在“已取消”标签页中索引对应的订单
+                    let count = 0;
+                    for (let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].orderstate === '5') {
+                        if (count === newdialogindex) {
+                            newdialogindex = i;
+                            break;
+                        }
+                        count++;
+                        }
+                    }
+                }
+                this.dialogitem = this.tableData[newdialogindex];
+                
+                this.dialogindex = newdialogindex;
+                
+                this.dialogVisible = true;
+                //console.log(this.dialogVisible);
+                //console.log(this.dialogindex);
+            },
+            handledialogreject()
+            {
+                this.tableData[this.dialogindex].orderstate = '5';
+                this.dialogVisible = false;
+            },
+            handledialogdelete()
+            {
+                this.tableData.splice(this.dialogindex, 1);
+                this.dialogVisible = false;
+            },
+            handledialogaccept()
+            {
+                this.tableData[this.dialogindex].orderstate = '2';
+                this.dialogVisible = false;
+            },
+            handledialogcancle()
+            {
+                this.tableData[this.dialogindex].orderstate = '5';
+                this.dialogVisible = false;
             }
         },
         mounted() {
@@ -655,9 +1017,9 @@ import { color } from 'echarts';
                 let filtered = this.tableData;
 
                 // 按用户名搜索
-                if (this.searchQuery) {
+                if (this.input) {
                     filtered = filtered.filter(item =>
-                        item.username.includes(this.searchQuery)
+                        item.username.includes(this.input)
                     );
                 }
 
@@ -734,5 +1096,4 @@ import { color } from 'echarts';
     ::v-deep .el-table .gray-row {
         background: #CECECE;
     }
-
 </style>
