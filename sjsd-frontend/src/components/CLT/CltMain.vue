@@ -5,7 +5,8 @@
                 <el-carousel-item v-for="(item,index) in TopPicture" :key="index">
                     <img
                         class="TPicture"
-                        :src="item.url"
+                        :src="item.url" 
+                        @click="clickCard(item.id)"
                     />
                 </el-carousel-item>
             </el-carousel>
@@ -275,44 +276,44 @@ export default {
               
             // ],
             mchIntro:[],
-            // mchType:[
-            //     {
-            //         "id":10001,
-            //         "typeName":"全部",
-            //         "cb":function(){
-            //           this.$emit('changeLabel','0');
-            //         },
-            //     },
-            //     {
-            //         "id":10002,
-            //         "typeName":"配菜",
-            //         "cb":function(){
-            //           this.$emit('changeLabel','1');
-            //         },
-            //     },
-            //     {
-            //         "id":10003,
-            //         "typeName":"西餐",
-            //         "cb":function(){
-            //           this.$emit('changeLabel','2');
-            //         },
-            //     },
-            //     {
-            //         "id":10004,
-            //         "typeName":"面点",
-            //         "cb":function(){
-            //           this.$emit('changeLabel','3');
-            //         },
-            //     },
-            //     {
-            //         "id":10005,
-            //         "typeName":"素食",
-            //         "cb":function(){
-            //           this.$emit('changeLabel','4');
-            //         },
-            //     },
-            // ],
-            mchType:[]
+            mchType:[
+                {
+                    "id":10001,
+                    "typeName":"全部",
+                    "cb":function(){
+                      this.$emit('changeLabel','0');
+                    },
+                },
+                {
+                    "id":10002,
+                    "typeName":"配菜",
+                    "cb":function(){
+                      this.$emit('changeLabel','1');
+                    },
+                },
+                {
+                    "id":10003,
+                    "typeName":"西餐",
+                    "cb":function(){
+                      this.$emit('changeLabel','2');
+                    },
+                },
+                {
+                    "id":10004,
+                    "typeName":"面点",
+                    "cb":function(){
+                      this.$emit('changeLabel','3');
+                    },
+                },
+                {
+                    "id":10005,
+                    "typeName":"素食",
+                    "cb":function(){
+                      this.$emit('changeLabel','4');
+                    },
+                },
+            ],
+            // mchType:[]
         };
     
     },
@@ -346,7 +347,6 @@ export default {
         });
         // api.getMerchantTypes().then(result => {
         //     this.mchTypes = result.data.data;
-        //     this.filteredData();
         // });
         
     },
