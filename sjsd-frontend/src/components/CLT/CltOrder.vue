@@ -2,6 +2,7 @@
 <!-- "#/clt/order" -->
 <template>
     <div id="container">
+
       <div id="timeselecter">
         <span>筛选日期：</span>
         <el-date-picker
@@ -89,16 +90,19 @@
         </el-table>
         
         <side-bar :listData="listData" @change-pagestate="changepagestate" />
+        <search-box :childContent.sync='content' />
     </div>
 </template>
 
 <script>
 import SideBar from '../SideBar.vue';
+import SearchBox from '../SearchBox.vue';
 
   export default {
-    components: { SideBar },
+    components: { SideBar,SearchBox },
     data() {
       return {
+        content:'',
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',
@@ -577,11 +581,28 @@ import SideBar from '../SideBar.vue';
                 }
             }
         }
+    },
+    handlecontentchange()
+    {
+      this.filteredData();
     }
+    },
+    watch:{
+      content(newValue, oldValue)
+      {
+        this.handlecontentchange();
+      }
     },
     computed: {
         filteredData() {
             let filtered = this.tableData;
+
+            // 按商家名搜索
+            if (this.content) {
+              filtered = filtered.filter(item =>
+                  item.mchname.includes(this.content)
+              );
+            }
 
             // 按时间范围筛选
             if (this.date.length === 2) {
