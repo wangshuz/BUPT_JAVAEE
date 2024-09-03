@@ -11,17 +11,17 @@
             <div id="pdtcard" v-for="(item, index) in info" :key="index" style="background-color: #CECECE; border-radius: 20px; border: 1px solid #000;">
                 <!-- 图片部分 -->
                 <div>
-                    <img id="msgpicture" class="msgcmp" :src="item[0]" alt="商品图片">
+                    <img id="msgpicture" class="msgcmp" :src="item.picture" alt="商品图片">
                 </div>
                 <!-- 订单信息部分 -->
-                <div id="msgname" class="msgcmp">{{ item[1] }}</div>
+                <div id="msgname" class="msgcmp">{{ item.name }}</div>
                 <div id="msgprice" class="msgcmp">
                     <span style="font-size: 20px;">单价：</span>
-                    <span style="font-size: 30px;">{{ item[2] }}</span>
+                    <span style="font-size: 30px;">{{ item.price }}</span>
                 </div>
-                <div id="msgnum" class="msgcmp">x{{ item[3] }}</div>
+                <div id="msgnum" class="msgcmp">x{{ item.num }}</div>
                 <div id="msgsum" class="msgcmp">小计：
-                    <span style="font-size: 60px;">{{ item[3] * item[2] }}</span>
+                    <span style="font-size: 60px;">{{ item.price * item.num }}</span>
                 </div>
             </div>
         </div>
@@ -70,48 +70,48 @@ export default {
         // state:  1.待收货  2.已完成  3.已取消
         mchname:'火锅小旋转（北京邮电大学学二四楼店）',
         info:[ 
-        [
-            'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-            '六神清爽小火锅',
-            '198',
-            '2'
-        ],
-        [
-            'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-            '六神清爽小火锅',
-            '198',
-            '1'
-        ],
-        [
-            'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-            '六神清爽小火锅',
-            '198',
-            '1'
-        ],
-        [
-            'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-            '六神清爽小火锅',
-            '198',
-            '1'
-        ],
-        [
-            'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-            '六神清爽小火锅',
-            '198',
-            '1'
-        ],
-        [
-            'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-            '六神清爽小火锅',
-            '198',
-            '1'
-        ],
-        [
-            'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-            '六神清爽小火锅',
-            '198',
-            '1'
-        ],
+        {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '2'
+        },
+        {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '1'
+        },
+        {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '1'
+        },
+        {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '1'
+        },
+        {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '1'
+        },
+        {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '1'
+        },
+        {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '1'
+        }
         ],
         address:'六神清爽小火锅六神清爽小火锅六神清爽小火锅六神清爽小火锅六神清爽小火锅六神清爽小火锅小火锅六神清爽小火锅',
         note:'六神清爽小火锅六神清爽小火锅六神清爽小火锅六神清爽小火锅六神清爽小火锅六神清爽小火锅小火锅六神清爽小火锅',
