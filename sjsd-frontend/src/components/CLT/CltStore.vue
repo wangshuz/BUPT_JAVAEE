@@ -4,7 +4,7 @@
   <div class="container">
     <!-- 左边占位块和分类栏 -->
     <div style="width: 300px;"></div>
-    <side-bar :listData="listData" />
+    <side-bar :listData="listData" @scrollTo="scrollToCategory"/>
     <!-- 右边部分 -->
     <div class="right-container">
       <!-- 商家详情板块 -->
@@ -160,40 +160,35 @@
               "id":10001,
               "typeName":"分类1",
               "cb":function(){
-                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
-                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                    this.$emit('scrollTo',10001);
                   },
           },
           {
               "id":10002,
               "typeName":"分类2",
               "cb":function(){
-                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
-                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                    this.$emit('scrollTo',10002);
                   },
           },
           {
               "id":10003,
               "typeName":"分类3",
               "cb":function(){
-                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
-                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                    this.$emit('scrollTo',10003);
                   },
           },
           {
               "id":10004,
               "typeName":"分类4",
               "cb":function(){
-                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
-                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                    this.$emit('scrollTo',10004);
                   },
           },
           {
               "id":10005,
               "typeName":"分类5",
               "cb":function(){
-                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
-                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                    this.$emit('scrollTo',10005);
                   },
           },
         ],
@@ -309,6 +304,10 @@
         // 提交订单的逻辑
       },
       ...mapMutations(['setMerchantID','addToCart', 'removeFromCart', 'clearCart']),
+      scrollToCategory(category_id){
+        const element = this.$refs['category-' + category_id][0]; // 注意：如果是v-for生成的ref是数组
+        element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+      },
     }
   };
 </script>
