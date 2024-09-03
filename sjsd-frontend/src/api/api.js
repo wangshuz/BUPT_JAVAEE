@@ -90,7 +90,21 @@ export default {
   getMerchantTypes() {
     // 发送 GET 请求到 /api/merchant-types 端点
     return apiClient.get('/api/merchant-types');
-  }
+  },
+
+  /**
+   * 获取全部商家的简单信息
+   * 
+   * @returns {Promise} 包含商家简单信息列表的 Promise 对象
+   */ 
+  getMerchantIntros() {
+    // 发送 GET 请求到 /api/merchant-intros 端点
+    return apiClient.get('/api/merchant-intros');
+  },
+
+  
+
+
 };
 
 
