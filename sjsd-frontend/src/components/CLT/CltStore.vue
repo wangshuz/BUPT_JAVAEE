@@ -79,8 +79,17 @@
     <el-dialog :visible.sync="showCart" width="50%" :modal-append-to-body="true" custom-class="cart-dialog">
       <!-- 地址选择区域 -->
       <div class="address-section">
-        <p>收货地址: {{ current_address }}</p>
-        <el-button type="text" @click="openAddressDialog">选择地址</el-button>
+        <p>收货地址: {{current_address.address}}</p>
+        <p>收货人：{{current_address.name}}</p>
+        <p>联系电话：{{current_address.phone}}</p>
+        <el-select v-model="current_address" placeholder="请选择地址" style="width:100%">
+          <el-option
+            v-for="address in addressList"
+            :key="address.id"
+            :label="`${address.address} - ${address.name} - ${address.phone}`"
+            :value="address"
+          />
+        </el-select>
       </div>
       <!-- 购物车内容 -->
       <div class="cart-content">
@@ -102,9 +111,10 @@
             rows="3"
           ></el-input>
         </div>
+        <!-- 购物车按钮 -->
         <div class="cart-buttons">
           <el-button @click="clearCart">清空购物车</el-button>
-          <el-button @click="submitOrder">提交订单</el-button>
+          <el-button @click="submitOrder" :disabled="cartTotal < minimum_order_amount">提交订单</el-button>
         </div>
       </div>
     </el-dialog>
@@ -150,28 +160,41 @@
               "id":10001,
               "typeName":"分类1",
               "cb":function(){
-                  alert("分类1");
-              },
+                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
+                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                  },
           },
           {
               "id":10002,
               "typeName":"分类2",
-              "cb":function(){},
+              "cb":function(){
+                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
+                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                  },
           },
           {
               "id":10003,
               "typeName":"分类3",
-              "cb":function(){},
+              "cb":function(){
+                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
+                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                  },
           },
           {
               "id":10004,
               "typeName":"分类4",
-              "cb":function(){},
+              "cb":function(){
+                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
+                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                  },
           },
           {
               "id":10005,
               "typeName":"分类5",
-              "cb":function(){},
+              "cb":function(){
+                    const element = this.$refs['category-' + this.id][0]; // 注意：如果是v-for生成的ref是数组
+                    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                  },
           },
         ],
         products:[
@@ -435,8 +458,12 @@
   backdrop-filter: blur(50px);
   }
   .address-section {
-    margin-bottom: 20px;
+    margin-bottom: 0;
   }
+  .address-section p {
+    margin-top: 0;
+  }
+
   .remark-section {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -466,7 +493,6 @@
 </style>
 
 <!--
-地址
 导航跳转
 搜索框
 网络请求数据
