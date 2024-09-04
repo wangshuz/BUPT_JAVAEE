@@ -18,10 +18,10 @@
           <el-option label="启售" :value = "true" ></el-option>
           <el-option label="停售" :value = "false" ></el-option>
       </el-select>
-      <div class="flex-item">
-          <el-button type="danger" @click="deleteSelected">删除</el-button>
-          <el-button type="primary" @click="addProduct">新增菜品</el-button>
-      </div>
+      <!-- 按钮 -->
+      <el-button type="danger" @click="deleteSelected">删除</el-button>
+      <el-button type="primary" @click="addProduct">新增菜品</el-button>
+      <el-button type="success" @click="addCategory">新增分类</el-button>
     </div>
 
     <!-- 表格 -->
@@ -106,6 +106,22 @@
         <el-button type="primary" @click="submitProductForm">确认</el-button>
       </div>
     </el-dialog>
+    <!-- 新增分类弹窗 -->
+    <el-dialog
+      title="新增分类"
+      :visible.sync="addCategoryDialog"
+      width="50%"
+    >
+      <el-input
+        placeholder="请输入新分类"
+        v-model="addCategoryInput"
+        clearable>
+      </el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addCategoryDialog = false">取消</el-button>
+        <el-button type="primary" @click="submitAddCategory">确认</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -118,6 +134,8 @@ export default {
       selectedStatus: '',
       selectedProducts: [],
       add_edit_dialog: false,
+      addCategoryDialog: false,
+      addCategoryInput,
       isEdit: false, // 判断是新增还是修改
       productForm: {
         id: null,
@@ -215,12 +233,6 @@ export default {
         product => !this.selectedProducts.includes(product)
       );
     },
-    addProduct() {
-      // 逻辑来新增产品
-    },
-    editProduct(product) {
-      // 逻辑来编辑产品
-    },
     // 单个删除
     deleteProduct(index) {
       this.products.splice(index, 1);
@@ -238,6 +250,9 @@ export default {
       this.add_edit_dialog = true;
       this.isEdit = true;
       this.productForm = { ...product }; // 赋值修改的产品信息
+    },
+    addCategory(){
+      this.addCategoryDialog = true;
     },
     submitProductForm() {
       this.$refs.productForm.validate((valid) => {
@@ -267,6 +282,22 @@ export default {
         image: '',
         description: '',
       };
+    },
+    submitAddCategory(){
+      // 检查分类列表中是否有重名
+      const isDuplicate = this.categoryList.some(category => category.categoryName === this.addCategoryInput);
+      if (isDuplicate) {
+        this.$message.error('分类已存在');
+        return;
+      }
+      // 如果没有重名，可以继续执行添加逻辑
+      // api添加
+      // ...
+      // 刷新categoryList
+      // ...
+      this.$message.success('分类已添加');
+      this.addCategoryDialog = false;
+      this.addCategoryInput = '';
     },
   },
 };
@@ -307,9 +338,5 @@ export default {
 
 
 <!--
-新增分类
-新增菜品
-修改菜品
-数据结构统一
 网络请求
 -->
