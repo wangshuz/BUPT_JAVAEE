@@ -2,7 +2,7 @@
   <div class="side-bar">
     <el-col :span="24">
       <el-menu
-          default-active="1"
+          default-active="0"
           class="menu-v"
           text-color="#000"
           active-text-color="#ffd04b" 

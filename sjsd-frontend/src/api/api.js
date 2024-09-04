@@ -16,7 +16,10 @@ import axios from 'axios';
 //     'Content-Type': 'application/json'
 //   }
 // });
-
+const apiClient = axios.create({
+  baseURL:'http://127.0.0.1:8081', // 根据你的后端服务地址调整
+  timeout: 10000 // 请求超时时间
+})
 /**
  * 导出一个包含 API 请求方法的对象
  * 
@@ -91,19 +94,6 @@ export default {
     // 发送 GET 请求到 /api/merchant-types 端点
     return apiClient.get('/api/merchant-types');
   },
-
-  /**
-   * 获取全部商家的简单信息
-   * 
-   * @returns {Promise} 包含商家简单信息列表的 Promise 对象
-   */ 
-  getMerchantIntros() {
-    // 发送 GET 请求到 /api/merchant-intros 端点
-    return axios.get('/api/merchant-intros');
-  },
-
-  
-
 
 };
 

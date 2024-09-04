@@ -35,7 +35,7 @@
 
         <search-box :childContent.sync='content' />
 
-        <side-bar :listData="mchType" @changeLabel="changeLabel"/>
+        <side-bar :listData="mchTypes" @changeLabel="changeLabel"/>
         
 
     </div>
@@ -52,7 +52,7 @@ export default {
     props: { },
     data(){
         return {
-            label:"0",
+            label: 0,
             page: 1,
             content: "",
             pageSize:12,
@@ -70,250 +70,188 @@ export default {
                 //     "url":"https://img-baofun.zhhainiao.com/fs/3fc54f2b553dc552c23fd2df0ee0159e.jpg"
                 // },
             ],
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"薯条",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
+            mchIntro:[
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "薯条",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第一类",
+                    "label": 1,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                },
+                {
+                    "id": 10001,
+                    "name": "汉堡",
+                    "intro": "第二类",
+                    "label": 2,
+                    "url": "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                }
+            ],
+
+            // mchIntro:[],
+            // mchType:[
                 // {
-                //     "id":"10001",
-                //     "name":"汉堡",
-                //     "intro":"第一类",
-                //     "label":"1", 
-                //     "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                //     "id":10001,
+                //     "typeName":"全部",
+                //     "cb":function(){
+                //       this.$emit('changeLabel','0');
+                //     },
                 // },
             //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+            //         "id":10002,
+            //         "typeName":"配菜",
+            //         "cb":function(){
+            //           this.$emit('changeLabel','1');
+            //         },
             //     },
             //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+            //         "id":10003,
+            //         "typeName":"西餐",
+            //         "cb":function(){
+            //           this.$emit('changeLabel','2');
+            //         },
             //     },
             //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+            //         "id":10004,
+            //         "typeName":"面点",
+            //         "cb":function(){
+            //           this.$emit('changeLabel','3');
+            //         },
             //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第一类",
-            //         "label":"1", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-            //     {
-            //         "id":"10001",
-            //         "name":"汉堡",
-            //         "intro":"第二类",
-            //         "label":"2", 
-            //         "url":"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            //     },
-              
+                // {
+                //     "id":10005,
+                //     "typeName":"素食",
+                //     "cb":function(){
+                //       this.$emit('changeLabel','4');
+                //     },
+                // },
             // ],
-            mchIntro:[],
-            mchType:[
-                {
-                    "id":10001,
-                    "typeName":"全部",
-                    "cb":function(){
-                      this.$emit('changeLabel','0');
-                    },
-                },
-                {
-                    "id":10002,
-                    "typeName":"配菜",
-                    "cb":function(){
-                      this.$emit('changeLabel','1');
-                    },
-                },
-                {
-                    "id":10003,
-                    "typeName":"西餐",
-                    "cb":function(){
-                      this.$emit('changeLabel','2');
-                    },
-                },
-                {
-                    "id":10004,
-                    "typeName":"面点",
-                    "cb":function(){
-                      this.$emit('changeLabel','3');
-                    },
-                },
-                {
-                    "id":10005,
-                    "typeName":"素食",
-                    "cb":function(){
-                      this.$emit('changeLabel','4');
-                    },
-                },
-            ],
-            // mchType:[]
+            mchTypes:[]
         };
     
     },
@@ -342,14 +280,21 @@ export default {
         
     },
     mounted() {
-        api.getMerchantIntros().then(result => {
-            this.mchIntro = result.data.data;
-        });
+        // api.getMerchantIntros().then(result => {
+        //     this.mchIntro = result.data.data;
+        // });
         api.getMerchantTypes().then(result => {
-            this.mchTypes = [];
-            for(i in result.data.data){
-                let t = i;
-                t["cb"] = function(){this.$emit('changeLabel',t.id);};  
+            this.mchTypes = [{
+                    "id":0,
+                    "typeName":"全部",
+                    "cb":function(){
+                      this.$emit('changeLabel',0);
+                    },
+                },]
+            let types = result.data.data;
+            for (let type of types) {
+                type.cb = function(){ this.$emit('changeLabel', type.typeId); };
+                this.mchTypes.push(type); // 使用 push 而不是 add，假设 mchTypes 是一个数组
             }
         });
         
@@ -358,14 +303,12 @@ export default {
         filteredData() {
             let filtered = this.mchIntro;
 
-            if (this.label != '0'||this.content!=="") {
+            if (this.label != 0||this.content!="") {
                 filtered = filtered.filter(item =>{
                     return(
-                        (this.label=='0' || item.label == this.label)&&(this.content==="" || item.name.includes(this.content) || item.intro.includes(this.content))
+                        (this.label==0 || item.label == this.label)&&(this.content==="" || item.name.includes(this.content) || item.intro.includes(this.content))
                     )
-                }
-                    
-                );
+                });
             }
             let size = this.pageSize;
             let start = (this.page-1)*size;
