@@ -95,18 +95,19 @@ CREATE TABLE Product (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     merchant_id INT,
     category_id INT,
+    imageUrl VARCHAR(255) NOT NULL,
     product_name VARCHAR(255) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     description TEXT,
     available BOOLEAN DEFAULT TRUE,
     is_deleted BOOLEAN DEFAULT FALSE,
-    imageUrl VARCHAR(255) NOT NULL,
     FOREIGN KEY (merchant_id) REFERENCES Merchant(merchant_id),
     FOREIGN KEY (category_id) REFERENCES Product_Category(category_id)
 );
 -- 商品ID (product_id): 主键，唯一标识
 -- 商家ID (merchant_id): 外键，关联商家表
 -- 类别ID(category_id): 外键，关联商品类别表，表示商品属于哪个类别
+-- 商品图片链接(imageUrl)：商品的图片url
 -- 商品名称 (product_name): 商品的名称
 -- 价格 (price): 商品的价格
 -- 描述 (description): 商品的描述
