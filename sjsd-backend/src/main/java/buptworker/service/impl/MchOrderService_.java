@@ -4,6 +4,7 @@ import buptworker.entity.MchOrder;
 import buptworker.entity.MchOrderDetail;
 import buptworker.entity.MchOrderItem;
 import buptworker.mapper.MchOrderMapper;
+import buptworker.service.MchOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 @Component
-public class MchOrderService_ {
+public class MchOrderService_ implements MchOrderService {
 
     @Autowired
     private MchOrderMapper mchOrderMapper;
