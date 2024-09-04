@@ -323,14 +323,19 @@
 </template>
 <script>
 import { color } from 'echarts';
+import api from '../../api/api.js';
 
     export default {
         data() {
             return {
                 // tabs=======================================================================================================
                 activeName: 'first',
+                mchID:'',
                 dialogVisible: false,
                 dialogindex:0,
+                date: '',
+                //searcher=======================================================================================================
+                input:'',
                 dialogitem:{
                         orderID:'1332666559995544599',
                         username:'爱吃海底捞',
@@ -413,9 +418,6 @@ import { color } from 'echarts';
                         }
                     }]
                 },
-                date: '',
-                //searcher=======================================================================================================
-                input:'',
                 //table========================================================================================================
                 tableData: [
                     // orderstate: 1.待接单  2.待派送  3.派送中  4.已完成  5.已取消
@@ -766,8 +768,6 @@ import { color } from 'echarts';
             handleClick(tab, event) {
                 console.log(tab, event);
             },
-            
-            
             handleSelect(item) {
                 console.log(item);
             },
@@ -1006,11 +1006,16 @@ import { color } from 'echarts';
             {
                 this.tableData[this.dialogindex].orderstate = '5';
                 this.dialogVisible = false;
-            }
+            },
+            initorderdetail(mchID)
+            {
+                
+            },
         },
         mounted() {
-            //searcher=======================================================================================================
-            this.restaurants = this.loadAll();
+            //mchID为当前商家ID
+            //initorderdetail(mchID)
+
         },
         computed: {
             filteredData() {
