@@ -1,4 +1,4 @@
-package buptworker.pojo;
+package buptworker.entity;
 
 /**
  * @author : [Xieyx]

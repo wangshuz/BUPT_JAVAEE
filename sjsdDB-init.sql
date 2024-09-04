@@ -149,6 +149,7 @@ CREATE TABLE `product` (
   `description` text,
   `available` tinyint(1) DEFAULT '1',
   `is_deleted` tinyint(1) DEFAULT '0',
+  `imageUrl` varchar(255) NOT NULL,
   PRIMARY KEY (`product_id`),
   KEY `merchant_id` (`merchant_id`),
   KEY `category_id` (`category_id`),

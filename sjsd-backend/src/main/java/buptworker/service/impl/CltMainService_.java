@@ -1,8 +1,8 @@
 package buptworker.service.impl;
 
 import buptworker.mapper.CltMainMapper;
-import buptworker.pojo.MchIntro;
-import buptworker.pojo.MchType;
+import buptworker.entity.MchIntro;
+import buptworker.entity.MchType;
 import buptworker.service.CltMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * @author : [Xieyx]
+ * @author : [86183]
  * @version : [v1.0]
  * @description : [一句话描述该类的功能]
  * @createTime : [2024/9/3 21:00]

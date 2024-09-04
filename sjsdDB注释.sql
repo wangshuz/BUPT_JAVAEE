@@ -100,6 +100,7 @@ CREATE TABLE Product (
     description TEXT,
     available BOOLEAN DEFAULT TRUE,
     is_deleted BOOLEAN DEFAULT FALSE,
+    imageUrl VARCHAR(255) NOT NULL,
     FOREIGN KEY (merchant_id) REFERENCES Merchant(merchant_id),
     FOREIGN KEY (category_id) REFERENCES Product_Category(category_id)
 );

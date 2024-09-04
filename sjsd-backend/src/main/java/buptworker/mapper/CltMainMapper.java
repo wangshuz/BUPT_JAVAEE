@@ -1,7 +1,7 @@
 package buptworker.mapper;
 
-import buptworker.pojo.MchIntro;
-import buptworker.pojo.MchType;
+import buptworker.entity.MchIntro;
+import buptworker.entity.MchType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

@@ -1,7 +1,7 @@
 package buptworker.service;
 
-import buptworker.pojo.MchIntro;
-import buptworker.pojo.MchType;
+import buptworker.entity.MchIntro;
+import buptworker.entity.MchType;
 
 import java.util.List;
 

@@ -1,17 +1,13 @@
 package buptworker.controller;
 
-import buptworker.pojo.MchIntro;
-import buptworker.pojo.Result;
+import buptworker.entity.Result;
 import buptworker.service.CltMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * @author : [Xieyx]
+ * @author : [86183]
  * @version : [v1.0]
  * @description : [一句话描述该类的功能]
  * @createTime : [2024/9/3 20:15]
