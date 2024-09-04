@@ -114,7 +114,7 @@
         <!-- 购物车按钮 -->
         <div class="cart-buttons">
           <el-button @click="clearCart">清空购物车</el-button>
-          <el-button @click="submitOrder" :disabled="cartTotal < minimum_order_amount">提交订单</el-button>
+          <el-button @click="submitOrder" :disabled=disableSubmitButton>提交订单</el-button>
         </div>
       </div>
     </el-dialog>
@@ -225,22 +225,26 @@
           { id: 30, name: '霸王龙30', price: 99.99, image: require('../../assets/images/test/testPicture.png'), category_id: 10005, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
         ],
         current_address:{
-          name: '张三',
-          phone: '12345678901',
-          address: '广东省广州市天河区华南理工大学'
+          // id: 1,
+          // name: '张三',
+          // phone: '12345678901',
+          // address: '广东省广州市天河区华南理工大学'
         },
         addressList:[
           {
+            id:1,
             name: '张三',
             phone: '12345678901',
             address: '广东省广州市天河区华南理工大学'
           },
           {
+            id:2,
             name: '李四',
             phone: '12345678901',
             address: '广东省广州市天河区华南理工大学'
           },
           {
+            id:3,
             name: '王五',
             phone: '12345678901',
             address: '广东省广州市天河区华南理工大学'
@@ -274,6 +278,10 @@
       total_amount(){
         // return this.cartTotal + this.delivery_fee + this.packaging_fee_per_item * this.cartCount;
         return Number(this.cartTotal) + Number(this.delivery_fee) + this.packaging_fee;
+      },
+      disableSubmitButton()
+      {
+        return this.cartTotal < this.minimum_order_amount || this.current_address.id==null;
       }
     },
     created() {
