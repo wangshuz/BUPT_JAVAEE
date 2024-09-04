@@ -26,13 +26,23 @@ public class ProductController {
         return Result.success(productService.listProductClt(merchantId));
     }
 
-    @RequestMapping("/productClt1")
+    @RequestMapping("/productMch")
     public int productMch(int merchantId){
         return merchantId;
     }
 
-    @RequestMapping("/getMerchant")
+    @RequestMapping("/merchantInfo")
     public Result mchInfo(int merchantId){
         return Result.success(productService.getMerchant(merchantId));
+    }
+
+    @RequestMapping("/proType")
+    public Result proType(int merchantId) {
+        return Result.success(productService.listProType(merchantId));
+    }
+
+    @RequestMapping("/cltAddress")
+    public Result cltAddress(int cltId){
+        return Result.success(productService.getCltAddress(cltId));
     }
 }

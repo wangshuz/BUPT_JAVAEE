@@ -1,8 +1,6 @@
 package buptworker.service;
 
-import buptworker.entity.Merchant;
-import buptworker.entity.ProductClt;
-import buptworker.entity.ProductMch;
+import buptworker.entity.*;
 
 import java.util.List;
 
@@ -11,6 +9,9 @@ public interface ProductService {
 
     public List<ProductMch> listProductMch(int merchantId);
 
-    public Merchant getMerchant(int merchant);
+    public Merchant getMerchant(int merchantId);
 //    public List<Merchant> list
+    public List<ProType> listProType(int merchantId);
+
+    public CltAddress getCltAddress(int cltId);
 }
