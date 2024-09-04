@@ -1,164 +1,196 @@
--- 1. 用户表 (User)
-CREATE TABLE User (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    profile_picture VARCHAR(255)
-);
--- 用户ID (user_id): 主键，唯一标识
--- 用户头像 (profile_picture): 用户的头像URL或路径
--- 用户名 (username): 候选关键字，标识用户的唯一名称
--- 密码 (password): 用户的密码，建议加密存储
+/*
+Navicat MySQL Data Transfer
 
+Source Server         : MySQL
+Source Server Version : 80034
+Source Host           : localhost:3306
+Source Database       : sjsd
 
--- 2. 地址表 (Address)
-CREATE TABLE Address (
-    address_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    recipient_name VARCHAR(255) NOT NULL,
-    recipient_phone VARCHAR(20) NOT NULL,
-    address_line VARCHAR(255) NOT NULL,
-    is_default BOOLEAN DEFAULT FALSE,
-    is_deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
-);
--- 地址ID (address_id): 主键，唯一标识
--- 用户ID (user_id): 外键，关联用户表，表示该地址属于哪个用户
--- 收件人姓名 (recipient_name): 收货人姓名
--- 收件人电话 (recipient_phone): 收货人电话
--- 地址 (address_line): 地址信息
--- 是否默认地址 (is_default): 标记此地址是否为用户的默认地址
--- 是否删除标记 (is_deleted): 用于软删除标记，布尔值（是/否）
+Target Server Type    : MYSQL
+Target Server Version : 80034
+File Encoding         : 65001
 
+Date: 2024-09-03 21:37:16
+*/
 
--- 3. 商家表 (Merchant)
-CREATE TABLE Merchant (
-    merchant_id INT AUTO_INCREMENT PRIMARY KEY,
-    merchant_username VARCHAR(255) NOT NULL UNIQUE,
-    merchant_password VARCHAR(255) NOT NULL,
-    merchant_name VARCHAR(255) NOT NULL,
-    merchant_avatar VARCHAR(255),
-    merchant_address VARCHAR(255),
-    phone_number VARCHAR(20),
-    opening_hours VARCHAR(255),
-    type_id INT,
-    merchant_description TEXT,
-    is_open BOOLEAN DEFAULT TRUE,
-    delivery_fee DECIMAL(10, 2) NOT NULL,
-    minimum_order_amount DECIMAL(10, 2) NOT NULL,
-    packaging_fee_per_item DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (type_id) REFERENCES Merchant_Type(type_id)
-);
--- 商家ID (merchant_id): 主键，唯一标识
--- 商家用户名 (merchant_username): 候选关键字，标识商家的唯一登录名
--- 商家密码 (merchant_password): 商家登录的密码，建议加密存储
--- 商家名称 (merchant_name): 商家的显示名称
--- 商家头像 (merchant_avatar): 存储商家头像的URL或路径
--- 商家地址 (merchant_address): 商家的物理地址
--- 电话号码 (phone_number): 商家的联系电话
--- 营业时间 (opening_hours): 商家的营业时间
--- 商家类型 (type_id): 外键，关联商家类别表，表示商家所属的类别
--- 商家简介 (merchant_description): 商家的简介或描述
--- 是否营业 (is_open): 标记商家是否在营业，布尔值（是/否）
--- 配送费 (delivery_fee): 商家的配送费用
--- 起送费（minimum_order_amount）：商家的最低起送费
--- 打包单价 (packaging_fee_per_item): 每件商品的打包费用
+CREATE DATABASE sjsd;
+USE sjsd;
 
+SET FOREIGN_KEY_CHECKS=0;
 
--- 4. 商家类别表 (Merchant_Type)
-CREATE TABLE Merchant_Type (
-    type_id INT AUTO_INCREMENT PRIMARY KEY,
-    type_name VARCHAR(255) NOT NULL UNIQUE
-);
--- 类型ID(type_id): 主键，唯一标识每种商家类型
--- 类型名称(type_name): 商家类型名称（例如餐饮、零售等），并且是唯一的。
+-- ----------------------------
+-- Table structure for `address`
+-- ----------------------------
+DROP TABLE IF EXISTS `address`;
+CREATE TABLE `address` (
+  `address_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `recipient_name` varchar(255) NOT NULL,
+  `recipient_phone` varchar(20) NOT NULL,
+  `address_line` varchar(255) NOT NULL,
+  `is_default` tinyint(1) DEFAULT '0',
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`address_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- ----------------------------
+-- Records of address
+-- ----------------------------
 
--- 5. 商品表 (Product)
-CREATE TABLE Product (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
-    merchant_id INT,
-    category_id INT,
-    product_name VARCHAR(255) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    description TEXT,
-    available BOOLEAN DEFAULT TRUE,
-    is_deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (merchant_id) REFERENCES Merchant(merchant_id),
-    FOREIGN KEY (category_id) REFERENCES Product_Category(category_id)
-);
--- 商品ID (product_id): 主键，唯一标识
--- 商家ID (merchant_id): 外键，关联商家表
--- 类别ID(category_id): 外键，关联商品类别表，表示商品属于哪个类别
--- 商品名称 (product_name): 商品的名称
--- 价格 (price): 商品的价格
--- 描述 (description): 商品的描述
--- 是否可用 (available): 用于标记商品是否在售，布尔值（是/否）
--- 是否删除标记 (is_deleted): 用于软删除标记，布尔值（是/否）
+-- ----------------------------
+-- Table structure for `merchant`
+-- ----------------------------
+DROP TABLE IF EXISTS `merchant`;
+CREATE TABLE `merchant` (
+  `merchant_id` int NOT NULL AUTO_INCREMENT,
+  `merchant_username` varchar(255) NOT NULL,
+  `merchant_password` varchar(255) NOT NULL,
+  `merchant_name` varchar(255) NOT NULL,
+  `merchant_avatar` varchar(255) DEFAULT NULL,
+  `merchant_address` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(20) DEFAULT NULL,
+  `opening_hours` varchar(255) DEFAULT NULL,
+  `type_id` int DEFAULT NULL,
+  `merchant_description` text,
+  `is_open` tinyint(1) DEFAULT '1',
+  `delivery_fee` decimal(10,2) NOT NULL,
+  `minimum_order_amount` decimal(10,2) NOT NULL,
+  `packaging_fee_per_item` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`merchant_id`),
+  UNIQUE KEY `merchant_username` (`merchant_username`),
+  KEY `type_id` (`type_id`),
+  CONSTRAINT `merchant_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `merchant_type` (`type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- ----------------------------
+-- Records of merchant
+-- ----------------------------
 
--- 6. 商品类别表 (Product_Category)
-CREATE TABLE Product_Category (
-    category_id INT AUTO_INCREMENT PRIMARY KEY,
-    merchant_id INT,
-    category_name VARCHAR(255) NOT NULL,
-    is_deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (merchant_id) REFERENCES Merchant(merchant_id)
-); 
--- 类别ID(category_id): 主键，唯一标识每个商品类别
--- 商家ID (merchant_id): 外键，关联商家表
--- 类别名称 (category_name): 商品类别的名称（例如：饮料、小吃、主食等）
--- 是否删除标记 (is_deleted): 用于软删除标记，布尔值（是/否）
+-- ----------------------------
+-- Table structure for `merchant_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `merchant_type`;
+CREATE TABLE `merchant_type` (
+  `type_id` int NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`type_id`),
+  UNIQUE KEY `type_name` (`type_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- ----------------------------
+-- Records of merchant_type
+-- ----------------------------
 
--- 7. 订单表 (Orders)
-CREATE TABLE Orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY,
-    merchant_id INT,
-    user_id INT,
-    address_id INT,
-    order_date DATETIME NOT NULL,
-    estimated_delivery_time DATETIME,
-    actual_delivery_time DATETIME,
-    payment_method VARCHAR(50) NOT NULL,
-    packaging_fee DECIMAL(10, 2) NOT NULL,
-    delivery_fee DECIMAL(10, 2) NOT NULL,
-    order_status VARCHAR(50) NOT NULL,
-    notes TEXT,
-    is_deleted_by_user BOOLEAN DEFAULT FALSE,
-    is_deleted_by_merchant BOOLEAN DEFAULT FALSE,
-    total_amount DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (merchant_id) REFERENCES Merchant(merchant_id),
-    FOREIGN KEY (user_id) REFERENCES User(user_id),
-    FOREIGN KEY (address_id) REFERENCES Address(address_id)
-);
--- 订单ID (order_id): 主键，唯一标识
--- 商家ID (merchant_id): 外键，关联商家表
--- 用户ID (user_id): 外键，关联用户表
--- 地址ID (address_id): 外键，关联地址表，用于记录订单的配送地址
--- 下单日期 (order_date): 记录订单的创建时间
--- 预计送达时间 (estimated_delivery_time): 订单预计的送达时间
--- 实际送达时间 (actual_delivery_time): 订单实际的送达时间
--- 支付方式 (payment_method): 支付的方式，例如信用卡、微信支付等
--- 打包费 (packaging_fee): 订单中的打包费用总计
--- 配送费 (delivery_fee): 订单的配送费用
--- 订单状态 (order_status): 记录订单的当前状态，比如“已下单”、“正在配送”、“已完成”
--- 备注 (notes): 用户在下单时附加的备注信息
--- 用户是否删除 (is_deleted_by_user): 用户是否标记删除，布尔值（是/否）
--- 商家是否删除 (is_deleted_by_merchant): 商家是否标记删除，布尔值（是/否）
--- 总金额 (total_amount): 订单的总金额，包含所有商品的总价和其他费用（如配送费）
+-- ----------------------------
+-- Table structure for `orders`
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `order_id` int NOT NULL AUTO_INCREMENT,
+  `merchant_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `address_id` int DEFAULT NULL,
+  `order_date` datetime NOT NULL,
+  `estimated_delivery_time` datetime DEFAULT NULL,
+  `actual_delivery_time` datetime DEFAULT NULL,
+  `payment_method` varchar(50) NOT NULL,
+  `packaging_fee` decimal(10,2) NOT NULL,
+  `delivery_fee` decimal(10,2) NOT NULL,
+  `order_status` varchar(50) NOT NULL,
+  `notes` text,
+  `is_deleted_by_user` tinyint(1) DEFAULT '0',
+  `is_deleted_by_merchant` tinyint(1) DEFAULT '0',
+  `total_amount` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `merchant_id` (`merchant_id`),
+  KEY `user_id` (`user_id`),
+  KEY `address_id` (`address_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`),
+  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- ----------------------------
+-- Records of orders
+-- ----------------------------
 
--- 8. 订单明细表 (Order_Item)
-CREATE TABLE Order_Item (
-    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT,
-    product_id INT,
-    quantity INT NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
-    FOREIGN KEY (product_id) REFERENCES Product(product_id)
-);
--- 明细ID (order_item_id): 主键，唯一标识
--- 订单ID (order_id): 外键，关联订单表
--- 商品ID (product_id): 外键，关联商品表
--- 数量 (quantity): 该商品在订单中的数量
+-- ----------------------------
+-- Table structure for `order_item`
+-- ----------------------------
+DROP TABLE IF EXISTS `order_item`;
+CREATE TABLE `order_item` (
+  `order_item_id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `quantity` int NOT NULL,
+  PRIMARY KEY (`order_item_id`),
+  KEY `order_id` (`order_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of order_item
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `product`
+-- ----------------------------
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `product_id` int NOT NULL AUTO_INCREMENT,
+  `merchant_id` int DEFAULT NULL,
+  `category_id` int DEFAULT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `description` text,
+  `available` tinyint(1) DEFAULT '1',
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`product_id`),
+  KEY `merchant_id` (`merchant_id`),
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`),
+  CONSTRAINT `product_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `product_category` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of product
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `product_category`
+-- ----------------------------
+DROP TABLE IF EXISTS `product_category`;
+CREATE TABLE `product_category` (
+  `category_id` int NOT NULL AUTO_INCREMENT,
+  `merchant_id` int DEFAULT NULL,
+  `category_name` varchar(255) NOT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`category_id`),
+  KEY `merchant_id` (`merchant_id`),
+  CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`merchant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of product_category
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user`
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `profile_picture` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
