@@ -2,6 +2,8 @@ package buptworker.controller;
 
 import buptworker.pojo.MchIntro;
 import buptworker.pojo.Result;
+import buptworker.service.CltMainService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author : [86183]
+ * @author : [Xieyx]
  * @version : [v1.0]
  * @description : [一句话描述该类的功能]
  * @createTime : [2024/9/3 20:15]
@@ -20,25 +22,17 @@ import java.util.List;
 
 @RestController
 public class CltMainController {
-    @RequestMapping("/api/merchant-intros")
+    @Autowired
+    private CltMainService cltMainService;
+
+    @RequestMapping("/merchant-intros")
     public Result MchIntro(){
-        Integer id = 10001;
-        String[] name = {"1","2","3","4"};
-        Integer[] label = {1,2,3,4};
-        String url = "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png";
-        List<MchIntro> ret = new ArrayList<MchIntro>();
-        for(int i = 0;i < 50;i ++){
-            int j = i%4;
-            MchIntro mchIntro = new MchIntro(id+i,name[j],"",label[j],url);
-            ret.add(mchIntro);
-        }
-        return Result.success(ret);
+        return Result.success(cltMainService.listMchIntro());
     }
 
-    @RequestMapping("/api/merchant-types")
+    @RequestMapping("/merchant-types")
     public Result MchType(){
-        String[] types = {};
-        return Result.success();
+        return Result.success(cltMainService.listMchType());
     }
 
 }

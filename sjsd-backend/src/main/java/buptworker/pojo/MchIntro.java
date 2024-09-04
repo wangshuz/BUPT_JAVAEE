@@ -18,6 +18,9 @@ public class MchIntro {
     private Integer label;
     private String url;
 
+    public MchIntro() {
+    }
+
     public MchIntro(Integer id, String name, String intro, Integer label, String url) {
         this.id = id;
         this.name = name;
@@ -65,4 +68,16 @@ public class MchIntro {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "MchIntro{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", intro='" + intro + '\'' +
+                ", label=" + label +
+                ", url='" + url + '\'' +
+                '}';
+    }
+
 }
