@@ -1,9 +1,6 @@
 package buptworker.service.impl;
 
-import buptworker.entity.Merchant;
-import buptworker.entity.Product;
-import buptworker.entity.ProductClt;
-import buptworker.entity.ProductMch;
+import buptworker.entity.*;
 import buptworker.mapper.ProductMapper;
 import buptworker.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +42,24 @@ public class ProductService_ implements ProductService {
     @Override
     public Merchant getMerchant(int merchantId) {
         return productMapper.getMerchant(merchantId);
+    }
+
+    @Override
+    public List<ProType> listProType(int merchantId) {
+        return productMapper.listProType(merchantId);
+    }
+
+    @Override
+    public CltAddress getCltAddress(int cltId) {
+        List<Address> addressList = productMapper.listAddress(cltId);
+        Address curAddress = new Address();
+        for(Address item : addressList){
+            if(item.getIs_default()==Boolean.TRUE) {
+                curAddress = item;
+                break;
+            }
+        }
+        return new CltAddress(curAddress, addressList);
     }
 
 

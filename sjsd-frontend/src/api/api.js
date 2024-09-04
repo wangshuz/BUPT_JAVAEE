@@ -88,12 +88,41 @@ export default {
    * 
    * 获取商家类型的选项列表。
    * 
+   * 
    * @returns {Promise} 包含商家类型选项列表的 Promise 对象
    */
   getMerchantTypes() {
     // 发送 GET 请求到 /api/merchant-types 端点
     return apiClient.get('/api/merchant-types');
   },
+
+  /**
+   * 获取商家详细信息
+   * 
+   * @param {number} merchantId - 商家的唯一标识符
+   * @returns {Promise} 包含商家详情
+   */
+  getMerchantDetails(merchantId){
+    return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`);
+  },
+
+  /**
+   * 获取特定商家的商品列表
+   * 
+   * @param {number} merchantId - 商家的唯一标识符
+   * @returns {Promise} 包含商家的所有商品
+   */
+  getProductClt(merchantId){
+    return apiClient.get(`/api/productClt?merchantId=${merchantId}`);
+  }
+
+  /* 
+  function().then(item=>{
+      item.data.data 为所需数据
+    })
+  */
+
+
 
 };
 
