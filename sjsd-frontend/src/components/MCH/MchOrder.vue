@@ -1007,14 +1007,19 @@ import api from '../../api/api.js';
                 this.tableData[this.dialogindex].orderstate = '5';
                 this.dialogVisible = false;
             },
-            initorderdetail(mchID)
-            {
-                
-            },
+            fetchOrders() {
+                api.getOrders()
+                .then(response => {
+                this.tableData = response.data;
+                })
+                .catch(error => {
+                console.error('获取订单列表时出错:', error);
+                });
+            }
+            
         },
         mounted() {
-            //mchID为当前商家ID
-            //initorderdetail(mchID)
+            
 
         },
         computed: {
