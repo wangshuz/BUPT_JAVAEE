@@ -1,20 +1,21 @@
 package buptworker.entity;
 
 public class MchOrderItem {
-    public String getPicture() {
-        return picture;
-    }
+//    {
+//            name: '六神清爽小火锅',
+//                    price: '198',
+//                num: '2'
+//        },
+//
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
+    private String name;//product_name
+    private String price;//price
+    private String num;//quantity
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public MchOrderItem(String name, String price, String num) {
         this.name = name;
+        this.price = price;
+        this.num = num;
     }
 
     public String getPrice() {
@@ -25,6 +26,14 @@ public class MchOrderItem {
         this.price = price;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getNum() {
         return num;
     }
@@ -33,10 +42,5 @@ public class MchOrderItem {
         this.num = num;
     }
 
-    private String picture;
-    private String name;
-    private String price;
-    private String num;
 
-    // Getters and Setters
 }

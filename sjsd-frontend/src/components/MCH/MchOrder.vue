@@ -330,7 +330,7 @@ import api from '../../api/api.js';
             return {
                 // tabs=======================================================================================================
                 activeName: 'first',
-                mchID:'',
+                mchId:'',
                 dialogVisible: false,
                 dialogindex:0,
                 date: '',
@@ -1008,18 +1008,39 @@ import api from '../../api/api.js';
                 this.dialogVisible = false;
             },
             fetchOrders() {
-                api.getOrders()
+                api.getOrders(this.mchId)
                 .then(response => {
-                this.tableData = response.data;
+                this.tableData = response.data.data;
                 })
                 .catch(error => {
                 console.error('获取订单列表时出错:', error);
                 });
+            },
+            changeOrderStatus(orderId, status) {
+                api.updateOrderStatus(orderId, status)
+                .then(response => {
+                console.log(response.data);
+                this.fetchOrders(); // 更新状态后重新获取订单列表
+                })
+                .catch(error => {
+                console.error('更新订单状态时出错:', error);
+                });
+            },
+            deleteOrder(orderId) {
+                api.deleteOrder(orderId)
+                .then(response => {
+                console.log(response.data);
+                this.fetchOrders(); // 删除订单后重新获取订单列表
+                })
+                .catch(error => {
+                console.error('删除订单时出错:', error);
+                });
             }
+
             
         },
         mounted() {
-            
+            fetchOrders()
 
         },
         computed: {
