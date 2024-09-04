@@ -34,7 +34,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="category" label="菜品分类" align="center" header-align="center"></el-table-column>
-        <el-table-column prop="price" label="售价" width="100" align="center" header-align="center"></el-table-column>
+        <el-table-column prop="price" label="售价" width="100" align="center" header-align="center">
+          <template slot-scope="scope">
+            ￥{{ scope.row.price.toFixed(2) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="status" label="售卖状态" align="center" header-align="center">
           <template slot-scope="scope">
             <el-tag :type="scope.row.status === '启售' ? 'success' : 'danger'">
@@ -74,102 +78,102 @@ export default {
             name: '霸王龙',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '汉堡包',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '停售',
           },
           {
             name: '张钧渭',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类2',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '高志强',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '谢又新',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类2',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '李欣妍',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类2',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '熊瑞',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥9999',
+            price: 1,
             status: '启售',
           },
           {
             name: '霸王龙',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '汉堡包',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '停售',
           },{
             name: '霸王龙',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '汉堡包',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '停售',
           },{
             name: '霸王龙',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '汉堡包',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '停售',
           },{
             name: '霸王龙',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '启售',
           },
           {
             name: '汉堡包',
             image: 'https://mlady.2liang.net/d/file/diet/xican/2016-07/a8155741c4044c99261ca963c1800922.jpg',
             category: '分类1',
-            price: '¥1',
+            price: 1,
             status: '停售',
           },
       ],
