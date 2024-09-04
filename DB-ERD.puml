@@ -1,0 +1,95 @@
+@startuml
+entity User {
+    *user_id : INT <<PK>>
+    username : VARCHAR(255)
+    password : VARCHAR(255)
+    profile_picture : VARCHAR(255)
+}
+
+entity Address {
+    *address_id : INT <<PK>>
+    user_id : INT <<FK>>
+    recipient_name : VARCHAR(255)
+    recipient_phone : VARCHAR(20)
+    address_line : VARCHAR(255)
+    is_default : BOOLEAN
+    is_deleted : BOOLEAN
+}
+
+entity Merchant_Type {
+    *type_id : INT <<PK>>
+    type_name : VARCHAR(255)
+}
+
+entity Merchant {
+    *merchant_id : INT <<PK>>
+    merchant_username : VARCHAR(255)
+    merchant_password : VARCHAR(255)
+    merchant_name : VARCHAR(255)
+    merchant_avatar : VARCHAR(255)
+    merchant_address : VARCHAR(255)
+    phone_number : VARCHAR(20)
+    opening_hours : VARCHAR(255)
+    type_id : INT <<FK>>
+    merchant_description : TEXT
+    is_open : BOOLEAN
+    delivery_fee : DECIMAL(10,2)
+    minimum_order_amount : DECIMAL(10,2)
+    packaging_fee_per_item : DECIMAL(10,2)
+}
+
+entity Product_Category {
+    *category_id : INT <<PK>>
+    merchant_id : INT <<FK>>
+    category_name : VARCHAR(255)
+    is_deleted : BOOLEAN
+}
+
+entity Product {
+    *product_id : INT <<PK>>
+    merchant_id : INT <<FK>>
+    category_id : INT <<FK>>
+    imageUrl : VARCHAR(255)
+    product_name : VARCHAR(255)
+    price : DECIMAL(10,2)
+    description : TEXT
+    available : BOOLEAN
+    is_deleted : BOOLEAN
+}
+
+entity Orders {
+    *order_id : INT <<PK>>
+    merchant_id : INT <<FK>>
+    user_id : INT <<FK>>
+    address_id : INT <<FK>>
+    order_date : DATETIME
+    estimated_delivery_time : DATETIME
+    actual_delivery_time : DATETIME
+    payment_method : VARCHAR(50)
+    packaging_fee : DECIMAL(10,2)
+    delivery_fee : DECIMAL(10,2)
+    order_status : VARCHAR(50)
+    notes : TEXT
+    is_deleted_by_user : BOOLEAN
+    is_deleted_by_merchant : BOOLEAN
+    total_amount : DECIMAL(10,2)
+}
+
+entity Order_Item {
+    *order_item_id : INT <<PK>>
+    order_id : INT <<FK>>
+    product_id : INT <<FK>>
+    quantity : INT
+}
+
+User ||--o{ Address : "has"
+Merchant_Type ||--o{ Merchant : "has"
+Merchant ||--o{ Product_Category : "has"
+Merchant ||--o{ Product : "offers"
+Product_Category ||--o{ Product : "categorizes"
+User ||--o{ Orders : "places"
+Merchant ||--o{ Orders : "receives"
+Orders ||--o{ Order_Item : "contains"
+Product ||--o{ Order_Item : "is part of"
+Address ||--o{ Orders : "delivers to"
+@enduml
