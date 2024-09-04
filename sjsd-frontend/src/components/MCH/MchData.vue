@@ -29,7 +29,7 @@
 
       <div class="stat-card">
         <div class="stat-info">
-          <h3>单品销量</h3>
+          <h3>商品销量</h3>
         </div>
         <div class="stat-chart" id="barChart1"></div>
       </div>
