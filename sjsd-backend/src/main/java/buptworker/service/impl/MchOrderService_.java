@@ -155,4 +155,16 @@ public class MchOrderService_ implements MchOrderService {
         }
         return mchOrders;
     }
+
+    @Override
+    public void updateOrderStatus(String mchId, String status)
+    {
+        mchOrderMapper.updateOrderStatus(mchId, status);
+    }
+
+    @Override
+    public void deleteMchOrder(String mchId)
+    {
+        mchOrderMapper.updateIsDeleted(mchId);
+    }
 }
