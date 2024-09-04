@@ -79,15 +79,15 @@
     <el-dialog :visible.sync="showCart" width="50%" :modal-append-to-body="true" custom-class="cart-dialog">
       <!-- 地址选择区域 -->
       <div class="address-section">
-        <p>收货地址: {{current_address.address}}</p>
-        <p>收货人：{{current_address.name}}</p>
-        <p>联系电话：{{current_address.phone}}</p>
-        <el-select v-model="current_address" placeholder="请选择地址" style="width:100%">
+        <p>收货地址: {{addressList.find(address => address.id === current_addressID)?.address}}</p>
+        <p>收货人：{{addressList.find(address => address.id === current_addressID)?.name}}</p>
+        <p>联系电话：{{addressList.find(address => address.id === current_addressID)?.phone}}</p>
+        <el-select v-model="current_addressID" placeholder="请选择地址" style="width:100%">
           <el-option
             v-for="address in addressList"
             :key="address.id"
             :label="`${address.address} - ${address.name} - ${address.phone}`"
-            :value="address"
+            :value="address.id"
           />
         </el-select>
       </div>
@@ -228,30 +228,30 @@
           { id: 29, name: '霸王龙29', price: 99.99, image: require('../../assets/images/test/testPicture.png'), category_id: 10004, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
           { id: 30, name: '霸王龙30', price: 99.99, image: require('../../assets/images/test/testPicture.png'), category_id: 10005, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
         ],
-        current_address:{
-          // id: 1,
-          // name: '张三',
-          // phone: '12345678901',
-          // address: '广东省广州市天河区华南理工大学'
-        },
+        
+        current_addressID:null,
+        
         addressList:[
           {
             id:1,
             name: '张三',
             phone: '12345678901',
-            address: '广东省广州市天河区华南理工大学'
+            address: '广东省广州市天河区华南理工大学',
+            is_default: true
           },
           {
             id:2,
             name: '李四',
             phone: '12345678901',
-            address: '广东省广州市天河区华南理工大学'
+            address: '广东省广州市天河区华南理工大学',
+            is_default: false
           },
           {
             id:3,
             name: '王五',
             phone: '12345678901',
-            address: '广东省广州市天河区华南理工大学'
+            address: '广东省广州市天河区华南理工大学',
+            is_default: false
           },
         ],
       };
@@ -285,7 +285,7 @@
       },
       disableSubmitButton()
       {
-        return this.cartTotal < this.minimum_order_amount || this.current_address.id==null;
+        return this.cartTotal < this.minimum_order_amount || this.current_addressID==null;
       }
     },
     created() {

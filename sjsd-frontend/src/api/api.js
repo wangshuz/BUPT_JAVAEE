@@ -84,6 +84,15 @@ export default {
   },
 
   /**
+   * 获取商家简介信息
+   * 
+   * @returns {Promise} 包含商家简介信息的 List
+   */
+  getMerchantIntro(){
+    return apiClient.get(`/api/merchant-intros`)
+  },
+
+  /**
    * 获取商家类型选项
    * 
    * 获取商家类型的选项列表。
@@ -93,7 +102,7 @@ export default {
    */
   getMerchantTypes() {
     // 发送 GET 请求到 /api/merchant-types 端点
-    return apiClient.get('/api/merchant-types');
+    return apiClient.get(`/api/merchant-types`);
   },
 
   /**
@@ -114,6 +123,27 @@ export default {
    */
   getProductClt(merchantId){
     return apiClient.get(`/api/productClt?merchantId=${merchantId}`);
+  },
+
+  /**
+   * 获取特定商家的商品分类
+   * 
+   * @param {number} merchantId
+   * @returns {Promise} 包含所有分类列表
+   */
+  getProType(merchantId){
+    return apiClient.get(`/api/proType?merchantId=${merchantId}`)
+  },
+
+
+  /**
+   * 获取用户地址
+   * 
+   * @param {number} cltId - 用户唯一标识符
+   * @returns {Promise} 包含默认地址和全部地址列表
+   */
+  getCltAddress(cltId){
+    return apiClient.get(`/api/cltAddress?cltId=${cltId}`);
   }
 
   /* 
