@@ -18,13 +18,13 @@ import buptworker.service.MerchantService;
  * User和 Merchant除了 controller其他类都还没写,等白天再实现，我把 cookie的部分写一下
  * 另外,我咋觉得一个 controller就够了?controller要分吗
  *
- * 关于cookie：
+ * 关于 cookie：
  * 登录时,后端会生成sessionID保存cookie中，同时服务器也存储了 sessionID和对应的用户 ID和用户类型
  * 生成的 cookie将包含在 respond中,浏览器会自动保存，并在该根网址下所有http请求中自动发送该 cookie
  * 后端处理每个请求时，都先调用 getSessionDataFromRequest来获取 ID和 type
  * 前端不需要再做修改,登录后所有请求后端都知道你的用户 id和身份类型, get数据时不需要主动发送 id
  *
- * 关于post请求处理：
+ * 关于 post请求处理：
  * 对于大多数需要处理 JSON 格式请求体的 POST 请求，通常我们会创建一个 Java 类来表示该请求的数据结构。
  * 在 Spring Boot 中，使用 @RequestBody 注解时，Spring 会将 JSON 请求体自动转换为 Java 对象，
  * 因此需要有对应的类来接收和处理这些数据。不过，并不是所有的 POST 请求都必须定义一个类。
@@ -58,10 +58,8 @@ public class LoginController {
             response.addCookie(cookie);
 
             map.put("status",true);
-            map.put("name", user.getName());
         } else {
             map.put("status",false);
-            map.put("name","");
         }
         return map;
     }
