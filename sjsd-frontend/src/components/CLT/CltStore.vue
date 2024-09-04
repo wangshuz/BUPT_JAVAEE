@@ -4,7 +4,7 @@
   <div class="container">
     <!-- 左边占位块和分类栏 -->
     <div style="width: 300px;"></div>
-    <side-bar :listData="listData" />
+    <side-bar :listData="listData" @scrollTo="scrollToCategory"/>
     <!-- 右边部分 -->
     <div class="right-container">
       <!-- 商家详情板块 -->
@@ -77,15 +77,44 @@
     </el-button>
     <!-- 购物车弹窗 -->
     <el-dialog :visible.sync="showCart" width="50%" :modal-append-to-body="true" custom-class="cart-dialog">
+      <!-- 地址选择区域 -->
+      <div class="address-section">
+        <p>收货地址: {{current_address.address}}</p>
+        <p>收货人：{{current_address.name}}</p>
+        <p>联系电话：{{current_address.phone}}</p>
+        <el-select v-model="current_address" placeholder="请选择地址" style="width:100%">
+          <el-option
+            v-for="address in addressList"
+            :key="address.id"
+            :label="`${address.address} - ${address.name} - ${address.phone}`"
+            :value="address"
+          />
+        </el-select>
+      </div>
+      <!-- 购物车内容 -->
       <div class="cart-content">
+        <!-- 商品条目 -->
         <div v-for="item in cartItems" :key="item.id" class="cart-item">
           <img :src="item.image" alt="Cart Item">
           <p>{{ item.name }} - {{ item.price }} x {{ item.quantity }}</p>
         </div>
-        <p>总计: ¥{{ cartTotal }}</p>
+        <!-- 费用部分 -->
+        <p>打包费：¥{{ packaging_fee }}</p>
+        <p>配送费：¥{{ delivery_fee }}</p>
+        <p>总计: ¥{{ total_amount }}</p>
+        <!-- 备注区域 -->
+        <div class="remark-section">
+          <el-input 
+            type="textarea" 
+            v-model="remark" 
+            placeholder="添加订单备注"
+            rows="3"
+          ></el-input>
+        </div>
+        <!-- 购物车按钮 -->
         <div class="cart-buttons">
           <el-button @click="clearCart">清空购物车</el-button>
-          <el-button @click="submitOrder">提交订单</el-button>
+          <el-button @click="submitOrder" :disabled="cartTotal < minimum_order_amount">提交订单</el-button>
         </div>
       </div>
     </el-dialog>
@@ -110,7 +139,7 @@
     components: { SideBar },
     data() {
       return {
-        merchant_id: 1,
+        merchantID: 1,
         avatarURL:require('../../assets/images/test/testPicture.png'),
         merchant_name: "爆款饮品店",
         type_name:"快餐便当",
@@ -121,6 +150,7 @@
         phone_number: "12345678910",
         merchant_address: "北京市海淀区北京邮电大学12345号",
         merchant_description: "此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介此处为商家简介",
+        remark: "",
         isExpanded: false,
         showCart: false,
         selectedProduct:{},
@@ -130,28 +160,36 @@
               "id":10001,
               "typeName":"分类1",
               "cb":function(){
-                  alert("分类1");
-              },
+                    this.$emit('scrollTo',10001);
+                  },
           },
           {
               "id":10002,
               "typeName":"分类2",
-              "cb":function(){},
+              "cb":function(){
+                    this.$emit('scrollTo',10002);
+                  },
           },
           {
               "id":10003,
               "typeName":"分类3",
-              "cb":function(){},
+              "cb":function(){
+                    this.$emit('scrollTo',10003);
+                  },
           },
           {
               "id":10004,
               "typeName":"分类4",
-              "cb":function(){},
+              "cb":function(){
+                    this.$emit('scrollTo',10004);
+                  },
           },
           {
               "id":10005,
               "typeName":"分类5",
-              "cb":function(){},
+              "cb":function(){
+                    this.$emit('scrollTo',10005);
+                  },
           },
         ],
         products:[
@@ -186,6 +224,28 @@
           { id: 29, name: '霸王龙29', price: 99.99, image: require('../../assets/images/test/testPicture.png'), category_id: 10004, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
           { id: 30, name: '霸王龙30', price: 99.99, image: require('../../assets/images/test/testPicture.png'), category_id: 10005, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
         ],
+        current_address:{
+          name: '张三',
+          phone: '12345678901',
+          address: '广东省广州市天河区华南理工大学'
+        },
+        addressList:[
+          {
+            name: '张三',
+            phone: '12345678901',
+            address: '广东省广州市天河区华南理工大学'
+          },
+          {
+            name: '李四',
+            phone: '12345678901',
+            address: '广东省广州市天河区华南理工大学'
+          },
+          {
+            name: '王五',
+            phone: '12345678901',
+            address: '广东省广州市天河区华南理工大学'
+          },
+        ],
       };
     },
     computed: {
@@ -207,16 +267,24 @@
         return (category_id) => {
           return this.products.filter(product => product.category_id === category_id);
         };
+      },
+      packaging_fee(){
+        return Number(this.packaging_fee_per_item) * this.cartCount;
+      },
+      total_amount(){
+        // return this.cartTotal + this.delivery_fee + this.packaging_fee_per_item * this.cartCount;
+        return Number(this.cartTotal) + Number(this.delivery_fee) + this.packaging_fee;
       }
     },
     created() {
       console.log('Component created');
       // 在实例创建完成后调用，此时，数据观测已完成，属性和方法也已被初始化，但 DOM 还未生成或挂载。
       // 可以在这里进行数据的初始化，如 API 请求
-      if(this.$route.params.id!=this.merchant_id){
+      // this.merchantID = this.$route.params.id;
+      if(this.merchantID!=this.merchant_id){
         this.clearCart();
       }
-      this.setMerchantID(this.$route.params.id);
+      this.setMerchantID(this.merchantID);
     },
     mounted() {
       console.log('Component mounted');
@@ -236,6 +304,10 @@
         // 提交订单的逻辑
       },
       ...mapMutations(['setMerchantID','addToCart', 'removeFromCart', 'clearCart']),
+      scrollToCategory(category_id){
+        const element = this.$refs['category-' + category_id][0]; // 注意：如果是v-for生成的ref是数组
+        element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+      },
     }
   };
 </script>
@@ -384,6 +456,17 @@
   .cart-dialog {
   backdrop-filter: blur(50px);
   }
+  .address-section {
+    margin-bottom: 0;
+  }
+  .address-section p {
+    margin-top: 0;
+  }
+
+  .remark-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
   .cart-buttons,
   .cart-item{
     display: flex;
@@ -409,9 +492,6 @@
 </style>
 
 <!--
-购物车total计算
-地址
-备注
 导航跳转
 搜索框
 网络请求数据
