@@ -142,12 +142,11 @@
 
         <el-form-item label="商家头像" :label-width="formLabelWidth">
           <el-upload
-            class="avatar-uploader"
-            action=""
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-            :on-change="uploadAvatar"
+          class="avatar-uploader"
+  :action="uploadUrl"
+  :show-file-list="false"
+  :on-success="handleAvatarSuccess"
+  :before-upload="beforeAvatarUpload"
           >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -245,12 +244,13 @@
 </template>
 
 <script>
+import { mapState } from '@/store/index';
 import api from "@/api/api"; // 请根据实际文件路径替换
 
 export default {
   data() {
     return {
-      merchant_id: "", // 假设从其他地方传入或计算出来
+      //merchant_id: 12345, // 假设从其他地方传入或计算出来
       merchant_name: "XX快餐",
       phone_number: "1234567890",
       merchant_address: "XX街道XX号",
@@ -291,36 +291,45 @@ export default {
       imageUrl: "",
     };
   },
+  computed: {
+    ...mapState(['merchant_id']), // 从 Vuex 中映射 merchant_id
+  },
   methods: {
     async fetchMerchantDetails() {
-      try {
-        const response = await api.getMerchantDetails(this.merchant_id);
-        if (response.data) {
-          const data = response.data;
-          // 如果数据存在，初始化商家信息
-          this.merchant_name = data.merchant_name || "";
-          this.phone_number = data.phone_number || "";
-          this.merchant_address = data.merchant_address || "";
-          this.business_type = data.business_type || "";
-          this.is_open = data.is_open || false;
-          this.opening_hours = {
-            start: data.opening_hours ? data.opening_hours.split("-")[0] : "",
-            end: data.opening_hours ? data.opening_hours.split("-")[1] : "",
-          };
-          this.merchant_description = data.merchant_description || "";
-          this.delivery_fee = data.delivery_fee || 0;
-          this.minimum_order_amount = data.minimum_order_amount || 0;
-          this.packaging_fee_per_item = data.packaging_fee_per_item || 0;
-          this.imageUrl = data.image_url || "";
-        } else {
-          // 如果没有数据，表示这是第一次登录，保持所有信息为空或默认值
-          console.log("商家信息为空，可能是首次登录");
-        }
-      } catch (error) {
-        console.error("获取商家信息失败:", error);
-        this.$message.error("获取商家信息失败，请稍后重试。");
-      }
+  try {
+    const response = await api.getMerchantDetails(this.merchant_id);
+    console.log("Response data:", response.data); // 调试用，检查响应数据
+    if (response.data) {
+      const data = response.data;
+      // 初始化商家信息
+      this.merchant_name = data.merchant_name || "";
+      this.phone_number = data.phone_number || "";
+      this.merchant_address = data.merchant_address || "";
+      this.business_type = data.business_type || "";
+      this.is_open = data.is_open || false;
+      this.opening_hours = {
+        start: data.opening_hours ? data.opening_hours.split("-")[0] : "",
+        end: data.opening_hours ? data.opening_hours.split("-")[1] : "",
+      };
+      this.merchant_description = data.merchant_description || "";
+      this.delivery_fee = data.delivery_fee || 0;
+      this.minimum_order_amount = data.minimum_order_amount || 0;
+      this.packaging_fee_per_item = data.packaging_fee_per_item || 0;
+      this.imageUrl = data.image_url || "";
+    } else {
+      console.log("商家信息为空，可能是首次登录");
+    }
+  } catch (error) {
+    console.error("获取商家信息失败:", error); // 打印完整的错误信息
+    if (error.response) {
+      console.error("Error response data:", error.response.data);
+      console.error("Error response status:", error.response.status);
+      console.error("Error response headers:", error.response.headers);
+    }
+    this.$message.error("获取商家信息失败，请稍后重试。");
+  }
     },
+
 
     async updateMerchantDetails() {
       try {
@@ -395,8 +404,15 @@ export default {
     },
   },
   mounted() {
-    this.fetchMerchantDetails(); // 在组件加载时获取商家信息
-    this.fetchBusinessTypeOptions(); // 获取商家类型选项
+    // 在 mounted 中调用方法时，merchant_id 已经从 Vuex 中获取
+    if (this.merchant_id) {
+      this.uploadUrl = `/api/merchant/${this.merchant_id}/avatar`;
+      this.fetchMerchantDetails(); // 获取商家信息
+      this.fetchBusinessTypeOptions(); // 获取商家类型选项
+    } else {
+      console.error("merchant_id 未定义，请确保已登录并获取 merchant_id");
+      this.$message.error("商家未登录或 merchant_id 未定义");
+    }
   },
 };
 </script>
