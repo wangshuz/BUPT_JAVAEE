@@ -76,6 +76,9 @@ export default {
         };
     
     },
+    created: {
+
+    },
     methods: {
         changeLabel(label)
         {
