@@ -45,4 +45,5 @@ public class ProductController {
     public Result cltAddress(int cltId){
         return Result.success(productService.getCltAddress(cltId));
     }
+
 }

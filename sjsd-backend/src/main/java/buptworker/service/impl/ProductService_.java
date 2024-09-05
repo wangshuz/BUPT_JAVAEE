@@ -28,8 +28,10 @@ public class ProductService_ implements ProductService {
         List<ProductClt> ret = new ArrayList<ProductClt>();
         List<Product> products = productMapper.listProduct(merchantId);
         products.stream().forEach(item->{
-            ProductClt t = new ProductClt(item);
-            ret.add(t);
+            if(item.getStatus()==Boolean.TRUE) {
+                ProductClt t = new ProductClt(item);
+                ret.add(t);
+            }
         });
         return ret;
     }
@@ -61,6 +63,8 @@ public class ProductService_ implements ProductService {
         }
         return new CltAddress(curAddress, addressList);
     }
+
+
 
 
 }

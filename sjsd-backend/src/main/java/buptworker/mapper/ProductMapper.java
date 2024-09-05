@@ -15,8 +15,7 @@ public interface ProductMapper {
             "JOIN product_category pc ON p.category_id = pc.category_id " +
             "WHERE p.merchant_id = #{merchantId} " +
             "AND p.is_deleted = 0 " +
-            "AND pc.is_deleted = 0 " +
-            "AND p.available = TRUE")
+            "AND pc.is_deleted = 0 ")
     public List<Product> listProduct(@Param("merchantId") int merchantId);
 
     @Select("SELECT m.merchant_id AS merchantID, " +
@@ -44,4 +43,7 @@ public interface ProductMapper {
             "FROM Address a " +
             "WHERE a.user_id = #{CltId}")
     public List<Address> listAddress(@Param("CltId") int cltId);
+
+
+
 }
