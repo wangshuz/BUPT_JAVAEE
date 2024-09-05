@@ -34,7 +34,7 @@ public interface ProductMapper {
             "WHERE m.merchant_id = #{merchantId}")
     public Merchant getMerchant(@Param("merchantId") int merchantId);
 
-    @Select("SELECT category_id AS typeId, category_name AS typeName "+
+    @Select("SELECT category_id AS category_id, category_name AS category_name "+
             "FROM product_category p "+
             "WHERE p.merchant_id=#{merchantId}")
     public List<ProType> listProType(@Param("merchantId") int merchantId);

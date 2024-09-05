@@ -114,28 +114,27 @@ export default {
    * @returns {Promise} Promise 
    */
   async getProductMch(){
-    return apiClient.Client.get(`/api/productMch`)
+    return apiClient.get(`/api/productMch`)
   },
 
 
   /**
    * 获取特定商家的商品列表(用户端)
    * 
-   * @param {number} merchantId - 商家的唯一标识符
+   * @param {number} merchantId - 商家的唯一标识符z
    * @returns {Promise} 包含商家的所有商品
    */
-  async getProductClt(merchantId){
+  async getProductClt(){
     return apiClient.get(`/api/productClt?merchantId=${merchantId}`);
   },
 
   /**
    * 获取特定商家的商品分类
    * 
-   * @param {number} merchantId
    * @returns {Promise} 包含所有分类列表
    */
-  async getProType(merchantId){
-    return apiClient.get(`/api/proType?merchantId=${merchantId}`)
+  async getProType(){
+    return apiClient.get(`/api/proType`)
   },
 
 
@@ -198,41 +197,39 @@ export default {
 
   /**
    * 获取商家数据（首页）
-   * @param {number} merchantId
+   *
    * @returns {Promise} Promise
    */
-  async getCurData(merchantId){
-    return apiClient.get(`/api/curData?merchantId=${merchantId}`)
+  async getCurData(){
+    return apiClient.get(`/api/curData`)
   },
 
   /**
    * 获取商家订单数据（首页）
    * 
-   * @param {number} merchantId
+   * 
    * @returns {Promise} Promise
    */
-  async getMonthlyOrderStats(merchantId){
-    return apiClient.get(`/api/monthlyOrderStats?merchantId=${merchantId}`)
+  async getMonthlyOrderStats(){
+    return apiClient.get(`/api/monthlyOrderStats`)
   },
 
   /**
    * 获取商家菜品数据（首页）
    * 
-   * @param {number} merchantId
    * @returns {Promise} Promise
    */
-  async getProdStats(merchantId){
-    return apiClient.get(`/api/prodStats?merchantId=${merchantId}`)
+  async getProdStats(){
+    return apiClient.get(`/api/prodStats`)
   },
 
   /**
    * 获取商家信息（首页）
    * 
-   * @param {number} merchantId
    * @returns {PromiseM} Promise
    */
-  async getMerchantInfo(merchantId){
-    return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`)
+  async getMerchantInfo(){
+    return apiClient.get(`/api/merchantInfo`)
   },
 
   async changeCltOrderRealtime(orderId, time){

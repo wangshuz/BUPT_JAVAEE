@@ -21,26 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api")
 public class MchDataController {
+    private Integer merchantId = 1;
     @Autowired
     private MchDataService mchDataService;
     @RequestMapping("/salesData")
-    public Result listSalesData(int merchantId){
+    public Result listSalesData(){
         return Result.success(mchDataService.listSalesData(merchantId));
     }
     @RequestMapping("/curData")
-    public Result curData(int merchantId){
+    public Result curData(){
         return Result.success(mchDataService.getCurData(merchantId));
     }
     @RequestMapping("/merchantInfo")
-    public Result merchantInfo(int merchantId){
+    public Result merchantInfo(){
         return Result.success(mchDataService.getMerchantInfo(merchantId));
     }
     @RequestMapping("/prodStats")
-    public Result prodStats(int merchantId){
+    public Result prodStats(){
         return Result.success(mchDataService.getProdStats(merchantId));
     }
     @RequestMapping("monthlyOrderStats")
-    public Result getMonthlyOrderStats(int merchantId){
+    public Result getMonthlyOrderStats(){
         return Result.success(mchDataService.getMonthlyOrderStats(merchantId));
     }
 

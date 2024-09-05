@@ -3,6 +3,7 @@ package buptworker.controller;
 import buptworker.entity.Result;
 import buptworker.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,33 +18,35 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api")
 public class ProductController {
-
+    private Integer merchantId = 1; // 测试数据
+    private Integer cltId = 1;  // 测试数据
     @Autowired
     private ProductService productService;
     @RequestMapping("/productClt")
-    public Result productClt(int merchantId){
+    public Result productClt(){
         return Result.success(productService.listProductClt(merchantId));
     }
 
     @RequestMapping("/productMch")
-    public Result productMch(int merchantId){
+    public Result productMch(){
         return Result.success(productService.listProductMch(merchantId));
     }
 
     @RequestMapping("/mchInfo")
-    public Result mchInfo(int merchantId){
+    public Result mchInfo(){
         return Result.success(productService.getMerchant(merchantId));
     }
 
     @RequestMapping("/proType")
-    public Result proType(int merchantId) {
+    public Result proType() {
         return Result.success(productService.listProType(merchantId));
     }
 
     @RequestMapping("/cltAddress")
-    public Result cltAddress(int cltId){
+    public Result cltAddress(){
         return Result.success(productService.getCltAddress(cltId));
     }
 

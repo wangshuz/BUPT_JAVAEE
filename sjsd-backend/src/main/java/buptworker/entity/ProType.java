@@ -12,35 +12,33 @@ package buptworker.entity;
 
 
 public class ProType {
-    private Integer typeId;
-    private String typeName;
+    private Integer category_id;
+    private String category_name;
 
-    public ProType(Integer typeId, String typeName) {
-        this.typeId = typeId;
-        this.typeName = typeName;
+    public ProType() {
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getCategory_id() {
+        return category_id;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setCategory_id(Integer category_id) {
+        this.category_id = category_id;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getCategory_name() {
+        return category_name;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
     }
 
     @Override
     public String toString() {
-        return "MchType{" +
-                "typeId=" + typeId +
-                ", typeName='" + typeName + '\'' +
+        return "ProType{" +
+                "category_id=" + category_id +
+                ", category_name='" + category_name + '\'' +
                 '}';
     }
 }

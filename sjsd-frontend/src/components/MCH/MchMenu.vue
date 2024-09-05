@@ -8,15 +8,15 @@
           <!-- 遍历 categoryList 生成 el-option -->
           <el-option
             v-for="category in categoryList"
-            :key="category.categoryID"
-            :label="category.categoryName"
-            :value="category.categoryID"
+            :key="category.typeId"
+            :label="category.typeName"
+            :value="category.typeId"
           ></el-option>
       </el-select>
       <el-select v-model="selectedStatus" placeholder="请选择状态" class="flex-item" clearable>
           <el-option label="全部" value=""></el-option>
-          <el-option label="启售" :value = "true" ></el-option>
-          <el-option label="停售" :value = "false" ></el-option>
+          <el-option label="启售" :value="true"></el-option>
+          <el-option label="停售" :value="false"></el-option>
       </el-select>
       <!-- 按钮 -->
       <el-button type="danger" @click="deleteSelected">删除</el-button>
@@ -26,6 +26,7 @@
 
     <!-- 表格 -->
     <el-table
+      v-if="categoryList.length > 0 && products.length > 0"
       :data="filteredProducts"
       style="width: 100%;"
       height="550"
@@ -40,7 +41,7 @@
       </el-table-column>
       <el-table-column label="菜品分类" align="center" header-align="center">
         <template slot-scope="scope">
-          {{categoryList.find(item => item.categoryID === scope.row.categoryID).categoryName}}
+          {{categoryList.find(item => item.typeId === scope.row.typeId).typeName}}
         </template>
       </el-table-column>
       <el-table-column label="售价" width="100" align="center" header-align="center">
@@ -70,6 +71,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <!-- 新增/修改菜品弹窗 -->
     <el-dialog
       title="菜品管理"
@@ -81,16 +83,17 @@
         <el-form-item label="菜品名称" prop="name">
           <el-input v-model="productForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="菜品分类" prop="categoryID">
-          <el-select v-model="productForm.categoryID" placeholder="请选择分类">
+        <el-form-item label="菜品分类" prop="typeId">
+          <el-select v-model="productForm.typeId" placeholder="请选择分类">
             <el-option
               v-for="category in categoryList"
-              :key="category.categoryID"
-              :label="category.categoryName"
-              :value="category.categoryID"
+              :key="category.typeId"
+              :label="category.typeName"
+              :value="category.typeId"
             ></el-option>
           </el-select>
         </el-form-item>
+
         <el-form-item label="售价" prop="price">
           <el-input v-model="productForm.price"></el-input>
         </el-form-item>
@@ -106,6 +109,7 @@
         <el-button type="primary" @click="submitProductForm">确认</el-button>
       </div>
     </el-dialog>
+
     <!-- 新增分类弹窗 -->
     <el-dialog
       title="新增分类"
@@ -126,6 +130,8 @@
 </template>
 
 <script>
+import api from '../../api/api.js';
+
 export default {
   data() {
     return {
@@ -140,32 +146,29 @@ export default {
       productForm: {
         id: null,
         name: '',
-        categoryID: '',
+        typeId: '',
         price: null,
         image: '',
         description: '',
       },
       rules: {
         name: [{ required: true, message: '请输入菜品名称', trigger: 'blur' }],
-        categoryID: [{ required: true, message: '请选择菜品分类', trigger: 'change' }],
+        typeId: [{ required: true, message: '请选择菜品分类', trigger: 'change' }],
         price: [{ required: true, message: '请输入菜品价格', trigger: 'blur' }],
         image: [{ required: true, message: '请输入菜品图片地址', trigger: 'blur' }],
         description: [{ required: true, message: '请输入菜品简介', trigger: 'blur' }],
       },
-
-
-
       categoryList:[
         {
-          categoryID:10001,
+          categoryID:1,
           categoryName:'分类1'
         },
         {
-          categoryID:10002,
+          categoryID:2,
           categoryName:'分类2'
         },
         {
-          categoryID:10003,
+          categoryID:3,
           categoryName:'分类3'
         },
         {
@@ -177,47 +180,34 @@ export default {
           categoryName:'分类5'
         },
       ],
-      products: [
-        // 模拟数据
-        { id: 1, name: '霸王龙1', price: 99.99, image: require('../../assets/images/test/testPicture.png'),   categoryID: 10001, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 2, name: '霸王龙2', price: 9.99, image: require('../../assets/images/test/testPicture.png'),    categoryID: 10002, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 3, name: '霸王龙3', price: 999.9, image: require('../../assets/images/test/testPicture.png'),   categoryID: 10003, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 4, name: '霸王龙4', price: 99.99, image: require('../../assets/images/test/testPicture.png'),   categoryID: 10004, status:false, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 5, name: '霸王龙5', price: 99.99, image: require('../../assets/images/test/testPicture.png'),   categoryID: 10005, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 6, name: '霸王龙6', price: 99.99, image: require('../../assets/images/test/testPicture.png'),   categoryID: 10001, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 7, name: '霸王龙7', price: 99.99, image: require('../../assets/images/test/testPicture.png'),   categoryID: 10002, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 8, name: '霸王龙8', price: 99.99, image: require('../../assets/images/test/testPicture.png'),   categoryID: 10003, status:false, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 9, name: '霸王龙9', price: 99.99, image: require('../../assets/images/test/testPicture.png'),   categoryID: 10004, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 10, name: '霸王龙10', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10005, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 11, name: '霸王龙11', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10001, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 12, name: '霸王龙12', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10002, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 13, name: '霸王龙13', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10003, status:false, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 14, name: '霸王龙14', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10004, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 15, name: '霸王龙15', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10005, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 16, name: '霸王龙16', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10001, status:false, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 17, name: '霸王龙17', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10002, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 18, name: '霸王龙18', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10003, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 19, name: '霸王龙19', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10004, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 20, name: '霸王龙20', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10005, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 21, name: '霸王龙21', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10001, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 22, name: '霸王龙22', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10002, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 23, name: '霸王龙23', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10003, status:false, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 24, name: '霸王龙24', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10004, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 25, name: '霸王龙25', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10005, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 26, name: '霸王龙26', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10001, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 27, name: '霸王龙27', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10002, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 28, name: '霸王龙28', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10003, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 29, name: '霸王龙29', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10004, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-        { id: 30, name: '霸王龙30', price: 99.99, image: require('../../assets/images/test/testPicture.png'), categoryID: 10005, status:true, description: '此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介此处为商品简介' },
-      ],
+
+      // categoryList:[],
+      products: [],
     };
   },
+
+  async created(){
+
+    try {
+      // const categoryResponse = await api.getProType();
+      // this.categoryList = categoryResponse.data.data;
+
+      const productResponse = await api.getProductMch();
+      this.products = productResponse.data.data;
+    } catch (error) {
+      console.error('获取数据失败', error);
+    }
+
+  },
+
+
+
   computed: {
     filteredProducts() {
       return this.products.filter(product => {
         return (
           (this.searchName === '' || product.name.includes(this.searchName)) &&
-          (this.selectedCategory === '' || product.categoryID === this.selectedCategory) &&
+          (this.selectedCategory === '' || product.typeId === this.selectedCategory) &&
           (this.selectedStatus === '' || product.status === this.selectedStatus)
         );
       });
@@ -277,7 +267,7 @@ export default {
       this.productForm = {
         id: null,
         name: '',
-        categoryID: '',
+        typeId: '',
         price: null,
         image: '',
         description: '',
@@ -285,7 +275,7 @@ export default {
     },
     submitAddCategory(){
       // 检查分类列表中是否有重名
-      const isDuplicate = this.categoryList.some(category => category.categoryName === this.addCategoryInput);
+      const isDuplicate = this.categoryList.some(category => category.typeName === this.addCategoryInput);
       if (isDuplicate) {
         this.$message.error('分类已存在');
         return;
@@ -328,15 +318,9 @@ export default {
   align-items: right;
 }
 
-
 .product-image {
   width: 50px;
   height: 50px;
   object-fit: cover;
 }
 </style>
-
-
-<!--
-网络请求
--->
