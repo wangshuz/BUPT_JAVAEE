@@ -17,8 +17,8 @@ import axios from 'axios';
 //   }
 // });
 const apiClient = axios.create({
-  // baseURL:'http://localhost:8080/', // 根据你的后端服务地址调整
-  // timeout: 10000, // 请求超时时间
+   baseURL:'http://localhost:8081/', // 根据你的后端服务地址调整
+   timeout: 10000, // 请求超时时间
   // headers: {
   //   'Content-Type': 'multipart/form-data'
   // }
@@ -28,6 +28,7 @@ const apiClient = axios.create({
  * 
  * 这里只包含一个示例方法，用于获取商品列表。
  */
+
 export default {
   /**
    * 获取商品列表
@@ -41,6 +42,8 @@ export default {
 //     // 发送 GET 请求到 /items 端点
 //     return apiClient.get('/items');
 //   }
+
+
   /**
    * 获取商家信息
    * 
@@ -86,9 +89,6 @@ export default {
     });
   },
 
-
-
-
   /**
    * 获取商家简介信息
    * 
@@ -111,15 +111,6 @@ export default {
     return apiClient.get(`/api/merchant-types`);
   },
 
-  /**
-   * 获取商家详细信息
-   * 
-   * @param {number} merchantId - 商家的唯一标识符
-   * @returns {Promise} 包含商家详情
-   */
-  getMerchantDetails(merchantId){
-    return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`);
-  },
 
   /**
    * 获取特定商家的商品列表
