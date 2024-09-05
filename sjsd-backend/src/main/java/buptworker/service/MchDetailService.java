@@ -15,8 +15,12 @@ public class MchDetailService {
     private MchDetailMapper mchdetailMapper;
 
     public Merchant getMerchantById(int merchantID) {
-        return mchdetailMapper.getMerchantById(merchantID);
+//        return mchdetailMapper.getMerchantById(merchantID);
+        Merchant merchant = mchdetailMapper.getMerchantById(merchantID);
+        System.out.println(merchant);
+        return merchant;
     }
+
 
     public boolean updateMerchant(Merchant merchant) {
         return mchdetailMapper.updateMerchant(merchant) > 0;
