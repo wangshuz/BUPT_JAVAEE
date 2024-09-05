@@ -21,25 +21,25 @@ export default {
   // 商家登录
   // 返回code: 1:登录成功 2:密码错误或用户不存在
   async loginMerchant(username, password) {
-    return await apiClient.post('/merchants/login', { username, password });
+    return await apiClient.get('/merchants/login', { username, password });
   },
 
   // 商家注册
   // 返回code: 1:注册成功 2:用户名已存在
   async registerMerchant(username, password, type) {
-    return await apiClient.post('/merchants/register', { username, password});
+    return await apiClient.get('/merchants/register', { username, password});
   },
 
   // 用户登录
   // 返回code: 1:登录成功 2:密码错误或用户不存在
   async loginCustomer(username, password) {
-    return await apiClient.post('/customers/login', { username, password });
+    return await apiClient.get('/customers/login', { username, password });
   },
 
   // 用户注册
   // 返回code: 1:注册成功 2:用户名已存在
   async registerCustomer(username, password) {
-    return await apiClient.post('/customers/register', { username, password });
+    return await apiClient.get('/customers/register', { username, password });
   },
   
 };
