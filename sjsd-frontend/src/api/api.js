@@ -17,14 +17,18 @@ import axios from 'axios';
 //   }
 // });
 const apiClient = axios.create({
-  baseURL:'http://localhost:8080/', // 根据你的后端服务地址调整
-  timeout: 10000, // 请求超时时间
+   baseURL:'http://localhost:8081/', // 根据你的后端服务地址调整
+   timeout: 10000, // 请求超时时间
+  // headers: {
+  //   'Content-Type': 'multipart/form-data'
+  // }
 })
 /**
  * 导出一个包含 API 请求方法的对象
  * 
  * 这里只包含一个示例方法，用于获取商品列表。
  */
+
 export default {
   /**
    * 获取商品列表
@@ -38,6 +42,8 @@ export default {
 //     // 发送 GET 请求到 /items 端点
 //     return apiClient.get('/items');
 //   }
+
+
   /**
    * 获取商家信息
    * 
@@ -83,15 +89,12 @@ export default {
     });
   },
 
-
-
-
   /**
    * 获取商家简介信息
    * 
    * @returns {Promise} 包含商家简介信息的 List
    */
-  async getMerchantIntros(){
+  getMerchantIntro(){
     return apiClient.get(`/api/merchant-intros`)
   },
 
@@ -103,20 +106,11 @@ export default {
    * 
    * @returns {Promise} 包含商家类型选项列表的 Promise 对象
    */
-  async getMerchantTypes() {
+  getMerchantTypes() {
     // 发送 GET 请求到 /api/merchant-types 端点
-    return apiClient.get(`/api/merchant-type`);
+    return apiClient.get(`/api/merchant-types`);
   },
 
-  /**
-   * 获取商家详细信息
-   * 
-   * @param {number} merchantId - 商家的唯一标识符
-   * @returns {Promise} 包含商家详情
-   */
-  async getMerchantDetails(merchantId){
-    return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`);
-  },
 
   /**
    * 获取特定商家的商品列表
@@ -124,7 +118,7 @@ export default {
    * @param {number} merchantId - 商家的唯一标识符
    * @returns {Promise} 包含商家的所有商品
    */
-  async getProductClt(merchantId){
+  getProductClt(merchantId){
     return apiClient.get(`/api/productClt?merchantId=${merchantId}`);
   },
 
@@ -134,7 +128,7 @@ export default {
    * @param {number} merchantId
    * @returns {Promise} 包含所有分类列表
    */
-  async getProType(merchantId){
+  getProType(merchantId){
     return apiClient.get(`/api/proType?merchantId=${merchantId}`)
   },
 
@@ -145,32 +139,32 @@ export default {
    * @param {number} cltId - 用户唯一标识符
    * @returns {Promise} 包含默认地址和全部地址列表
    */
-  async getCltAddress(cltId){
+  getCltAddress(cltId){
     return apiClient.get(`/api/cltAddress?cltId=${cltId}`);
   },
 
 
-  async getOrders(mchId){
+  getOrders(mchId){
       return apiClient.get(`/api/getOrders?mchId=${mchId}`);
   },
 
-  async updateOrderStatus(orderId, status){
+  updateOrderStatus(orderId, status){
       return apiClient.get(`/api/updateOrderStatus?orderId=${orderId}&status=${status}`);
   },
   
-  async deleteOrder(orderId){
+  deleteOrder(orderId){
       return apiClient.get(`/api/deleteOrder?orderId=${orderId}`);
   },
 
-  async getCltOrders(userId){
+  getCltOrders(userId){
       return apiClient.get(`/api/getCltOrders?userId=${userId}`);
   },
 
-  async updateCltOrderStatus(orderId, status){
+  updateCltOrderStatus(orderId, status){
       return apiClient.get(`/api/updateCltOrderStatus?orderId=${orderId}&status=${status}`);
   },
 
-  async deleteCltOrder(orderId){
+  deleteCltOrder(orderId){
     return apiClient.get(`/api/deleteCltOrder?orderId=${orderId}`);
   },
 
@@ -180,66 +174,48 @@ export default {
    * @param {number} merchantId
    * @return {Promise}
    */
-  async getMchData(merchantId){
+  getMchData(merchantId){
     return apiClient.get(`/api/salesData?merchantId=${merchantId}`);
   },
 
-  async getCltOrderDetail(orderId){
-    return apiClient.get(`/api/getCltOrderDetail?orderId=${orderId}`);
-  },
-
-  async updateCltOrderDetailStatus(orderId, status){
-    return apiClient.get(`/api/updateCltOrderDetailStatus?orderId=${orderId}&status=${status}`);
-  },
-
-  async deleteCltOrderDetail(orderId){
-    return apiClient.get(`/api/deleteCltOrderDetail?orderId=${orderId}`);
-  },
-
   /**
-   * 获取商家数据（首页）
+   * 获取商家数据（简版）
    * @param {number} merchantId
    * @returns {Promise} Promise
    */
-  async getCurData(merchantId){
+  getCurData(merchantId){
     return apiClient.get(`/api/curData?merchantId=${merchantId}`)
   },
 
-  /**
-   * 获取商家订单数据（首页）
-   * 
-   * @param {number} merchantId
-   * @returns {Promise} Promise
-   */
-  async getMonthlyOrderStats(merchantId){
-    return apiClient.get(`/api/monthlyOrderStats?merchantId=${merchantId}`)
-  },
+  /* 
+  function().then(item=>{
+      item.data.data 为所需数据
+    })
+  */
 
-  /**
-   * 获取商家菜品数据（首页）
-   * 
-   * @param {number} merchantId
-   * @returns {Promise} Promise
-   */
-  async getProdStats(merchantId){
-    return apiClient.get(`/api/prodStats?merchantId=${merchantId}`)
-  },
+    
+  // 商家登录
+    loginMerchant(username, password) {
+      return apiClient.post('/api/merchants/login', { username, password });
+    },
 
-  /**
-   * 获取商家信息（首页）
-   * 
-   * @param {number} merchantId
-   * @returns {PromiseM} Promise
-   */
-  async getMerchantInfo(merchantId){
-    return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`)
-  },
+    // 商家注册
+    registerMerchant(username, password, type) {
+      return apiClient.post('/api/merchants/register', { username, password});
+    },
+
+    // 用户登录
+    loginCustomer(username, password) {
+      return apiClient.post('/api/customers/login', { username, password });
+    },
+
+    // 用户注册
+    registerCustomer(username, password) {
+      return apiClient.post('/api/customers/register', { username, password });
+    },
 
 
 
-  /**
-   * 
-   */
 
 
 };
