@@ -237,12 +237,9 @@ export default {
       phoneNumber: "1234567890",
       merchantAddress: "XX街道XX号",
       merchantDescription: "",
-      typeName: "", // 商家类型
+      typeName: "健身", // 商家类型
       isOpen: false, // 是否营业
-      openingHours: {
-        start: "",
-        end: "",
-      }, // 营业时间
+      openingHours: "8:00-22:00", // 营业时间
       deliveryFee: 3, // 配送费
       minimumOrderAmount: 20, // 起送费
       packagingFeePerItem: 1, // 打包单价
@@ -291,44 +288,48 @@ export default {
     }
   },
   async fetchMerchantDetails() {
-    try {
-      const response = await api.getMerchantDetails(this.merchantID);
-      const data = response.data;  // 检查 data 数据是否有定义
-      console.log('当前的 merchantID:', this.merchantID);
-      console.log('获取的商家信息:', data);
-      console.log('API 响应:', response);
-      if (data) {
-        // 初始化商家信息
-        this.merchantName = data.merchantName || "";
-        this.phoneNumber = data.phoneNumber || "";
-        this.merchantAddress = data.merchantAddress || "";
-        this.typeName = data.typeName || "";
-        this.isOpen = data.isOpen || false;
+  try {
+    const response = await api.getMerchantDetails(this.merchantID);
+    const data = response.data;
+    console.log('当前的 merchantID:', this.merchantID);
+    console.log('获取的商家信息:', data);
+    console.log('API 响应:', response);
+    if (data) {
+      // 确保 data 包含这些字段
+      this.merchantName = data.merchantName || "";
+      this.phoneNumber = data.phoneNumber || "";
+      this.merchantAddress = data.merchantAddress || "";
+      this.typeName = data.typeName || "";  // 确保 typeName 正确返回
+      this.isOpen = data.isOpen || false;
+      // 处理营业时间
+      if (data.openingHours) {
+        
+        const hours = data.openingHours.split("-");
+        this.openingHours = {
+          start: hours[0] || "",
+          end: hours[1] || "",
+        };
 
-        // 检查并分割营业时间，如果没有则设置为空字符串
-        if (data.openingHours) {
-          const hours = data.openingHours.split("-");
-          this.openingHours = {
-            start: hours[0] || "",
-            end: hours[1] || "",
-          };
-        } else {
-          this.openingHours = { start: "", end: "" };
-        }
+        // 将 { start: "08:45", end: "22:00" } 转换为 "08:45-22:00"
+        this.openingHours = `${hours[0]}-${hours[1]}`;
 
-        this.merchantDescription = data.merchantDescription || "";
-        this.deliveryFee = data.deliveryFee || 0;
-        this.minimumOrderAmount = data.minimumOrderAmount || 0;
-        this.packagingFeePerItem = data.packagingFeePerItem || 0;
-        this.avatarURL = data.avatarURL || "";
       } else {
-        console.log("商家信息为空，可能是首次登录");
+        this.openingHours = { start: "", end: "" };
       }
-    } catch (error) {
-      console.error("获取商家信息失败:", error);
-      this.$message.error("获取商家信息失败，请稍后重试。");
+      this.merchantDescription = data.merchantDescription || "";
+      this.deliveryFee = data.deliveryFee || 0;
+      this.minimumOrderAmount = data.minimumOrderAmount || 0;
+      this.packagingFeePerItem = data.packagingFeePerItem || 0;
+      this.avatarURL = data.avatarURL || "";
+    } else {
+      console.log("商家信息为空，可能是首次登录");
     }
-  },
+  } catch (error) {
+    console.error("获取商家信息失败:", error);
+    this.$message.error("获取商家信息失败，请稍后重试。");
+  }
+},
+
   
   async updateMerchantDetails() {
     try {
@@ -336,7 +337,7 @@ export default {
         merchantName: this.form.merchantName,
         phoneNumber: this.form.phoneNumber,
         merchantAddress: this.form.merchantAddress,
-        typeName: this.form.typeName,
+        typeId: this.form.typeId,
         isOpen: this.form.isOpen,
         // 格式化营业时间
         openingHours: `${this.form.openingHours.start}-${this.form.openingHours.end}`,
@@ -365,7 +366,7 @@ export default {
     async fetchBusinessTypeOptions() {
   try {
     const response = await api.getMerchantTypes();
-    // 假设返回的是 ['书店', '健身房', '咖啡馆', ...] 这样的字符串数组
+    // 假设返回的是商家类型的数组
     this.businessTypeOptions = response.data.map((item) => ({
       value: item, // 用字符串本身作为 value
       label: item, // 用字符串本身作为 label
