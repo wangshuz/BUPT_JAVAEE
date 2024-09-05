@@ -1,7 +1,7 @@
 package buptworker.entity;
 
 /**
- * @author : [Xieyx]
+ * @author : [86183]
  * @version : [v1.0]
  * @description : [一句话描述该类的功能]
  * @createTime : [2024/9/5 21:58]
@@ -12,6 +12,7 @@ package buptworker.entity;
 
 
 public class User {
+    private Long userId;         // 用户ID
     private String username;     // 用户名
     private String password;     // 密码
 
@@ -20,12 +21,20 @@ public class User {
     }
 
     // 全参构造函数
-    public User(String username, String password) {
+    public User(Long userId, String username, String password) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
     }
 
+    // Getter 和 Setter 方法
+    public Long getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getUsername() {
         return username;

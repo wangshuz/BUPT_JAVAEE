@@ -119,7 +119,8 @@ public class LoginController {
     }
 
     @RequestMapping("/clt/register")
-    public Result registerClt(@RequestBody User clt){
+    public Result registerClt(@RequestBody LoginRequest loginRequest){
+        User clt = new User((long)0, loginRequest.getUsername(),loginRequest.getPassword());
         boolean is_OK = authService.registerClt(clt);
         Result ret = null;
         if(is_OK==true){
@@ -131,7 +132,8 @@ public class LoginController {
     }
 
     @RequestMapping("/mch/register")
-    public Result registerMch(@RequestBody User mch){
+    public Result registerMch(@RequestBody LoginRequest loginRequest){
+        User mch = new User((long)0, loginRequest.getUsername(),loginRequest.getPassword());
         boolean is_OK = authService.registerMch(mch);
         Result ret = null;
         if(is_OK==true){
