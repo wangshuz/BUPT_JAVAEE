@@ -42,6 +42,7 @@ CREATE TABLE `address` (
 -- ----------------------------
 -- Table structure for `merchant`
 -- ----------------------------
+
 DROP TABLE IF EXISTS `merchant`;
 CREATE TABLE `merchant` (
   `merchant_id` int NOT NULL AUTO_INCREMENT,
