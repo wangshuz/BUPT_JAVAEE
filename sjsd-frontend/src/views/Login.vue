@@ -64,6 +64,10 @@
 </template>
 
 <script>
+import api from '../api/loginAPI.js';
+// 引入 crypto-js 用于MD5加密
+const CryptoJS = require("crypto-js");
+
 export default {
     data() {
         return {
@@ -78,59 +82,90 @@ export default {
         this.initEventListeners();
     },
     methods: {
-        loginMerchant() {
-        const { merchantUsername, merchantPassword } = this;
-        this.api.loginMerchant(merchantUsername, merchantPassword)
-            .then(response => {
-            // 处理登录成功
-            alert('登录成功:', response.data);
-            })
-            .catch(error => {
-            // 处理登录失败
-            console.error('登录失败:', error);
-            });
-        },
-
-        // 商家注册
-        registerMerchant() {
-        const { merchantUsername, merchantPassword } = this;
-        this.api.registerMerchant(merchantUsername, merchantPassword)
-            .then(response => {
-            // 处理注册成功
-            console.log('注册成功:', response.data);
-            })
-            .catch(error => {
-            // 处理注册失败
-            console.error('注册失败:', error);
-            });
-        },
 
         // 用户登录
-        loginCustomer() {
-        const { customerUsername, customerPassword } = this;
-        this.api.loginCustomer(customerUsername, customerPassword)
-            .then(response => {
-            // 处理登录成功
-            console.log('登录成功:', response.data);
-            })
-            .catch(error => {
-            // 处理登录失败
-            console.error('登录失败:', error);
-            });
+        async loginCustomer() {
+            console.log('用户登录');
+            try{
+                const response = await api.loginCustomer(this.customerUsername,CryptoJS.MD5(this.customerPassword).toString());
+                if(response.data){
+                    if(response.data.code == 2){
+                        this.$message.error('用户名或密码错误');
+                        this.customerPassword = '';
+                    }else{
+                        this.$message.success('登录成功');
+                        this.$router.push('/clt/main');
+                    }
+                }
+                else{
+                    console.log('api.logincustomer的返回为空');
+                }
+            }catch(err){
+                this.$message.error(err);
+            }
         },
 
         // 用户注册
-        registerCustomer() {
-        const { customerUsername, customerPassword } = this;
-        this.api.registerCustomer(customerUsername, customerPassword)
-            .then(response => {
-            // 处理注册成功
-            console.log('注册成功:', response.data);
-            })
-            .catch(error => {
-            // 处理注册失败
-            console.error('注册失败:', error);
-            });
+        async registerCustomer() {
+            console.log('用户注册');
+            try{
+                const response = await api.registerCustomer(this.customerUsername,CryptoJS.MD5(this.customerPassword).toString());
+                if(response.data){
+                    if(response.data.code == 1)
+                        this.$message.error('用户名已存在');
+                    else{
+                        this.$message.success('注册成功');
+                        this.$router.push('/clt/main');
+                    }
+                }
+                else{
+                    console.log('api.registerCustomer的返回为空');
+                }
+            }catch(err){
+                this.$message.error(err);
+            }
+        },
+        // 商家登录
+        async loginMerchant() {
+            console.log('商家登录');
+            try{
+                const response = await api.loginMerchant(this.merchantUsername,CryptoJS.MD5(this.merchantPassword).toString());
+                if(response.data){
+                    if(response.data.code == 2){
+                        this.$message.error('用户名或密码错误');
+                        this.merchantPassword = '';
+                    }else{
+                        this.$message.success('登录成功');
+                        this.$router.push('/mch/main');
+                    }
+                }
+                else{
+                    console.log('api.loginMerchant的返回为空');
+                }
+            }catch(err){
+                this.$message.error(err);
+            }
+        },
+
+        // 商家注册
+        async registerMerchant() {
+            console.log('商家注册');
+            try{
+                const response = await api.registerMerchant(this.merchantUsername,CryptoJS.MD5(this.merchantPassword).toString());
+                if(response.data){
+                    if(response.data.code == 1)
+                        this.$message.error('用户名已存在');
+                    else{
+                        this.$message.success('注册成功');
+                        this.$router.push('/mch/main');
+                    }
+                }
+                else{
+                    console.log('api.registerMerchant的返回为空');
+                }
+            }catch(err){
+                this.$message.error(err);
+            }
         },
 
         initEventListeners() {
