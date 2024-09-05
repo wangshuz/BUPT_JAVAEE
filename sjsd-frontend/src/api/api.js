@@ -177,6 +177,16 @@ export default {
     return apiClient.get(`/api/deleteCltOrder?orderId=${orderId}`);
   },
 
+  /**
+   * 获取商家统计数据
+   * 
+   * @param {number} merchantId
+   * @return {Promise}
+   */
+  getMchData(merchantId){
+    return apiClient.get(`/api/salesData?merchantId=${merchantId}`);
+  }
+
   /* 
   function().then(item=>{
       item.data.data 为所需数据
