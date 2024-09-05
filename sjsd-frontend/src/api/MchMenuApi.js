@@ -18,16 +18,16 @@ const apiClient = axios.create({
 export default {
 
   // 新增分类
-  // post
+  // get
   // return.data.code: 1:新增成功 0:失败
   async addCategory(CategoryName) {
-      return apiClient.post('/category/add', { CategoryName: CategoryName } )
+      return apiClient.get(`/category/add?CategoryName=${CategoryName}`)
   },
   // 删除指定商品
-  // post
+  // get
   // return.data.code: 1:删除成功 0:失败
   async deleteProduct(ProductId) {
-    return apiClient.post('/product/delete', { ProductId: ProductId } )
+    return apiClient.get(`/product/delete?ProductId=${ProductId}`)
   },
   // 添加商品
   // post
@@ -44,11 +44,11 @@ export default {
   },
   
   // 修改商品在售状态
-  // post
+  // get
   // 真修改
   // return.data.code: 1:修改成功 0:失败
   async updateProductStatus(ProductId, status) {
-    return apiClient.post('/product/updateStatus', { ProductId: ProductId, status: status } )
+    return apiClient.get(`/product/updateStatus?ProductId=${ProductId}&status=${status}`)
   },
   
 };
