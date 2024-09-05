@@ -23,6 +23,7 @@ public class Merchant {
     private String phoneNumber;
     private String merchantAddress;
     private String merchantDescription;
+    private boolean isOpen;
 
     public Merchant() {
     }
@@ -40,6 +41,13 @@ public class Merchant {
         this.packagingFeePerItem = packagingFeePerItem;
         this.typeName = typeName;
 
+    }
+    public boolean getIsOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(boolean isOpen) {
+        this.isOpen = isOpen;
     }
 
     public int getMerchantID() {
