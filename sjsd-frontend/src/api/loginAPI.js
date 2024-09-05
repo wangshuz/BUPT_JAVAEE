@@ -6,7 +6,7 @@ import axios from 'axios';
  * 这个实例可以用来发送 HTTP 请求，并且可以在这里配置基础的 URL 和其他默认设置。
  */
 const apiClient = axios.create({
-  baseURL:'http://localhost:8081/api', // 根据你的后端服务地址调整
+  baseURL:'http://localhost:8081', // 根据你的后端服务地址调整
   timeout: 10000, // 请求超时时间
 })
 
@@ -21,25 +21,25 @@ export default {
   // 商家登录
   // 返回code: 1:登录成功 2:密码错误或用户不存在
   async loginMerchant(username, password) {
-    return await apiClient.get('/merchants/login', { username, password });
+    return await apiClient.get('api/merchants/login', { username, password });
   },
 
   // 商家注册
   // 返回code: 1:注册成功 2:用户名已存在
   async registerMerchant(username, password, type) {
-    return await apiClient.get('/merchants/register', { username, password});
+    return await apiClient.get('/api/merchants/register', { username, password});
   },
 
   // 用户登录
   // 返回code: 1:登录成功 2:密码错误或用户不存在
   async loginCustomer(username, password) {
-    return await apiClient.get('/customers/login', { username, password });
+    return await apiClient.get('/api/customers/login', { username, password });
   },
 
   // 用户注册
   // 返回code: 1:注册成功 2:用户名已存在
   async registerCustomer(username, password) {
-    return await apiClient.get('/customers/register', { username, password });
+    return await apiClient.get('/api/customers/register', { username, password });
   },
   
 };

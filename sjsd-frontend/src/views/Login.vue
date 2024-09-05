@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import api from '../api/loginAPI.js';
+import api from '../api/api.js';
 // 引入 crypto-js 用于MD5加密
 const CryptoJS = require("crypto-js");
 
