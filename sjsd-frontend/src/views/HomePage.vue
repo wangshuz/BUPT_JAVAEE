@@ -1,20 +1,28 @@
 <template>
     <div class="container">
       <div class="back" :class="{ 'show': isBackShown }"></div>
+      
+      <!-- Left Circle -->
       <div class="circle lcircle" :class="{ 'open': isLeftOpen }" @mouseover="handleMouseOver('left')" @mouseout="handleMouseOut('left')">
         <div class="ltext">
           <div class="stitle">商家入驻</div>
           <div class="sintro">加入舌尖速递，开启您的在线商业之旅。我们提供全面的技术支持和营销策略，帮助您的餐厅吸引更多顾客，提高品牌知名度。</div>
           <div class="sintro">通过我们的平台，您可以轻松管理订单，优化菜单，并获取深入的数据分析，以提升您的业务效率。</div>
+          <button class="lbutton" @click="onLeftButtonClick">加入我们</button>
         </div>
       </div>
+  
+      <!-- Right Circle -->
       <div class="circle rcircle" :class="{ 'open': isRightOpen }" @mouseover="handleMouseOver('right')" @mouseout="handleMouseOut('right')">
         <div class="rtext">
           <div class="stitle">舌尖速递</div>
           <div class="sintro">我们致力于提供最优质的外卖服务，让每一位顾客都能享受到便捷的订餐体验和美味的佳肴。</div>
           <div class="sintro">无论是家庭聚餐还是办公室午餐，舌尖速递都能满足您的需求。我们承诺快速配送，确保每一份食物都新鲜可口。</div>
+          <button class="rbutton" @click="onRightButtonClick">立即体验</button>
         </div>
       </div>
+  
+      <!-- Center -->
       <div class="center" @mouseover="handleMouseOver('center')">
         <div id="title">舌尖速递</div>
         <div id="line1">您的美食，我们的使命</div>
@@ -25,37 +33,51 @@
     </div>
   </template>
 
-  <script>
-  export default {
-    data() {
-      return {
-        isLeftOpen: false,
-        isRightOpen: false,
-        isBackShown: false
-      };
-    },
-    methods: {
-      handleMouseOver(side) {
-        if (side === 'left' && !this.isLeftOpen) {
-          this.isLeftOpen = true;
-          this.isBackShown = true;
-        } else if (side === 'right' && !this.isRightOpen) {
-          this.isRightOpen = true;
-          this.isBackShown = true;
-        }
-      },
-      handleMouseOut(side) {
-        if (side === 'left') {
-          this.isLeftOpen = false;
-          this.isBackShown = this.isRightOpen;
-        } else if (side === 'right') {
-          this.isRightOpen = false;
-          this.isBackShown = this.isLeftOpen;
-        }
+<script>
+export default {
+  data() {
+    return {
+      isLeftOpen: false,
+      isRightOpen: false,
+      isBackShown: false
+    };
+  },
+  methods: {
+    handleMouseOver(side) {
+      if (side === 'left' && !this.isLeftOpen) {
+        this.isLeftOpen = true;
+        this.isBackShown = true;
+      } else if (side === 'right' && !this.isRightOpen) {
+        this.isRightOpen = true;
+        this.isBackShown = true;
       }
+    },
+    handleMouseOut(side) {
+      if (side === 'left') {
+        this.isLeftOpen = false;
+        this.isBackShown = this.isRightOpen;
+      } else if (side === 'right') {
+        this.isRightOpen = false;
+        this.isBackShown = this.isLeftOpen;
+      }
+    },
+    onLeftButtonClick() {
+      this.$router.push(
+            {
+                path:"/login"
+            }
+        )
+    },
+    onRightButtonClick() {
+        this.$router.push(
+            {
+                path:"/login"
+            }
+        )
     }
-  };
-  </script>
+  }
+};
+</script>
   
   <style scoped>
   .container {
@@ -238,4 +260,22 @@
     opacity: 0.7;
     z-index: 15;
   }
+
+  .lbutton,
+.rbutton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #ff5722;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.lbutton:hover,
+.rbutton:hover {
+  background-color: #e64a19;
+}
   </style>
