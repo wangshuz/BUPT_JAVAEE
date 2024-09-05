@@ -1,5 +1,10 @@
 package buptworker.controller;
+/*
+合并时需要修改：
+2.id改成从cookie获得
+3.如果要运行在别的电脑需要修改图片存储的路径和WebConfig配置
 
+  */
 import buptworker.entity.Merchant;
 import buptworker.service.MchDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +32,7 @@ public class MchDetailController {
     private MchDetailService mchdetailService;
 
     // 定义一个固定的 merchant_id
-    private final int defaultMerchantID = 5;  // 你可以设置为需要的默认商家 ID
+    private final int defaultMerchantID = 5;  // 修改为cookie！！！
 
     // 获取商家信息 API
     @GetMapping("/merchants")
@@ -80,9 +85,6 @@ public class MchDetailController {
                     .path("/images/")
                     .path(fileName)
                     .toUriString();
-
-            // 假设你在后端定义了固定的 merchantID
-            int defaultMerchantID = 5;
 
             // 更新商家头像 URL
             boolean updated = mchdetailService.updateMerchantAvatar(defaultMerchantID, imageUrl);

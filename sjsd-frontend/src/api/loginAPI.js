@@ -26,7 +26,7 @@ export default {
 
   // 商家注册
   // 返回code: 1:注册成功 0:用户名已存在
-  async registerMerchant(username, password, type) {
+  async registerMerchant(username, password) {
     return await apiClient.post('/api/mch/register', { username, password});
   },
 

@@ -31,7 +31,12 @@
           商家头像
         </div>
         <div class="item-content">
-          <img v-if="avatarURL" :src="avatarURL" class="avatar" alt="商家头像" />
+          <img
+            v-if="avatarURL"
+            :src="avatarURL"
+            class="avatar"
+            alt="商家头像"
+          />
           <i v-else class="el-icon-user avatar-placeholder"></i>
         </div>
       </div>
@@ -112,7 +117,13 @@
       custom-class="enhanced-dialog"
     >
       <el-form :model="form">
-        <el-form-item label="商家名称" :label-width="formLabelWidth">
+        <el-form-item
+          label="商家名称"
+          :label-width="formLabelWidth"
+          :rules="[
+            { required: true, message: '请输入商家名称', trigger: 'blur' },
+          ]"
+        >
           <el-input v-model="form.merchantName"></el-input>
         </el-form-item>
 
@@ -129,16 +140,15 @@
 
         <el-form-item label="商家头像" :label-width="formLabelWidth">
           <el-upload
-  class="avatar-uploader"
-  action="/api/merchants/upload-avatar"
-  :show-file-list="false"
-  :on-success="handleAvatarSuccess"
-  :before-upload="beforeAvatarUpload"
->
-  <img v-if="avatarURL" :src="avatarURL" class="avatar" />
-  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload>
-
+            class="avatar-uploader"
+            action="/api/merchants/upload-avatar"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="avatarURL" :src="avatarURL" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
         </el-form-item>
 
         <el-form-item label="是否营业" :label-width="formLabelWidth">
@@ -153,9 +163,9 @@
             placeholder="起始时间"
             v-model="form.openingHours.start"
             :picker-options="{
-              start: '08:30',
+              start: '00:00',
               step: '00:15',
-              end: '18:30',
+              end: '23:45',
             }"
             class="time-select"
           />
@@ -163,9 +173,9 @@
             placeholder="结束时间"
             v-model="form.openingHours.end"
             :picker-options="{
-              start: '08:30',
+              start: '00:00',
               step: '00:15',
-              end: '18:30',
+              end: '23:45',
               minTime: form.openingHours.start,
             }"
             class="time-select"
@@ -227,13 +237,12 @@
 
 
 <script>
-
 import api from "@/api/api"; // 请根据实际文件路径替换
 
 export default {
   data() {
     return {
-     merchantID:1 ,
+      merchantID: 1,
       merchantName: "XX快餐",
       phoneNumber: "1234567890",
       merchantAddress: "XX街道XX号",
@@ -245,7 +254,7 @@ export default {
       minimumOrderAmount: 20, // 起送费
       packagingFeePerItem: 1, // 打包单价
       avatarURL: "",
-    
+
       isDialogVisible: false,
       isEditing: false,
       form: {
@@ -265,34 +274,26 @@ export default {
       },
       formLabelWidth: "120px",
       businessTypeOptions: [],
-      uploadUrl: `/api/merchants/${this.merchantID}/upload-avatar`, 
+      uploadUrl: `/api/merchants/${this.merchantID}/upload-avatar`,
       avatarURL: "",
     };
   },
-
- /* computed: {
-    ...mapState({ merchantID: (state) => state.merchantID }), // 从 Vuex 中映射 merchantID
-  },*/
-  computed: {
-  uploadUrl() {
-    return `/api/merchants/${this.merchantID}/upload-avatar`;
-  }
-},
 
   methods: {
     // 处理头像上传成功的回调
     handleAvatarSuccess(response) {
       if (response && response.avatarURL) {
         this.avatarURL = response.avatarURL; // 更新头像URL
-        this.$message.success('头像上传成功');
+        this.$message.success("头像上传成功");
       } else {
-        this.$message.error('头像上传失败，未返回图片URL');
+        this.$message.error("头像上传失败，未返回图片URL");
       }
     },
 
     // 上传前检查图片格式和大小
     beforeAvatarUpload(file) {
-      const isJPGorPNG = file.type === "image/jpeg" || file.type === "image/png";
+      const isJPGorPNG =
+        file.type === "image/jpeg" || file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isJPGorPNG) {
         this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
@@ -302,76 +303,70 @@ export default {
       }
       return isJPGorPNG && isLt2M;
     },
-  
-  async fetchMerchantDetails() {
-  try {
-    const response = await api.getMerchantDetails(this.merchantID);
-    const data = response.data;
-    console.log('当前的 merchantID:', this.merchantID);
-    console.log('获取的商家信息:', data);
-    console.log('API 响应:', response);
-    if (data) {
-      // 确保 data 包含这些字段
-      this.merchantName = data.merchantName || "";
-      this.phoneNumber = data.phoneNumber || "";
-      this.merchantAddress = data.merchantAddress || "";
-      this.typeName = data.typeName || "";  // 确保 typeName 正确返回
-      this.isOpen = data.isOpen || false;
-      // 处理营业时间
-      if (data.openingHours) {
-        
-        const hours = data.openingHours.split("-");
-        this.openingHours = {
-          start: hours[0] || "",
-          end: hours[1] || "",
-        };
 
-        // 将 { start: "08:45", end: "22:00" } 转换为 "08:45-22:00"
-        this.openingHours = `${hours[0]}-${hours[1]}`;
-
-      } else {
-        this.openingHours = { start: "", end: "" };
+    async fetchMerchantDetails() {
+      try {
+        const response = await api.getMerchantDetails();
+        const data = response.data;
+        console.log("获取的商家信息:", data);
+        console.log("API 响应:", response);
+        if (data) {
+          // 确保 data 包含这些字段
+          this.merchantName = data.merchantName || "";
+          this.phoneNumber = data.phoneNumber || "";
+          this.merchantAddress = data.merchantAddress || "";
+          this.typeName = data.typeName || ""; // 确保 typeName 正确返回
+          this.isOpen = data.isOpen || false;
+          // 处理营业时间
+          if (data.openingHours) {
+            const hours = data.openingHours.split("-");
+            this.openingHours = {
+              start: hours[0] || "",
+              end: hours[1] || "",
+            };
+            // 将 { start: "08:45", end: "22:00" } 转换为 "08:45-22:00"
+            this.openingHours = `${hours[0]}-${hours[1]}`;
+          } else {
+            this.openingHours = { start: "", end: "" };
+          }
+          this.merchantDescription = data.merchantDescription || "";
+          this.deliveryFee = data.deliveryFee || 0;
+          this.minimumOrderAmount = data.minimumOrderAmount || 0;
+          this.packagingFeePerItem = data.packagingFeePerItem || 0;
+          this.avatarURL = data.avatarURL || "";
+        } else {
+          console.log("商家信息为空，可能是首次登录");
+        }
+      } catch (error) {
+        console.error("获取商家信息失败:", error);
+        this.$message.error("获取商家信息失败，请稍后重试。");
       }
-      this.merchantDescription = data.merchantDescription || "";
-      this.deliveryFee = data.deliveryFee || 0;
-      this.minimumOrderAmount = data.minimumOrderAmount || 0;
-      this.packagingFeePerItem = data.packagingFeePerItem || 0;
-      this.avatarURL = data.avatarURL || "";
-    } else {
-      console.log("商家信息为空，可能是首次登录");
-    }
-  } catch (error) {
-    console.error("获取商家信息失败:", error);
-    this.$message.error("获取商家信息失败，请稍后重试。");
-  }
-},
+    },
 
-  
-  async updateMerchantDetails() {
-    try {
-      const merchantData = {
-        merchantName: this.form.merchantName,
-        phoneNumber: this.form.phoneNumber,
-        merchantAddress: this.form.merchantAddress,
-        typeId: this.form.typeId,
-        isOpen: this.form.isOpen,
-        // 格式化营业时间
-        openingHours: `${this.form.openingHours.start}-${this.form.openingHours.end}`,
-        merchantDescription: this.form.merchantDescription,
-        deliveryFee: this.form.deliveryFee,
-        minimumOrderAmount: this.form.minimumOrderAmount,
-        packagingFeePerItem: this.form.packagingFeePerItem,
-      };
-      await api.updateMerchantDetails(this.merchantID, merchantData);
-      this.$message.success("商家信息更新成功！");
-      this.isDialogVisible = false;
-      await this.fetchMerchantDetails(); // 更新成功后重新获取商家信息
-    } catch (error) {
-      console.error("更新商家信息失败:", error);
-      this.$message.error("更新商家信息失败，请稍后重试。");
-    }
-  },
-
+    async updateMerchantDetails() {
+      try {
+        const merchantData = {
+          merchantName: this.form.merchantName,
+          phoneNumber: this.form.phoneNumber,
+          merchantAddress: this.form.merchantAddress,
+          typeId: this.form.typeId,
+          isOpen: this.form.isOpen,
+          // 格式化营业时间
+          openingHours: `${this.form.openingHours.start}-${this.form.openingHours.end}`,
+          merchantDescription: this.form.merchantDescription,
+          deliveryFee: this.form.deliveryFee,
+          minimumOrderAmount: this.form.minimumOrderAmount,
+          packagingFeePerItem: this.form.packagingFeePerItem,
+        };
+        await api.updateMerchantDetails(merchantData);
+        this.$message.success("商家信息更新成功！");
+        this.isDialogVisible = false;
+        await this.fetchMerchantDetails(); // 更新成功后重新获取商家信息
+      } catch (error) {
+        console.error("更新商家信息失败:", error);
+        this.$message.error("更新商家信息失败，请稍后重试。");
+      }
+    },
 
     async submitForm(type) {
       if (type === "all") {
@@ -380,41 +375,38 @@ export default {
     },
 
     async fetchBusinessTypeOptions() {
-  try {
-    const response = await api.getMerchantTypes();
-    // 假设返回的是商家类型的数组
-    this.businessTypeOptions = response.data.map((item) => ({
-      value: item, // 用字符串本身作为 value
-      label: item, // 用字符串本身作为 label
-    }));
-  } catch (error) {
-    console.error("获取商家类型选项失败:", error);
-    this.$message.error("获取商家类型选项失败，请稍后重试。");
-  }
-},
-    handleAvatarSuccess(response, file) {
-      this.avatarURL = response.avatarURL;  // 假设上传成功后返回图片的 URL
-      this.$message.success('头像上传成功');
+      try {
+        const response = await api.getMerchantTypes();
+        // 假设返回的是商家类型的数组
+        this.businessTypeOptions = response.data.map((item) => ({
+          value: item, // 用字符串本身作为 value
+          label: item, // 用字符串本身作为 label
+        }));
+      } catch (error) {
+        console.error("获取商家类型选项失败:", error);
+        this.$message.error("获取商家类型选项失败，请稍后重试。");
+      }
     },
 
     openDialog(type) {
-    if (type === "all") {
-      this.form = {
-        merchantName: this.merchantName,
-        phoneNumber: this.phoneNumber,
-        merchantAddress: this.merchantAddress,
-        typeName: this.typeName,
-        isOpen: this.isOpen,
-        openingHours: { ...this.openingHours }, // 确保时间格式一致
-        merchantDescription: this.merchantDescription,
-        deliveryFee: this.deliveryFee,
-        minimumOrderAmount: this.minimumOrderAmount,
-        packagingFeePerItem: this.packagingFeePerItem,
-      };
-      this.isEditing = true;
-      this.isDialogVisible = true;
-    }
-  },
+      if (type === "all") {
+        
+        this.form = {
+          merchantName: this.merchantName,
+          phoneNumber: this.phoneNumber,
+          merchantAddress: this.merchantAddress,
+          typeName: this.typeName,
+          isOpen: this.isOpen,
+          openingHours: { ...this.openingHours }, // 确保时间格式一致
+          merchantDescription: this.merchantDescription,
+          deliveryFee: this.deliveryFee,
+          minimumOrderAmount: this.minimumOrderAmount,
+          packagingFeePerItem: this.packagingFeePerItem,
+        };
+        this.isEditing = true;
+        this.isDialogVisible = true;
+      }
+    },
 
     closeDialog(type) {
       if (type === "all") {
@@ -422,8 +414,6 @@ export default {
         this.isEditing = false;
       }
     },
-
-   
   },
 
   async mounted() {
