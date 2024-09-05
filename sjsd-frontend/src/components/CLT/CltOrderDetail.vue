@@ -49,16 +49,35 @@
         </div>
         <hr class="bottom_line_hr">
         <div class="bottom-button">
-            <el-button plain>
+            <span v-if="state === '1'">
+                <el-button plain>
+                <span style="font-size: 20px; color: red;">
+                    取消订单
+                </span>
+            </el-button>
+            </span>
+            <span v-if="state === '1'">
+                <el-button plain>
+                <span style="font-size: 20px; color: black;" @click="goToStore">
+                    确认收货
+                </span>
+            </el-button>
+            </span>
+            <span v-if="state === '2' || state === '3'">
+                <el-button plain v-if="state === '2' || state === '3'">
                 <span style="font-size: 20px; color: red;">
                     删除订单
                 </span>
             </el-button>
-            <el-button plain>
+            </span>
+            <span v-if="state === '2' || state === '3'">
+                <el-button plain v-if="state === '2' || state === '3'">
                 <span style="font-size: 20px; color: black;" @click="goToStore">
                     再来一单
                 </span>
             </el-button>
+            </span>
+            
         </div>
     </div>
 </template>
@@ -66,9 +85,11 @@
 export default {
   data() {
     return {
-        orderID: '1332666565499548852',
+        userId:'',
+        orderId: '1332666565499548852',
         // state:  1.待收货  2.已完成  3.已取消
         mchname:'火锅小旋转（北京邮电大学学二四楼店）',
+        mchId:'',
         info:[ 
         {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
@@ -129,8 +150,54 @@ export default {
     },
     methods: {
         goToStore() {
-            this.$router.push({ name: 'CltStore' }); // 通过路由的名称跳转
+            this.$router.push({ 
+                name: 'CltStore',
+                query: { mchId : this.mchId }  // 传递数据
+             }); // 通过路由的名称跳转
         },
+        fetchOrderDetail() {
+          //getCltOrderDetail(orderId){
+          //    return apiClient.get(`/api/getCltOrderDetail?orderId=${orderId}`);
+          //},
+          api.getCltOrderDetail(this.orderId)
+          .then(response => {
+          this.tableData = response.data.data;
+          })
+          .catch(error => {
+          console.error('获取订单列表时出错:', error);
+          });
+      },
+      changeCltOrderDetailStatus(orderId, status) {
+          //updateCltOrderDetailStatus(orderId, status){
+          //    return apiClient.get(`/api/updateCltOrderDetailStatus?orderId=${orderId}&status=${status}`);
+          //},
+          api.updateCltOrderDetailStatus(orderId, status)
+          .then(response => {
+          console.log(response.data);
+          this.fetchOrderDetail(); // 更新状态后重新获取订单列表
+          })
+          .catch(error => {
+          console.error('更新订单状态时出错:', error);
+          });
+      },
+      deleteCltOrderDetail(orderId) {
+          //deleteCltOrderDetail(orderId){
+          //    return apiClient.get(`/api/deleteCltOrderDetail?orderId=${orderId}`);
+          //},
+          api.deleteCltOrderDetail(orderId)
+          .then(response => {
+          console.log(response.data);
+          this.fetchOrderDetail(); // 删除订单后重新获取订单列表
+          })
+          .catch(error => {
+          console.error('删除订单时出错:', error);
+          });
+      },
+    },
+    mounted()
+    {
+        const orderId = this.$route.query.orderId;
+        fetchOrderDetail();
     }
 }
 </script>

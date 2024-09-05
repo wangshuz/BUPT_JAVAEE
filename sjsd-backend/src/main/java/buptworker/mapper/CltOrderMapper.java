@@ -30,7 +30,7 @@ public interface CltOrderMapper {
     public void updateOrderStatus(@Param("orderId") String orderId, @Param("newStatus") String newStatus);
 
     @Update("UPDATE Orders " +
-            "SET is_deleted_by_user = FALSE " +
+            "SET is_deleted_by_user = TRUE " +
             "WHERE order_id = #{orderId}; ")
     public void deleteCltMchOrder(@Param("orderId") String orderId);
 
