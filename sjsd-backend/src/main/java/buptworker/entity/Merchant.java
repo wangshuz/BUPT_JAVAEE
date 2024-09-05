@@ -15,7 +15,7 @@ public class Merchant {
     private int merchantID;
     private String avatarURL;
     private String merchantName;
-    private String typeName;
+    private int typeId;
     private double deliveryFee;
     private double packagingFeePerItem;
     private double minimumOrderAmount;
@@ -28,7 +28,7 @@ public class Merchant {
     public Merchant() {
     }
 
-    public Merchant(int merchantID, String avatarURL, String merchantName, String typeName, double deliveryFee, double packagingFeePerItem, double minimumOrderAmount, String openingHours, String phoneNumber, String merchantAddress, String merchantDescription) {
+    public Merchant(int merchantID, String avatarURL, String merchantName, int typeId, double deliveryFee, double packagingFeePerItem, double minimumOrderAmount, String openingHours, String phoneNumber, String merchantAddress, String merchantDescription) {
         this.merchantID = merchantID;
         this.merchantName = merchantName;
         this.avatarURL = avatarURL;
@@ -39,7 +39,7 @@ public class Merchant {
         this.deliveryFee = deliveryFee;
         this.minimumOrderAmount = minimumOrderAmount;
         this.packagingFeePerItem = packagingFeePerItem;
-        this.typeName = typeName;
+        this.typeId = typeId;
 
     }
     public boolean getIsOpen() {
@@ -74,12 +74,20 @@ public class Merchant {
         this.merchantName = merchantName;
     }
 
-    public String getTypeName() {
+    /*public String getTypeName() {
         return typeName;
     }
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }*/
+
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeName(int typeId) {
+        this.typeId = typeId;
     }
 
     public double getDeliveryFee() {
@@ -144,7 +152,7 @@ public class Merchant {
                 "merchantID=" + merchantID +
                 ", avatarURL='" + avatarURL + '\'' +
                 ", merchantName='" + merchantName + '\'' +
-                ", typeName='" + typeName + '\'' +
+               // ", typeName='" + typeName + '\'' +
                 ", deliveryFee=" + deliveryFee +
                 ", packagingFeePerItem=" + packagingFeePerItem +
                 ", minimumOrderAmount=" + minimumOrderAmount +
