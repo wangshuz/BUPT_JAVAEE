@@ -1,14 +1,14 @@
 INSERT INTO User (username, password, profile_picture) VALUES
-('用户1', 'password1', 'avatar1.jpg'),
-('用户2', 'password2', 'avatar2.jpg'),
-('用户3', 'password3', 'avatar3.jpg'),
-('用户4', 'password4', 'avatar4.jpg'),
-('用户5', 'password5', 'avatar5.jpg'),
-('用户6', 'password6', 'avatar6.jpg'),
-('用户7', 'password7', 'avatar7.jpg'),
-('用户8', 'password8', 'avatar8.jpg'),
-('用户9', 'password9', 'avatar9.jpg'),
-('用户10', 'password10', 'avatar10.jpg');
+('用户1', '7c6a180b36896a0a8c02787eeafb0e4c', 'avatar1.jpg'),
+('用户2', '6cb75f652a9b52798eb6cf2201057c73', 'avatar2.jpg'),
+('用户3', '819b0643d6b89dc9b579fdfc9094f28e', 'avatar3.jpg'),
+('用户4', '34cc93ece0ba9e3f6f235d4af979b16c', 'avatar4.jpg'),
+('用户5', 'db0edd04aaac4506f7edab03ac855d56', 'avatar5.jpg'),
+('用户6', '218dd27aebeccecae69ad8408d9a36bf', 'avatar6.jpg'),
+('用户7', '00cdb7bb942cf6b290ceb97d6aca64a3', 'avatar7.jpg'),
+('用户8', 'b25ef06be3b6948c0bc431da46c2c738', 'avatar8.jpg'),
+('用户9', '5d69dd95ac183c9643780ed7027d128a', 'avatar9.jpg'),
+('用户10','87e897e3b54a405da144968b2ca19b45', 'avatar10.jpg');
 INSERT INTO Address (user_id, recipient_name, recipient_phone, address_line, is_default, is_deleted) VALUES
 (1, '张三', '13800000001', '北京市海淀区中关村', TRUE, FALSE),
 (2, '李四', '13800000002', '上海市浦东新区陆家嘴', FALSE, FALSE),
@@ -32,16 +32,16 @@ INSERT INTO Merchant_Type (type_name) VALUES
 ('健身中心'),
 ('便利店');
 INSERT INTO Merchant (merchant_username, merchant_password, merchant_name, merchant_avatar, merchant_address, phone_number, opening_hours, type_id, merchant_description, delivery_fee, minimum_order_amount, packaging_fee_per_item) VALUES
-('商家1', 'merchantpass1', '美味餐馆', 'merchant1.jpg', '北京市朝阳区', '13810000001', '10:00-22:00', 1, '正宗川菜', 5.00, 50.00, 1.00),
-('商家2', 'merchantpass2', '时尚服饰', 'merchant2.jpg', '上海市黄浦区', '13810000002', '09:00-21:00', 4, '最新潮流服装', 0.00, 0.00, 0.50),
-('商家3', 'merchantpass3', '电子商城', 'merchant3.jpg', '深圳市南山区', '13810000003', '10:00-20:00', 6, '电子产品及配件', 10.00, 100.00, 2.00),
-('商家4', 'merchantpass4', '精品超市', 'merchant4.jpg', '广州市越秀区', '13810000004', '08:00-23:00', 5, '新鲜蔬果', 3.00, 30.00, 0.50),
-('商家5', 'merchantpass5', '健康生活', 'merchant5.jpg', '杭州市滨江区', '13810000005', '07:00-22:00', 9, '健身及瑜伽', 8.00, 60.00, 1.50),
-('商家6', 'merchantpass6', '美容美发店', 'merchant6.jpg', '成都市武侯区', '13810000006', '09:00-20:00', 8, '时尚美容服务', 5.00, 50.00, 1.00),
-('商家7', 'merchantpass7', '书香书店', 'merchant7.jpg', '南京市秦淮区', '13810000007', '09:00-21:00', 3, '各类图书', 0.00, 0.00, 0.00),
-('商家8', 'merchantpass8', '便利商店', 'merchant8.jpg', '武汉市汉阳区', '13810000008', '24小时营业', 10, '便利物品随时购', 2.00, 20.00, 0.50),
-('商家9', 'merchantpass9', '家居精品店', 'merchant9.jpg', '重庆市南岸区', '13810000009', '09:00-20:00', 7, '家居日用品', 7.00, 70.00, 1.00),
-('商家10', 'merchantpass10', '时尚潮店', 'merchant10.jpg', '苏州市吴中区', '13810000010', '09:00-21:00', 4, '时尚鞋履包包', 0.00, 0.00, 0.50);
+('商家1', '7c6a180b36896a0a8c02787eeafb0e4c', '美味餐馆', 'merchant1.jpg', '北京市朝阳区', '13810000001', '10:00-22:00', 1, '正宗川菜', 5.00, 50.00, 1.00),
+('商家2', '6cb75f652a9b52798eb6cf2201057c73', '时尚服饰', 'merchant2.jpg', '上海市黄浦区', '13810000002', '09:00-21:00', 4, '最新潮流服装', 0.00, 0.00, 0.50),
+('商家3', '819b0643d6b89dc9b579fdfc9094f28e', '电子商城', 'merchant3.jpg', '深圳市南山区', '13810000003', '10:00-20:00', 6, '电子产品及配件', 10.00, 100.00, 2.00),
+('商家4', '34cc93ece0ba9e3f6f235d4af979b16c', '精品超市', 'merchant4.jpg', '广州市越秀区', '13810000004', '08:00-23:00', 5, '新鲜蔬果', 3.00, 30.00, 0.50),
+('商家5', 'db0edd04aaac4506f7edab03ac855d56', '健康生活', 'merchant5.jpg', '杭州市滨江区', '13810000005', '07:00-22:00', 9, '健身及瑜伽', 8.00, 60.00, 1.50),
+('商家6', '218dd27aebeccecae69ad8408d9a36bf', '美容美发店', 'merchant6.jpg', '成都市武侯区', '13810000006', '09:00-20:00', 8, '时尚美容服务', 5.00, 50.00, 1.00),
+('商家7', '00cdb7bb942cf6b290ceb97d6aca64a3', '书香书店', 'merchant7.jpg', '南京市秦淮区', '13810000007', '09:00-21:00', 3, '各类图书', 0.00, 0.00, 0.00),
+('商家8', 'b25ef06be3b6948c0bc431da46c2c738', '便利商店', 'merchant8.jpg', '武汉市汉阳区', '13810000008', '24小时营业', 10, '便利物品随时购', 2.00, 20.00, 0.50),
+('商家9', '5d69dd95ac183c9643780ed7027d128a', '家居精品店', 'merchant9.jpg', '重庆市南岸区', '13810000009', '09:00-20:00', 7, '家居日用品', 7.00, 70.00, 1.00),
+('商家10', '87e897e3b54a405da144968b2ca19b45', '时尚潮店', 'merchant10.jpg', '苏州市吴中区', '13810000010', '09:00-21:00', 4, '时尚鞋履包包', 0.00, 0.00, 0.50);
 INSERT INTO Product_Category (merchant_id, category_name, is_deleted) VALUES
 (1, '主食', FALSE),
 (1, '饮料', FALSE),

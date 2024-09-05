@@ -46,7 +46,7 @@ CREATE TABLE Merchant (
     merchant_id INT AUTO_INCREMENT PRIMARY KEY,
     merchant_username VARCHAR(255) NOT NULL UNIQUE,
     merchant_password VARCHAR(255) NOT NULL,
-    merchant_name VARCHAR(255) NOT NULL,
+    merchant_name VARCHAR(255),
     merchant_avatar VARCHAR(255),
     merchant_address VARCHAR(255),
     phone_number VARCHAR(20),
@@ -54,9 +54,9 @@ CREATE TABLE Merchant (
     type_id INT,
     merchant_description TEXT,
     is_open BOOLEAN DEFAULT TRUE,
-    delivery_fee DECIMAL(10, 2) NOT NULL,
-    minimum_order_amount DECIMAL(10, 2) NOT NULL,
-    packaging_fee_per_item DECIMAL(10, 2) NOT NULL,
+    delivery_fee DECIMAL(10, 2),
+    minimum_order_amount DECIMAL(10, 2),
+    packaging_fee_per_item DECIMAL(10, 2),
     FOREIGN KEY (type_id) REFERENCES Merchant_Type(type_id)
 );
 -- 商家ID (merchant_id): 主键，唯一标识
