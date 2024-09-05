@@ -26,29 +26,32 @@ public class MchDetailController {
     @Autowired
     private MchDetailService mchdetailService;
 
+    // 定义一个固定的 merchant_id
+    private final int defaultMerchantID = 5;  // 你可以设置为需要的默认商家 ID
+
     // 获取商家信息 API
-    @GetMapping("/merchants/{merchant_id}")
-    public ResponseEntity<Merchant> getMerchantById(@PathVariable("merchant_id") int merchantID) {
-       Merchant merchant = mchdetailService.getMerchantById(merchantID);
+    @GetMapping("/merchants")
+    public ResponseEntity<Merchant> getMerchant() {
+        // 使用默认的 merchantID 获取商家信息
+        Merchant merchant = mchdetailService.getMerchantById(defaultMerchantID);
         if (merchant != null) {
             return ResponseEntity.ok(merchant);
         } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 
-    // 更新商家信息 APIf
-    @PutMapping("/merchants/{merchant_id}")
+    // 更新商家信息 API
+    @PutMapping("/merchants")
     public ResponseEntity<Map<String, Object>> updateMerchant(
-            @PathVariable("merchant_id") int merchantID,
             @RequestBody Merchant merchant) {
-        merchant.setMerchantID(merchantID);
+        // 直接使用默认的 merchantID
+        merchant.setMerchantID(defaultMerchantID);
         boolean updated = mchdetailService.updateMerchant(merchant);
         Map<String, Object> response = new HashMap<>();
         if (updated) {
             response.put("message", "商家信息更新成功");
-            response.put("merchant_id", merchantID);
+            response.put("merchant_id", defaultMerchantID);
             return ResponseEntity.ok(response);
         } else {
             response.put("message", "商家信息更新失败");
@@ -56,40 +59,38 @@ public class MchDetailController {
         }
     }
 
-    // 上传商家头像 API
-    @PostMapping("/merchants/{merchant_id}/upload-avatar")
-    public ResponseEntity<Map<String, Object>> uploadAvatar(
-            @PathVariable("merchant_id") int merchantID,
-            @RequestParam("file") MultipartFile file) {
-
-        // 创建文件存储目录
-        String uploadDir = "D:/Desktop/image/images"; // 替换为你的上传目录
+    // 后端Controller：上传商家头像 API
+    @PostMapping("/merchants/upload-avatar")
+    public ResponseEntity<Map<String, Object>> uploadAvatar(@RequestParam("file") MultipartFile file) {
+        String uploadDir = "D:/Desktop/image/images";
         File directory = new File(uploadDir);
         if (!directory.exists()) {
-            directory.mkdirs(); // 创建目录
+            directory.mkdirs();
         }
 
-        // 生成唯一文件名
         String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
         Path filePath = Paths.get(uploadDir, fileName);
 
         try {
-            // 保存文件
+            // 保存图片到本地目录
             Files.write(filePath, file.getBytes());
 
-            // 构建图片的 URL
+            // 生成图片的 URL，可以通过前端访问
             String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/images/") // 替换为你的图片访问路径
+                    .path("/images/")
                     .path(fileName)
                     .toUriString();
 
-            // 更新商家头像的 URL
-            boolean updated = mchdetailService.updateMerchantAvatar(merchantID, imageUrl);
+            // 假设你在后端定义了固定的 merchantID
+            int defaultMerchantID = 5;
+
+            // 更新商家头像 URL
+            boolean updated = mchdetailService.updateMerchantAvatar(defaultMerchantID, imageUrl);
 
             Map<String, Object> response = new HashMap<>();
             if (updated) {
                 response.put("message", "图片上传成功");
-                response.put("image_url", imageUrl);
+                response.put("avatarURL", imageUrl); // 返回生成的头像URL
                 return ResponseEntity.ok(response);
             } else {
                 response.put("message", "图片上传失败");
@@ -103,6 +104,8 @@ public class MchDetailController {
             return ResponseEntity.status(500).body(response);
         }
     }
+
+
 
     // 获取商家类型 API
     @GetMapping("/merchant-types")
