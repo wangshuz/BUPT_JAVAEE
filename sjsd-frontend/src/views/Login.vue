@@ -89,7 +89,7 @@ export default {
             try{
                 const response = await api.loginCustomer(this.customerUsername,CryptoJS.MD5(this.customerPassword).toString());
                 if(response.data){
-                    if(response.data.code == 2){
+                    if(response.data.code == 0){
                         this.$message.error('用户名或密码错误');
                         this.customerPassword = '';
                     }else{
@@ -111,7 +111,7 @@ export default {
             try{
                 const response = await api.registerCustomer(this.customerUsername,CryptoJS.MD5(this.customerPassword).toString());
                 if(response.data){
-                    if(response.data.code == 2)
+                    if(response.data.code == 0)
                         this.$message.error('用户名已存在');
                     else{
                         this.$message.success('注册成功');
@@ -132,7 +132,7 @@ export default {
             try{
                 const response = await api.loginMerchant(this.merchantUsername,CryptoJS.MD5(this.merchantPassword).toString());
                 if(response.data){
-                    if(response.data.code == 2){
+                    if(response.data.code == 0){
                         this.$message.error('用户名或密码错误');
                         this.merchantPassword = '';
                     }else{
@@ -154,7 +154,7 @@ export default {
             try{
                 const response = await api.registerMerchant(this.merchantUsername,CryptoJS.MD5(this.merchantPassword).toString());
                 if(response.data){
-                    if(response.data.code == 2)
+                    if(response.data.code == 0)
                         this.$message.error('用户名已存在');
                     else{
                         this.$message.success('注册成功');

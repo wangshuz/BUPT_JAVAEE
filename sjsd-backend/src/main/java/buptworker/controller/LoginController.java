@@ -38,7 +38,7 @@ import java.util.UUID;
  * 因此需要有对应的类来接收和处理这些数据。不过，并不是所有的 POST 请求都必须定义一个类。
  * 如果你的请求体是简单的结构（如单个字段），也可以使用简单的类型如 String、Integer、Map 等，而不必定义一个专门的类。
 // */
-
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:8080")  // 允许 http://localhost:8080 的跨域请求
 //部署到服务器上后要修改允许跨域的源，不改成全部因为允许全部后不能使用cookie。
 @RestController
