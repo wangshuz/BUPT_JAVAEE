@@ -8,20 +8,20 @@
                         <h2 class="login-title"><span>没有账号，去</span>注册</h2>
                         
                         <div class="input-box">
-                            <input type="text" placeholder="用户名">
-                            <input type="password" placeholder="密码">
+                            <input type="text" placeholder="用户名" v-model="merchantUsername">
+                            <input type="password" placeholder="密码" v-model="merchantPassword">
                         </div>
-                        <button>登录</button>
+                        <button @click="loginMerchant">登录</button>
                     </div>
                     <div class="merchant-register-box slide-up">
                         <h2 class="register-title"><span>已有账号，去</span>登录</h2>
                         
                         <div class="input-box">
-                            <input type="text" placeholder="用户名">
-                            <input type="password" placeholder="密码">
+                            <input type="text" placeholder="用户名" v-model="merchantUsername">
+                            <input type="password" placeholder="密码" v-model="merchantPassword">
                             <input type="password" placeholder="确认密码">
                         </div>
-                        <button>注册</button>
+                        <button @click="registerMerchant">注册</button>
                     </div>
                 </div>
                 <!-- 顾客登录和注册 -->
@@ -29,19 +29,19 @@
                     <div class="customer-box">
                         <h2 class="login-title"><span>没有账号，去</span>注册</h2>
                         <div class="input-box">
-                            <input type="text" placeholder="用户名">
-                            <input type="password" placeholder="密码">
+                            <input type="text" placeholder="用户名" v-model="customerUsername">
+                            <input type="password" placeholder="密码" v-model="customerPassword">
                         </div>
-                        <button>登录</button>
+                        <button @click="loginCustomer">登录</button>
                     </div>
                     <div class="customer-register-box slide-up">
                         <h2 class="register-title"><span>已有账号，去</span>登录</h2>
                         <div class="input-box">
-                            <input type="text" placeholder="用户名">
-                            <input type="password" placeholder="密码">
+                            <input type="text" placeholder="用户名" v-model="customerUsername">
+                            <input type="password" placeholder="密码" v-model="customerPassword">
                             <input type="password" placeholder="确认密码">
                         </div>
-                        <button>注册</button>
+                        <button @click="registerCustomer">注册</button>
                     </div>
                 </div>
             </div>
@@ -65,10 +65,74 @@
 
 <script>
 export default {
+    data() {
+        return {
+        // 定义数据模型
+        merchantUsername: '',
+        merchantPassword: '',
+        customerUsername: '',
+        customerPassword: ''
+        };
+    },
     mounted() {
         this.initEventListeners();
     },
     methods: {
+        loginMerchant() {
+        const { merchantUsername, merchantPassword } = this;
+        this.api.loginMerchant(merchantUsername, merchantPassword)
+            .then(response => {
+            // 处理登录成功
+            alert('登录成功:', response.data);
+            })
+            .catch(error => {
+            // 处理登录失败
+            console.error('登录失败:', error);
+            });
+        },
+
+        // 商家注册
+        registerMerchant() {
+        const { merchantUsername, merchantPassword } = this;
+        this.api.registerMerchant(merchantUsername, merchantPassword)
+            .then(response => {
+            // 处理注册成功
+            console.log('注册成功:', response.data);
+            })
+            .catch(error => {
+            // 处理注册失败
+            console.error('注册失败:', error);
+            });
+        },
+
+        // 用户登录
+        loginCustomer() {
+        const { customerUsername, customerPassword } = this;
+        this.api.loginCustomer(customerUsername, customerPassword)
+            .then(response => {
+            // 处理登录成功
+            console.log('登录成功:', response.data);
+            })
+            .catch(error => {
+            // 处理登录失败
+            console.error('登录失败:', error);
+            });
+        },
+
+        // 用户注册
+        registerCustomer() {
+        const { customerUsername, customerPassword } = this;
+        this.api.registerCustomer(customerUsername, customerPassword)
+            .then(response => {
+            // 处理注册成功
+            console.log('注册成功:', response.data);
+            })
+            .catch(error => {
+            // 处理注册失败
+            console.error('注册失败:', error);
+            });
+        },
+
         initEventListeners() {
             let login_titles = document.querySelectorAll('.login-title');
             let register_titles = document.querySelectorAll('.register-title');

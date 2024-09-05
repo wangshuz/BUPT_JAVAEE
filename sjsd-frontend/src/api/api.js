@@ -17,11 +17,8 @@ import axios from 'axios';
 //   }
 // });
 const apiClient = axios.create({
-  // baseURL:'http://localhost:8080/', // 根据你的后端服务地址调整
-  // timeout: 10000, // 请求超时时间
-  // headers: {
-  //   'Content-Type': 'multipart/form-data'
-  // }
+  baseURL:'http://127.0.0.1:8081', // 根据你的后端服务地址调整
+  timeout: 10000 // 请求超时时间
 })
 /**
  * 导出一个包含 API 请求方法的对象
@@ -86,15 +83,12 @@ export default {
     });
   },
 
-
-
-
   /**
    * 获取商家简介信息
    * 
    * @returns {Promise} 包含商家简介信息的 List
    */
-  async getMerchantIntro(){
+  getMerchantIntro(){
     return apiClient.get(`/api/merchant-intros`)
   },
 
@@ -106,7 +100,7 @@ export default {
    * 
    * @returns {Promise} 包含商家类型选项列表的 Promise 对象
    */
-  async getMerchantTypes() {
+  getMerchantTypes() {
     // 发送 GET 请求到 /api/merchant-types 端点
     return apiClient.get(`/api/merchant-types`);
   },
@@ -117,7 +111,7 @@ export default {
    * @param {number} merchantId - 商家的唯一标识符
    * @returns {Promise} 包含商家详情
    */
-  async getMerchantDetails(merchantId){
+  getMerchantDetails(merchantId){
     return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`);
   },
 
@@ -152,36 +146,34 @@ export default {
     return apiClient.get(`/api/cltAddress?cltId=${cltId}`);
   },
 
-
-  getOrders(mchId){
-      return apiClient.get(`/api/getOrders?mchId=${mchId}`);
-  },
-
-  updateOrderStatus(orderId, status){
-      return apiClient.get(`/api/updateOrderStatus?orderId=${orderId}&status=${status}`);
-  },
-  
-  deleteOrder(orderId){
-      return apiClient.get(`/api/deleteOrder?orderId=${orderId}`);
-  },
-
-  getCltOrders(userId){
-      return apiClient.get(`/api/getCltOrders?userId=${userId}`);
-  },
-
-  updateCltOrderStatus(orderId, status){
-      return apiClient.get(`/api/updateCltOrderStatus?orderId=${orderId}&status=${status}`);
-  },
-
-  deleteCltOrder(orderId){
-    return apiClient.get(`/api/deleteCltOrder?orderId=${orderId}`);
-  },
-
   /* 
   function().then(item=>{
       item.data.data 为所需数据
     })
   */
+
+    
+  // 商家登录
+    loginMerchant(username, password) {
+      return apiClient.post('/api/merchants/login', { username, password });
+    },
+
+    // 商家注册
+    registerMerchant(username, password, type) {
+      return apiClient.post('/api/merchants/register', { username, password});
+    },
+
+    // 用户登录
+    loginCustomer(username, password) {
+      return apiClient.post('/api/customers/login', { username, password });
+    },
+
+    // 用户注册
+    registerCustomer(username, password) {
+      return apiClient.post('/api/customers/register', { username, password });
+    },
+
+
 
 
 
