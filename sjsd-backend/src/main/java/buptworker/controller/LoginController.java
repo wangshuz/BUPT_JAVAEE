@@ -68,7 +68,7 @@ public class LoginController {
 
             ret = Result.success();
         } else {
-            ret = Result.error("");
+            ret = Result.error("用户名或密码错误");
         }
         return ret;
     }
@@ -91,7 +91,7 @@ public class LoginController {
 
             ret = Result.success();
         } else {
-            ret = Result.error("");
+            ret = Result.error("用户名或密码错误");
         }
         return ret;
     }
@@ -117,6 +117,31 @@ public class LoginController {
         }
         return "No active session found";
     }
+
+    @RequestMapping("/clt/register")
+    public Result registerClt(@RequestBody User clt){
+        boolean is_OK = authService.registerClt(clt);
+        Result ret = null;
+        if(is_OK==true){
+            ret = Result.success();
+        }else{
+            ret = Result.error("用户名已存在");
+        }
+        return ret;
+    }
+
+    @RequestMapping("/mch/register")
+    public Result registerMch(@RequestBody User mch){
+        boolean is_OK = authService.registerMch(mch);
+        Result ret = null;
+        if(is_OK==true){
+            ret = Result.success();
+        }else{
+            ret = Result.error("用户名已存在");
+        }
+        return ret;
+    }
+
 
     // 获取当前用户ID或商家ID的方法
     public SessionData getSessionDataFromRequest(HttpServletRequest request) {

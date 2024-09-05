@@ -14,7 +14,6 @@ package buptworker.entity;
 public class LoginRequest {
 
     private String username;
-
     private String password;
 
     // 无参构造函数

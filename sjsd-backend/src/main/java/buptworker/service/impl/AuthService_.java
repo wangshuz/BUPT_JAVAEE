@@ -43,4 +43,24 @@ public class AuthService_ implements AuthService {
             return user;
         }
     }
+
+    @Override
+    public boolean registerClt(User clt) {
+        int num = authMapper.countByCltname(clt.getUsername());
+        if(num > 0){
+            return false;
+        }
+        authMapper.insertClt(clt);
+        return true;
+    }
+
+    @Override
+    public boolean registerMch(User mch) {
+        int num = authMapper.countByMchname(mch.getUsername());
+        if(num>0){
+            return false;
+        }
+        authMapper.insertMch(mch);
+        return true;
+    }
 }
