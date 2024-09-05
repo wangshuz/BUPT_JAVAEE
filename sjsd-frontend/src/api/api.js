@@ -187,6 +187,15 @@ export default {
     return apiClient.get(`/api/salesData?merchantId=${merchantId}`);
   },
 
+  /**
+   * 获取商家数据（简版）
+   * @param {number} merchantId
+   * @returns {Promise} Promise
+   */
+  getCurData(merchantId){
+    return apiClient.get(`/api/curData?merchantId=${merchantId}`)
+  },
+
   /* 
   function().then(item=>{
       item.data.data 为所需数据

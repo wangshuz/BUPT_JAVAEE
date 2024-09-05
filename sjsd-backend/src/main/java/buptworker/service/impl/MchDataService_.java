@@ -1,11 +1,13 @@
 package buptworker.service.impl;
 
+import buptworker.entity.Data;
 import buptworker.entity.SalesData;
 import buptworker.mapper.MchDataMapper;
 import buptworker.service.MchDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,5 +27,19 @@ public class MchDataService_ implements MchDataService {
     @Override
     public List<SalesData> listSalesData(int merchantId) {
         return mchDataMapper.listSalesData(merchantId);
+    }
+
+    @Override
+    public List<Data> getCurData(int merchantId) {
+        SalesData salesData = mchDataMapper.getCurData(merchantId);
+        if(salesData==null){
+            salesData = new SalesData("",0,0,0,0);
+        }
+        List<Data> listData = new ArrayList<Data>();
+        listData.add(new Data("营业额",(int)salesData.getTotalSalesAmount()));
+        listData.add(new Data("总销量",salesData.getTotalSalesVolume()));
+        listData.add(new Data("订单数",salesData.getTotalOrderCount()));
+        listData.add(new Data("用户数",salesData.getTotalCustomerCount()));
+        return listData;
     }
 }

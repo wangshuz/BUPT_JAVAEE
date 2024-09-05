@@ -72,7 +72,7 @@ export default {
                     "value":100,
                 },
                 {
-                    "name":"平均客单价",
+                    "name":"总销量",
                     "value":100,
                 },
             ],

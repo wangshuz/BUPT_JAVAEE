@@ -18,6 +18,14 @@ public class SalesData {
     private int totalOrderCount; // 总订单数
     private int totalCustomerCount; // 总顾客数
 
+    public SalesData(String orderDate, int totalSalesVolume, double totalSalesAmount, int totalOrderCount, int totalCustomerCount) {
+        this.orderDate = orderDate;
+        this.totalSalesVolume = totalSalesVolume;
+        this.totalSalesAmount = totalSalesAmount;
+        this.totalOrderCount = totalOrderCount;
+        this.totalCustomerCount = totalCustomerCount;
+    }
+
     // Getters and Setters
     public String getOrderDate() {
         return orderDate;

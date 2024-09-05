@@ -49,6 +49,20 @@ public interface MchDataMapper {
             "ORDER BY DATE(o.order_date) DESC")
     List<SalesData> listSalesData(@Param("merchantId") int merchantId);
 
+    @Select("SELECT DATE(o.order_date) AS orderDate, " +
+            "COUNT(DISTINCT o.order_id) AS totalOrderCount, " +  // 计算总订单数
+            "COUNT(DISTINCT o.user_id) AS totalCustomerCount, " +  // 计算顾客数
+            "SUM(oi.quantity) AS totalSalesVolume, " +           // 计算总销量
+            "SUM(o.total_amount) AS totalSalesAmount " +         // 计算总销售额
+            "FROM Orders o " +
+            "JOIN (SELECT order_id, SUM(quantity) AS quantity " +
+            "      FROM Order_Item " +
+            "      GROUP BY order_id) oi ON o.order_id = oi.order_id " +
+            "WHERE o.merchant_id = #{merchantId} " +
+            "AND DATE(o.order_date) = CURDATE() " +
+            "GROUP BY DATE(o.order_date)")
+    SalesData getCurData(@Param("merchantId") int merchantId);
+
 }
 
 

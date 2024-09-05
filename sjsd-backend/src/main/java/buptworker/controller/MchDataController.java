@@ -24,4 +24,8 @@ public class MchDataController {
     public Result listSalesData(int merchantId){
         return Result.success(mchDataService.listSalesData(merchantId));
     }
+    @RequestMapping("/curData")
+    public Result curData(int merchantId){
+        return Result.success(mchDataService.getCurData(merchantId));
+    }
 }
