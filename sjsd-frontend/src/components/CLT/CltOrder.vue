@@ -31,11 +31,11 @@
             <el-table-column
             label="订单信息"
             width="700">
-            <template #default="{ row }">
-              <div style="font-size: 17px; margin-top: 5px; margin-bottom: 5px; height: 30px;"  @click="goToStore">{{ row.mchname }}</div>
+            <template  slot-scope="scope">
+              <div style="font-size: 17px; margin-top: 5px; margin-bottom: 5px; height: 30px;"  @click="goToStore(scope.$index)">{{ scope.row.mchname }}</div>
               <div class="scroll-box">
                 <!-- 使用 v-for 循环订单信息 -->
-                <div id="msgbox" v-for="(order, index) in row.info" :key="index" style="display: flex; align-items: flex-start; margin-right: 20px; background-color: #CECECE; border-radius: 10px;">
+                <div id="msgbox" v-for="(order, index) in scope.row.info" :key="index" style="display: flex; align-items: flex-start; margin-right: 20px; background-color: #CECECE; border-radius: 10px;">
                   <!-- 图片部分 -->
                   <span>
                     <img id="msgpicture" class="msgcmp" :src="order.picture" alt="商品图片" style="width: 60px; height: 60px; margin-right: 10px;">
@@ -76,7 +76,7 @@
                   <el-button type="text" v-if="scope.row.state === '1'" @click="cancleorder(scope.$index)">
                     <span style="color: red;">取消订单</span>
                   </el-button>
-                  <el-button type="text" v-if="scope.row.state != '1'" @click="goToStore">
+                  <el-button type="text" v-if="scope.row.state != '1'" @click="goToStore(scope.$index)">
                     <span style="color: green;">再来一单</span>
                   </el-button>
                   <el-button type="text" v-if="scope.row.state != '1'" @click="deleteOrder(scope.$index)">
@@ -97,6 +97,7 @@
 <script>
 import SideBar from '../SideBar.vue';
 import SearchBox from '../SearchBox.vue';
+import { time } from 'echarts';
 
   export default {
     components: { SideBar,SearchBox },
@@ -136,7 +137,7 @@ import SearchBox from '../SearchBox.vue';
         tableData: [
         // state:  1.待收货  2.已完成  3.已取消
         {
-          mchId:'',
+          mchId:'1',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -432,7 +433,7 @@ import SearchBox from '../SearchBox.vue';
         },],
         listData:[
                 {
-                    "id":10001,
+                    "id":0,
                     "typeName":"全部",
                     "cb":function(){
                       this.$emit('change-pagestate','0');
@@ -440,21 +441,21 @@ import SearchBox from '../SearchBox.vue';
                     },
                 },
                 {
-                    "id":10002,
+                    "id":'10002',
                     "typeName":"待收货",
                     "cb":function(){
                       this.$emit('change-pagestate','1');
                     },
                 },
                 {
-                    "id":10003,
+                    "id":'10003',
                     "typeName":"已完成",
                     "cb":function(){
                       this.$emit('change-pagestate','2');
                     },
                 },
                 {
-                    "id":10004,
+                    "id":'10004',
                     "typeName":"已取消",
                     "cb":function(){
                       this.$emit('change-pagestate','3');
@@ -464,43 +465,93 @@ import SearchBox from '../SearchBox.vue';
       }
     },
     methods: {
-      fetchOrders() {
+      async fetchOrders() {
           //getCltOrders(userId){
           //    return apiClient.get(`/api/getCltOrders?userId=${userId}`);
           //},
-          api.getCltOrders(this.userId)
-          .then(response => {
-          this.tableData = response.data.data;
-          })
-          .catch(error => {
-          console.error('获取订单列表时出错:', error);
-          });
+          try{
+            const response = await api.getCltOrders(this.userId);
+            this.tableData = response;
+          }
+          catch(error)
+          {
+            console.error('获取订单列表时出错:', error);
+          }
+          // api.getCltOrders(this.userId)
+          // .then(response => {
+          // this.tableData = response.data.data;
+          // })
+          // .catch(error => {
+          // console.error('获取订单列表时出错:', error);
+          // });
       },
-      changeCltOrderStatus(orderId, status) {
+      async changeCltOrderRealtime(orderId){
+        //changeCltOrderRealtime(orderId, time){
+          //    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
+          //},
+          try{
+            const now = new Date();
+            const response = await api.changeCltOrderRealtime(orderId, now.toString());
+            console.log(response.data);
+            await this.fetchOrders(); 
+          }
+          catch(error)
+          {
+            console.error('更新送达时间时出错:', error);
+          }
+          // const now = new Date();
+          // api.changeCltOrderRealtime(orderId, now.toString())
+          // .then(response => {
+          // console.log(response.data);
+          // this.fetchCltOrders(); // 更新状态后重新获取订单列表
+          // })
+          // .catch(error => {
+          // console.error('更新送达时间时出错:', error);
+          // });
+      },
+      async changeCltOrderStatus(orderId, status) {
           //updateCltOrderStatus(orderId, status){
           //    return apiClient.get(`/api/updateCltOrderStatus?orderId=${orderId}&status=${status}`);
           //},
-          api.updateCltOrderStatus(orderId, status)
-          .then(response => {
-          console.log(response.data);
-          this.fetchCltOrders(); // 更新状态后重新获取订单列表
-          })
-          .catch(error => {
-          console.error('更新订单状态时出错:', error);
-          });
+          try{
+            const response = await api.updateCltOrderStatus(orderId, status);
+            console.log(response.data);
+            await this.fetchOrders(); // 更新状态后重新获取订单列表
+          }
+          catch(error)
+          {
+            console.error('更新订单状态时出错:', error);
+          }
+          // api.updateCltOrderStatus(orderId, status)
+          // .then(response => {
+          // console.log(response.data);
+          // this.fetchCltOrders(); // 更新状态后重新获取订单列表
+          // })
+          // .catch(error => {
+          // console.error('更新订单状态时出错:', error);
+          // });
       },
-      deleteCltOrder(orderId) {
+      async deleteCltOrder(orderId) {
           //deleteCltOrder(orderId){
           //    return apiClient.get(`/api/deleteCltOrder?orderId=${orderId}`);
           //},
-          api.deleteCltOrder(orderId)
-          .then(response => {
-          console.log(response.data);
-          this.fetchCltOrders(); // 删除订单后重新获取订单列表
-          })
-          .catch(error => {
-          console.error('删除订单时出错:', error);
-          });
+          try{
+            const response = await api.deleteCltOrder(orderId);
+            console.log(response.data);
+            await this.fetchOrders(); // 删除订单后重新获取订单列表
+          }
+          catch(error)
+          {
+            console.error('删除订单时出错:', error);
+          }
+          // api.deleteCltOrder(orderId)
+          // .then(response => {
+          // console.log(response.data);
+          // this.fetchCltOrders(); // 删除订单后重新获取订单列表
+          // })
+          // .catch(error => {
+          // console.error('删除订单时出错:', error);
+          // });
       },
       handleDateChange() {
           this.filteredData();
@@ -517,7 +568,7 @@ import SearchBox from '../SearchBox.vue';
         this.pagestate = newstate;
         this.filteredData();
       },
-      goToStore() {
+      goToStore(index) {
          // 如果当前标签页是“待接单”
          if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
         // 计算在“待接单”标签页中索引对应的订单
@@ -613,10 +664,12 @@ import SearchBox from '../SearchBox.vue';
           query: { orderId : this.tableData[index].orderId }  // 传递数据
         }); // 通过路由的名称跳转
       },
-      confirmreceipt(index) {
+      async confirmreceipt(index) {
         // 如果当前标签页是“全部订单”
         if (this.pagestate === '0') {
-        this.tableData[index].state = '2';
+        //this.tableData[index].state = '2';
+        await changeCltOrderRealtime(this.tableData[index].orderId);
+        await changeCltOrderStatus(this.tableData[index].orderId, '4') 
         } 
         // 如果当前标签页是“待接单”
         else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
@@ -625,7 +678,9 @@ import SearchBox from '../SearchBox.vue';
         for (let i = 0; i < this.tableData.length; i++) {
             if (this.tableData[i].state === '1') {
             if (count === index) {
-                this.tableData[i].state = '2';
+                //this.tableData[i].state = '2';
+                await changeCltOrderRealtime(this.tableData[i].orderId);
+                await changeCltOrderStatus(this.tableData[i].orderId, '4') 
                 break;
             }
             count++;
@@ -633,10 +688,11 @@ import SearchBox from '../SearchBox.vue';
         }
         }
       },
-      cancleorder(index) {
+      async cancleorder(index) {
           // 如果当前标签页是“全部订单”
           if (this.pagestate === '0') {
-          this.tableData[index].state = '3';
+          //this.tableData[index].state = '3';
+          await changeCltOrderStatus(this.tableData[index].orderId, '5');
           } 
           // 如果当前标签页是“待接单”
           else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
@@ -645,7 +701,8 @@ import SearchBox from '../SearchBox.vue';
           for (let i = 0; i < this.tableData.length; i++) {
               if (this.tableData[i].state === '1') {
               if (count === index) {
-                  this.tableData[i].state = '3';
+                  //this.tableData[i].state = '3';
+                  await changeCltOrderStatus(this.tableData[i].orderId, '5'); 
                   break;
               }
               count++;
@@ -653,10 +710,11 @@ import SearchBox from '../SearchBox.vue';
           }
           }
       },
-      deleteOrder(index) {
+      async deleteOrder(index) {
         // 如果当前标签页是“全部订单”
         if (this.pagestate === '0') {
-            this.tableData.splice(index, 1);
+            //this.tableData.splice(index, 1);
+            await deleteCltOrder(this.tableData[index].orderId);
         } 
         // 如果当前标签页是“待接单”
         else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
@@ -665,7 +723,8 @@ import SearchBox from '../SearchBox.vue';
             for (let i = 0; i < this.tableData.length; i++) {
                 if (this.tableData[i].state === '1') {
                 if (count === index) {
-                    this.tableData.splice(i, 1);
+                    //this.tableData.splice(i, 1);
+                    await deleteCltOrder(this.tableData[i].orderId);
                     break;
                 }
                 count++;
@@ -679,7 +738,8 @@ import SearchBox from '../SearchBox.vue';
             for (let i = 0; i < this.tableData.length; i++) {
                 if (this.tableData[i].state === '2') {
                 if (count === index) {
-                    this.tableData.splice(i, 1);
+                    //this.tableData.splice(i, 1);
+                    await deleteCltOrder(this.tableData[i].orderId);
                     break;
                 }
                 count++;
@@ -693,7 +753,8 @@ import SearchBox from '../SearchBox.vue';
             for (let i = 0; i < this.tableData.length; i++) {
                 if (this.tableData[i].state === '3') {
                 if (count === index) {
-                    this.tableData.splice(i, 1);
+                    //this.tableData.splice(i, 1);
+                    await deleteCltOrder(this.tableData[i].orderId);
                     break;
                 }
                 count++;
@@ -713,7 +774,11 @@ import SearchBox from '../SearchBox.vue';
       }
     },
     mounted(){
-      fetchOrders();
+      // fetchOrders();
+    },
+    async created()
+    {
+      await fetchOrders();
     },
     computed: {
         filteredData() {

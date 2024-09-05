@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api")
 public class CltMainController {
     @Autowired
@@ -33,6 +33,7 @@ public class CltMainController {
     public Result MchType(){
         return Result.success(cltMainService.listMchType());
     }
+
 
 
 }

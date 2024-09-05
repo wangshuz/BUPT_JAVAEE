@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class CltOrderController {
     @Autowired
     private CltOrderService cltOrderService;
@@ -25,6 +26,12 @@ public class CltOrderController {
     @RequestMapping("/deleteCltOrder")
     public Result deleteCltOrder(String orderId) {
         cltOrderService.deleteCltMchOrder(orderId);
+        return Result.success();
+    }
+
+    @RequestMapping("/changeCltOrderRealtime")
+    public Result changeCltOrderRealtime(String orderId, String realtime) {
+        cltOrderService.actualDeliveryTime(orderId, realtime);
         return Result.success();
     }
 }
