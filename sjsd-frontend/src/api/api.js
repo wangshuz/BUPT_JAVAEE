@@ -17,8 +17,11 @@ import axios from 'axios';
 //   }
 // });
 const apiClient = axios.create({
-  baseURL:'http://127.0.0.1:8081', // 根据你的后端服务地址调整
-  timeout: 10000 // 请求超时时间
+  // baseURL:'http://localhost:8080/', // 根据你的后端服务地址调整
+  // timeout: 10000, // 请求超时时间
+  // headers: {
+  //   'Content-Type': 'multipart/form-data'
+  // }
 })
 /**
  * 导出一个包含 API 请求方法的对象
@@ -83,6 +86,9 @@ export default {
     });
   },
 
+
+
+
   /**
    * 获取商家简介信息
    * 
@@ -144,6 +150,41 @@ export default {
    */
   getCltAddress(cltId){
     return apiClient.get(`/api/cltAddress?cltId=${cltId}`);
+  },
+
+
+  getOrders(mchId){
+      return apiClient.get(`/api/getOrders?mchId=${mchId}`);
+  },
+
+  updateOrderStatus(orderId, status){
+      return apiClient.get(`/api/updateOrderStatus?orderId=${orderId}&status=${status}`);
+  },
+  
+  deleteOrder(orderId){
+      return apiClient.get(`/api/deleteOrder?orderId=${orderId}`);
+  },
+
+  getCltOrders(userId){
+      return apiClient.get(`/api/getCltOrders?userId=${userId}`);
+  },
+
+  updateCltOrderStatus(orderId, status){
+      return apiClient.get(`/api/updateCltOrderStatus?orderId=${orderId}&status=${status}`);
+  },
+
+  deleteCltOrder(orderId){
+    return apiClient.get(`/api/deleteCltOrder?orderId=${orderId}`);
+  },
+
+  /**
+   * 获取商家统计数据
+   * 
+   * @param {number} merchantId
+   * @return {Promise}
+   */
+  getMchData(merchantId){
+    return apiClient.get(`/api/salesData?merchantId=${merchantId}`);
   },
 
   /* 

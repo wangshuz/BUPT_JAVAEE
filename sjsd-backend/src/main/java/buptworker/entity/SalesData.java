@@ -13,8 +13,10 @@ package buptworker.entity;
 
 public class SalesData {
     private String orderDate; // 订单日期
-    private int totalSalesVolume; // 每天的总销量
-    private double totalSalesAmount; // 每天的总销售额
+    private int totalSalesVolume; // 总销量
+    private double totalSalesAmount; // 总销售额
+    private int totalOrderCount; // 总订单数
+    private int totalCustomerCount; // 总顾客数
 
     // Getters and Setters
     public String getOrderDate() {
@@ -41,12 +43,30 @@ public class SalesData {
         this.totalSalesAmount = totalSalesAmount;
     }
 
+    public int getTotalOrderCount() {
+        return totalOrderCount;
+    }
+
+    public void setTotalOrderCount(int totalOrderCount) {
+        this.totalOrderCount = totalOrderCount;
+    }
+
+    public int getTotalCustomerCount() {
+        return totalCustomerCount;
+    }
+
+    public void setTotalCustomerCount(int totalCustomerCount) {
+        this.totalCustomerCount = totalCustomerCount;
+    }
+
     @Override
     public String toString() {
         return "SalesData{" +
                 "orderDate='" + orderDate + '\'' +
                 ", totalSalesVolume=" + totalSalesVolume +
                 ", totalSalesAmount=" + totalSalesAmount +
+                ", totalOrderCount=" + totalOrderCount +
+                ", totalCustomerCount=" + totalCustomerCount +
                 '}';
     }
 }
