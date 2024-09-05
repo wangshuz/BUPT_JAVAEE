@@ -54,6 +54,6 @@ public interface MchOrderMapper {
 
     @Update("UPDATE Orders " +
             "SET is_deleted_by_merchant = FALSE " +
-            "WHERE order_id = ?; ")
+            "WHERE order_id = #{orderId}; ")
     public void updateIsDeleted(@Param("orderId") String orderId);
 }

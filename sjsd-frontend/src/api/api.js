@@ -94,7 +94,7 @@ export default {
    * 
    * @returns {Promise} 包含商家简介信息的 List
    */
-  async getMerchantIntro(){
+  getMerchantIntro(){
     return apiClient.get(`/api/merchant-intros`)
   },
 
@@ -106,7 +106,7 @@ export default {
    * 
    * @returns {Promise} 包含商家类型选项列表的 Promise 对象
    */
-  async getMerchantTypes() {
+  getMerchantTypes() {
     // 发送 GET 请求到 /api/merchant-types 端点
     return apiClient.get(`/api/merchant-types`);
   },
@@ -117,7 +117,7 @@ export default {
    * @param {number} merchantId - 商家的唯一标识符
    * @returns {Promise} 包含商家详情
    */
-  async getMerchantDetails(merchantId){
+  getMerchantDetails(merchantId){
     return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`);
   },
 
@@ -192,6 +192,29 @@ export default {
       item.data.data 为所需数据
     })
   */
+
+    
+  // 商家登录
+    loginMerchant(username, password) {
+      return apiClient.post('/api/merchants/login', { username, password });
+    },
+
+    // 商家注册
+    registerMerchant(username, password, type) {
+      return apiClient.post('/api/merchants/register', { username, password});
+    },
+
+    // 用户登录
+    loginCustomer(username, password) {
+      return apiClient.post('/api/customers/login', { username, password });
+    },
+
+    // 用户注册
+    registerCustomer(username, password) {
+      return apiClient.post('/api/customers/register', { username, password });
+    },
+
+
 
 
 
