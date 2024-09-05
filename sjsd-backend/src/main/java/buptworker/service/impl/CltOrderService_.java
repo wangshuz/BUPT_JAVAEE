@@ -23,6 +23,11 @@ public class CltOrderService_ implements CltOrderService {
         List<CltOrder> cltOrders = new ArrayList<CltOrder>();
         List<CltOrderItem> cltOrderItems = cltOrderMapper.getCltOrderItems(userId);
         for (CltOrderItem cltOrderItem : cltOrderItems) {
+            switch (cltOrderItem.getState()) {
+                case "1", "2", "3" -> cltOrderItem.setState("1");
+                case "4" -> cltOrderItem.setState("2");
+                case "5" -> cltOrderItem.setState("3");
+            }
             List<CltOrderInfo> cltOrderInfos = cltOrderMapper.getCltOrderInfos(cltOrderItem.getOrderId());
             cltOrders.add(new CltOrder(cltOrderItem, cltOrderInfos));
         }
@@ -41,6 +46,10 @@ public class CltOrderService_ implements CltOrderService {
         cltOrderMapper.deleteCltMchOrder(orderId);
     }
 
-
+    @Override
+    public void actualDeliveryTime(String orderId, String realTime)
+    {
+        cltOrderMapper.changeCltOrderRealtime(orderId, realTime);
+    }
 
 }

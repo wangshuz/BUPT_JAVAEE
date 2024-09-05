@@ -27,4 +27,10 @@ public class CltOrderController {
         cltOrderService.deleteCltMchOrder(orderId);
         return Result.success();
     }
+
+    @RequestMapping("/changeCltOrderRealtime")
+    public Result changeCltOrderRealtime(String orderId, String realtime) {
+        cltOrderService.actualDeliveryTime(orderId, realtime);
+        return Result.success();
+    }
 }

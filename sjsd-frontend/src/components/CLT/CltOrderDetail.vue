@@ -26,7 +26,7 @@
             </div>
         </div>
         <hr class="h-left-hr">
-        <div class="orderID">订单号：{{ orderID }}</div>
+        <div class="orderID">订单号：{{ orderId }}</div>
         <div class="address-note">
             <div class="address">配送地址：{{ address }}</div>
             <div class="note">备注：{{ note }}</div>
@@ -51,28 +51,28 @@
         <div class="bottom-button">
             <span v-if="state === '1'">
                 <el-button plain>
-                <span style="font-size: 20px; color: red;">
+                <span style="font-size: 20px; color: red;" @click="handlecancle()">
                     取消订单
                 </span>
             </el-button>
             </span>
             <span v-if="state === '1'">
                 <el-button plain>
-                <span style="font-size: 20px; color: black;" @click="goToStore">
+                <span style="font-size: 20px; color: black;" @click="handleaccept()">
                     确认收货
                 </span>
             </el-button>
             </span>
             <span v-if="state === '2' || state === '3'">
                 <el-button plain v-if="state === '2' || state === '3'">
-                <span style="font-size: 20px; color: red;">
+                <span style="font-size: 20px; color: red;" @click="handledelete()">
                     删除订单
                 </span>
             </el-button>
             </span>
             <span v-if="state === '2' || state === '3'">
                 <el-button plain v-if="state === '2' || state === '3'">
-                <span style="font-size: 20px; color: black;" @click="goToStore">
+                <span style="font-size: 20px; color: black;" @click="goToStore();">
                     再来一单
                 </span>
             </el-button>
@@ -143,7 +143,7 @@ export default {
         realdate:'2024-08-30 10:30:45',
         // 1.微信支付  2.支付宝支付
         payway:'1',
-        state:'2',
+        state:'1',
         pdtmoney:'198',
         totalmoney:'496'
         }
@@ -155,49 +155,127 @@ export default {
                 query: { mchId : this.mchId }  // 传递数据
              }); // 通过路由的名称跳转
         },
-        fetchOrderDetail() {
+        goToOrder()
+        {
+            this.$router.push({ 
+                name: 'CltOrder'
+             }); // 通过路由的名称跳转
+        },
+        async handledelete(){
+            await deleteCltOrderDetail(this.orderId);
+            goToOrder();
+
+        },
+        async handleaccept()
+        {
+            await changeCltOrderRealtime(this.orderId);
+            await changeCltOrderDetailStatus(this.orderId, '4');
+        },
+        async handlecancle()
+        {
+            await changeCltOrderDetailStatus(this.orderId, '5');
+        },
+        handleonemoretime()
+        {
+            goToStore();
+        },
+        async fetchOrderDetail() {
           //getCltOrderDetail(orderId){
           //    return apiClient.get(`/api/getCltOrderDetail?orderId=${orderId}`);
           //},
-          api.getCltOrderDetail(this.orderId)
-          .then(response => {
-          this.tableData = response.data.data;
-          })
-          .catch(error => {
-          console.error('获取订单列表时出错:', error);
-          });
+          try{
+            const response = await api.getCltOrderDetail(this.orderId);
+            this.tableData = response;
+          }
+          catch(error)
+          {
+            console.error('获取订单列表时出错:', error);
+          }
+        //   api.getCltOrderDetail(this.orderId)
+        //   .then(response => {
+        //   this.tableData = response.data.data;
+        //   })
+        //   .catch(error => {
+        //   console.error('获取订单列表时出错:', error);
+        //   });
       },
-      changeCltOrderDetailStatus(orderId, status) {
+      async changeCltOrderDetailStatus(orderId, status) {
           //updateCltOrderDetailStatus(orderId, status){
           //    return apiClient.get(`/api/updateCltOrderDetailStatus?orderId=${orderId}&status=${status}`);
           //},
-          api.updateCltOrderDetailStatus(orderId, status)
-          .then(response => {
-          console.log(response.data);
-          this.fetchOrderDetail(); // 更新状态后重新获取订单列表
-          })
-          .catch(error => {
-          console.error('更新订单状态时出错:', error);
-          });
+          try{
+            const response = await api.updateCltOrderDetailStatus(orderId, status);
+            console.log(response);
+            await this.fetchOrderDetail();
+          }
+          catch(error)
+          {
+            console.error('更新订单状态时出错:', error);
+          }
+        //   api.updateCltOrderDetailStatus(orderId, status)
+        //   .then(response => {
+        //   console.log(response.data);
+        //   this.fetchOrderDetail(); // 更新状态后重新获取订单列表
+        //   })
+        //   .catch(error => {
+        //   console.error('更新订单状态时出错:', error);
+        //   });
       },
-      deleteCltOrderDetail(orderId) {
+      async deleteCltOrderDetail(orderId) {
           //deleteCltOrderDetail(orderId){
           //    return apiClient.get(`/api/deleteCltOrderDetail?orderId=${orderId}`);
           //},
-          api.deleteCltOrderDetail(orderId)
-          .then(response => {
-          console.log(response.data);
-          this.fetchOrderDetail(); // 删除订单后重新获取订单列表
-          })
-          .catch(error => {
-          console.error('删除订单时出错:', error);
-          });
+          try{
+            const response = await api.deleteCltOrderDetail(orderId);
+            console.log(response.data);
+            await this.fetchOrderDetail(); // 删除订单后重新获取订单列表
+          }
+          catch(error)
+          {
+            console.error('删除订单时出错:', error);
+          }
+        //   api.deleteCltOrderDetail(orderId)
+        //   .then(response => {
+        //   console.log(response.data);
+        //   this.fetchOrderDetail(); // 删除订单后重新获取订单列表
+        //   })
+        //   .catch(error => {
+        //   console.error('删除订单时出错:', error);
+        //   });
+      },
+      async changeCltOrderRealtime(orderId){
+        //changeCltOrderRealtime(orderId, time){
+          //    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
+          //},
+          try{
+            const now = new Date();
+            const response = await api.changeCltOrderRealtime(orderId, now.toString());
+            console.log(response);
+            await this.fetchCltOrders(); // 更新状态后重新获取订单列表
+          }
+          catch(error)
+          {
+            console.error('更新送达时间时出错:', error);
+          }
+        //   const now = new Date();
+        //   api.changeCltOrderRealtime(orderId, now.toString())
+        //   .then(response => {
+        //   console.log(response.data);
+        //   this.fetchCltOrders(); // 更新状态后重新获取订单列表
+        //   })
+        //   .catch(error => {
+        //   console.error('更新送达时间时出错:', error);
+        //   });
       },
     },
     mounted()
     {
         const orderId = this.$route.query.orderId;
-        fetchOrderDetail();
+    },
+    async created()
+    {
+        
+        await fetchOrderDetail();
     }
 }
 </script>

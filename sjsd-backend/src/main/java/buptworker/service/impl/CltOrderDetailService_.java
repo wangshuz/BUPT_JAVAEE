@@ -21,6 +21,11 @@ public class CltOrderDetailService_ implements CltOrderDetailService {
         List<CltOrderDetail> cltOrdersDetails = new ArrayList<CltOrderDetail>();
         List<CltOrderDetailItem> cltOrderDetailItems = cltOrderDetailMapper.getcltOrderDetailItemByOrderId(orderId);
         for (CltOrderDetailItem cltOrderDetailItem : cltOrderDetailItems) {
+            switch (cltOrderDetailItem.getState()) {
+                case "1", "2", "3" -> cltOrderDetailItem.setState("1");
+                case "4" -> cltOrderDetailItem.setState("2");
+                case "5" -> cltOrderDetailItem.setState("3");
+            }
             List<CltOrderDDetailInfo> cltOrderDetailInfos = cltOrderDetailMapper.listCltOrderDetailInfoByOrderId(orderId);
             cltOrdersDetails.add(new CltOrderDetail(cltOrderDetailItem, cltOrderDetailInfos));
         }
