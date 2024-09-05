@@ -7,6 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,19 +35,7 @@ public class MchDetailController {
         } else {
             return ResponseEntity.notFound().build();
         }
-        // 创建一个带有默认值的 Merchant 实例
-        /*Merchant defaultMerchant = new Merchant();
-        defaultMerchant.setMerchantID(0);
-        defaultMerchant.setMerchantName("默认商家");
-        defaultMerchant.setMerchantAddress("无地址");
-        defaultMerchant.setPhoneNumber("无电话");
-        defaultMerchant.setOpeningHours("无营业时间");
-        defaultMerchant.setMerchantDescription("暂无描述");
-        defaultMerchant.setIsOpen(false);
-        defaultMerchant.setDeliveryFee(0.0);
-        defaultMerchant.setMinimumOrderAmount(0.0);
-        defaultMerchant.setPackagingFeePerItem(0.0);
-        return ResponseEntity.ok(defaultMerchant);*/
+
     }
 
     // 更新商家信息 APIf
@@ -66,15 +61,44 @@ public class MchDetailController {
     public ResponseEntity<Map<String, Object>> uploadAvatar(
             @PathVariable("merchant_id") int merchantID,
             @RequestParam("file") MultipartFile file) {
-        // 假设图片存储后返回图片的URL
-        String imageURL = "https://example.com/images/avatar.jpg";  // 图片上传逻辑省略
-        boolean updated = mchdetailService.updateMerchantAvatar(merchantID, imageURL);
-        Map<String, Object> response = new HashMap<>();
-        if (updated) {
-            response.put("message", "图片上传成功");
-            response.put("image_url", imageURL);
-            return ResponseEntity.ok(response);
-        } else {
+
+        // 创建文件存储目录
+        String uploadDir = "D:/Desktop/image/images"; // 替换为你的上传目录
+        File directory = new File(uploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs(); // 创建目录
+        }
+
+        // 生成唯一文件名
+        String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+        Path filePath = Paths.get(uploadDir, fileName);
+
+        try {
+            // 保存文件
+            Files.write(filePath, file.getBytes());
+
+            // 构建图片的 URL
+            String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/images/") // 替换为你的图片访问路径
+                    .path(fileName)
+                    .toUriString();
+
+            // 更新商家头像的 URL
+            boolean updated = mchdetailService.updateMerchantAvatar(merchantID, imageUrl);
+
+            Map<String, Object> response = new HashMap<>();
+            if (updated) {
+                response.put("message", "图片上传成功");
+                response.put("image_url", imageUrl);
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("message", "图片上传失败");
+                return ResponseEntity.status(500).body(response);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Map<String, Object> response = new HashMap<>();
             response.put("message", "图片上传失败");
             return ResponseEntity.status(500).body(response);
         }
