@@ -130,14 +130,15 @@
         <el-form-item label="商家头像" :label-width="formLabelWidth">
           <el-upload
   class="avatar-uploader"
-  :action="uploadUrl"
+  action="/api/merchants/upload-avatar"
   :show-file-list="false"
   :on-success="handleAvatarSuccess"
   :before-upload="beforeAvatarUpload"
 >
-            <img v-if="avatarURL" :src="avatarURL" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+  <img v-if="avatarURL" :src="avatarURL" class="avatar" />
+  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+</el-upload>
+
         </el-form-item>
 
         <el-form-item label="是否营业" :label-width="formLabelWidth">
@@ -232,7 +233,7 @@ import api from "@/api/api"; // 请根据实际文件路径替换
 export default {
   data() {
     return {
-      merchantID: 5, // 假设从其他地方传入或计算出来
+     merchantID:1 ,
       merchantName: "XX快餐",
       phoneNumber: "1234567890",
       merchantAddress: "XX街道XX号",
@@ -279,14 +280,29 @@ export default {
 },
 
   methods: {
+    // 处理头像上传成功的回调
     handleAvatarSuccess(response) {
-    if (response && response.avatarURL) {
-      this.avatarURL = response.avatarURL; // 确保这里设置正确的 URL
-      this.$message.success('头像上传成功');
-    } else {
-      this.$message.error('头像上传失败，未返回图片 URL');
-    }
-  },
+      if (response && response.avatarURL) {
+        this.avatarURL = response.avatarURL; // 更新头像URL
+        this.$message.success('头像上传成功');
+      } else {
+        this.$message.error('头像上传失败，未返回图片URL');
+      }
+    },
+
+    // 上传前检查图片格式和大小
+    beforeAvatarUpload(file) {
+      const isJPGorPNG = file.type === "image/jpeg" || file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPGorPNG) {
+        this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPGorPNG && isLt2M;
+    },
+  
   async fetchMerchantDetails() {
   try {
     const response = await api.getMerchantDetails(this.merchantID);
@@ -407,18 +423,7 @@ export default {
       }
     },
 
-    beforeAvatarUpload(file) {
-    const isJPGorPNG =
-      file.type === "image/jpeg" || file.type === "image/png";
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isJPGorPNG) {
-      this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
-    }
-    if (!isLt2M) {
-      this.$message.error("上传头像图片大小不能超过 2MB!");
-    }
-    return isJPGorPNG && isLt2M;
-  },
+   
   },
 
   async mounted() {
