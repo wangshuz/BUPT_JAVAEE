@@ -1,115 +1,104 @@
 <template>
   <div class="merchant-detail-container">
-    <!-- 修改信息按钮 -->
     <div class="modify-button-container">
       <el-button type="primary" @click="openDialog('all')">修改信息</el-button>
     </div>
 
-    <!-- 商家信息容器 -->
     <div class="merchant-info-container">
-      <!-- 商家名称展示 -->
       <div class="merchant-item">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           商家名称
         </div>
         <div class="item-content">
-          {{ merchant_name }}
+          {{ merchantName }}
         </div>
       </div>
 
-      <!-- 商家类型展示 -->
       <div class="merchant-item">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           商家类型
         </div>
         <div class="item-content">
-          {{ business_type }}
+          {{ typeName }}
         </div>
       </div>
 
-      <!-- 商家头像展示 -->
       <div class="merchant-item">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           商家头像
         </div>
         <div class="item-content">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="商家头像" />
+          <img v-if="avatarURL" :src="avatarURL" class="avatar" alt="商家头像" />
           <i v-else class="el-icon-user avatar-placeholder"></i>
         </div>
       </div>
 
       <hr />
 
-      <!-- 是否营业展示 -->
       <div class="merchant-item">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           是否营业
         </div>
         <div class="item-content">
-          {{ is_open ? "是" : "否" }}
+          {{ isOpen ? "是" : "否" }}
         </div>
       </div>
 
-      <!-- 营业时间展示 -->
       <div class="merchant-item">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           营业时间
         </div>
         <div class="item-content">
-          {{ opening_hours.start }} - {{ opening_hours.end }}
+          {{ openingHours }}
         </div>
       </div>
 
-      <!-- 商家简介展示 -->
       <div class="merchant-item">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           商家简介
         </div>
         <div class="item-content">
-          {{ merchant_description }}
+          {{ merchantDescription }}
         </div>
       </div>
 
       <hr />
 
-      <!-- 商家电话展示 -->
       <div class="merchant-item">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           商家电话
         </div>
         <div class="item-content">
-          {{ phone_number }}
+          {{ phoneNumber }}
         </div>
       </div>
 
-      <!-- 商家地址展示 -->
       <div class="merchant-item">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           商家地址
         </div>
         <div class="item-content">
-          {{ merchant_address }}
+          {{ merchantAddress }}
         </div>
       </div>
 
-      <!-- 配送费、起送费、打包单价 -->
       <div class="merchant-item fees-display">
         <div class="item-label">
           <i class="el-icon-edit"></i>
           费用信息
         </div>
         <div class="item-content fees-content">
-          <div>配送费: {{ delivery_fee }} 元</div>
-          <div>起送费: {{ minimum_order_amount }} 元</div>
-          <div>打包单价: {{ packaging_fee_per_item }} 元</div>
+          <div>配送费: {{ deliveryFee }} 元</div>
+          <div>起送费: {{ minimumOrderAmount }} 元</div>
+          <div>打包单价: {{ packagingFeePerItem }} 元</div>
         </div>
       </div>
     </div>
@@ -123,14 +112,12 @@
       custom-class="enhanced-dialog"
     >
       <el-form :model="form">
-        <!-- 商家名称 -->
         <el-form-item label="商家名称" :label-width="formLabelWidth">
-          <el-input v-model="form.merchant_name"></el-input>
+          <el-input v-model="form.merchantName"></el-input>
         </el-form-item>
 
-        <!-- 商家类型 -->
         <el-form-item label="商家类型" :label-width="formLabelWidth">
-          <el-select v-model="form.business_type" placeholder="请选择">
+          <el-select v-model="form.typeName" placeholder="请选择">
             <el-option
               v-for="item in businessTypeOptions"
               :key="item.value"
@@ -142,30 +129,28 @@
 
         <el-form-item label="商家头像" :label-width="formLabelWidth">
           <el-upload
-          class="avatar-uploader"
+  class="avatar-uploader"
   :action="uploadUrl"
   :show-file-list="false"
   :on-success="handleAvatarSuccess"
   :before-upload="beforeAvatarUpload"
-          >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+>
+            <img v-if="avatarURL" :src="avatarURL" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
 
-        <!-- 是否营业 -->
         <el-form-item label="是否营业" :label-width="formLabelWidth">
-          <el-select v-model="form.is_open" placeholder="请选择">
+          <el-select v-model="form.isOpen" placeholder="请选择">
             <el-option label="是" :value="true"></el-option>
             <el-option label="否" :value="false"></el-option>
           </el-select>
         </el-form-item>
 
-        <!-- 营业时间 -->
         <el-form-item label="营业时间" :label-width="formLabelWidth">
           <el-time-select
             placeholder="起始时间"
-            v-model="form.opening_hours.start"
+            v-model="form.openingHours.start"
             :picker-options="{
               start: '08:30',
               step: '00:15',
@@ -175,40 +160,36 @@
           />
           <el-time-select
             placeholder="结束时间"
-            v-model="form.opening_hours.end"
+            v-model="form.openingHours.end"
             :picker-options="{
               start: '08:30',
               step: '00:15',
               end: '18:30',
-              minTime: form.opening_hours.start,
+              minTime: form.openingHours.start,
             }"
             class="time-select"
           />
         </el-form-item>
 
-        <!-- 商家简介 -->
         <el-form-item label="商家简介" :label-width="formLabelWidth">
           <el-input
             type="textarea"
-            v-model="form.merchant_description"
+            v-model="form.merchantDescription"
           ></el-input>
         </el-form-item>
 
-        <!-- 商家电话 -->
         <el-form-item label="商家电话" :label-width="formLabelWidth">
-          <el-input v-model="form.phone_number"></el-input>
+          <el-input v-model="form.phoneNumber"></el-input>
         </el-form-item>
 
-        <!-- 商家地址 -->
         <el-form-item label="商家地址" :label-width="formLabelWidth">
-          <el-input v-model="form.merchant_address"></el-input>
+          <el-input v-model="form.merchantAddress"></el-input>
         </el-form-item>
 
-        <!-- 配送费、起送费、打包单价 -->
         <el-form-item label="费用信息" :label-width="formLabelWidth">
           <div class="fees-container">
             <el-input-number
-              v-model="form.delivery_fee"
+              v-model="form.deliveryFee"
               :min="0"
               :max="50"
               label="配送费"
@@ -216,7 +197,7 @@
               :controls-position="'right'"
             />
             <el-input-number
-              v-model="form.minimum_order_amount"
+              v-model="form.minimumOrderAmount"
               :min="0"
               :max="50"
               label="起送费"
@@ -224,7 +205,7 @@
               :controls-position="'right'"
             />
             <el-input-number
-              v-model="form.packaging_fee_per_item"
+              v-model="form.packagingFeePerItem"
               :min="0"
               :max="10"
               label="打包单价"
@@ -243,179 +224,214 @@
   </div>
 </template>
 
+
 <script>
-import { mapState } from '@/store/index';
+
 import api from "@/api/api"; // 请根据实际文件路径替换
 
 export default {
   data() {
     return {
-      //merchant_id: 12345, // 假设从其他地方传入或计算出来
-      merchant_name: "XX快餐",
-      phone_number: "1234567890",
-      merchant_address: "XX街道XX号",
-      merchant_email: "merchant@example.com",
-      business_type: "", // 商家类型
-      is_open: false, // 是否营业
-      opening_hours: {
+      merchantID: 5, // 假设从其他地方传入或计算出来
+      merchantName: "XX快餐",
+      phoneNumber: "1234567890",
+      merchantAddress: "XX街道XX号",
+      merchantDescription: "",
+      typeName: "", // 商家类型
+      isOpen: false, // 是否营业
+      openingHours: {
         start: "",
         end: "",
       }, // 营业时间
-      merchant_description: "", // 商家简介
-      delivery_fee: 3, // 配送费
-      minimum_order_amount: 20, // 起送费
-      packaging_fee_per_item: 1, // 打包单价
+      deliveryFee: 3, // 配送费
+      minimumOrderAmount: 20, // 起送费
+      packagingFeePerItem: 1, // 打包单价
+      avatarURL: "",
+    
       isDialogVisible: false,
       isEditing: false,
       form: {
-        merchant_name: "",
-        phone_number: "",
-        merchant_address: "",
-        business_type: "",
-        is_open: false,
-        opening_hours: {
+        merchantName: "",
+        phoneNumber: "",
+        merchantAddress: "",
+        typeName: "",
+        isOpen: false,
+        openingHours: {
           start: "",
           end: "",
         },
-        merchant_description: "",
-        delivery_fee: 0,
-        minimum_order_amount: 0,
-        packaging_fee_per_item: 0,
+        merchantDescription: "",
+        deliveryFee: 0,
+        minimumOrderAmount: 0,
+        packagingFeePerItem: 0,
       },
       formLabelWidth: "120px",
-      businessTypeOptions: [
-        { value: "快餐便当", label: "快餐便当" },
-        { value: "汉堡披萨", label: "汉堡披萨" },
-        { value: "奶茶咖啡", label: "奶茶咖啡" },
-      ],
-      imageUrl: "",
+      businessTypeOptions: [],
+      uploadUrl: `/api/merchants/${this.merchantID}/upload-avatar`, 
+      avatarURL: "",
     };
   },
+
+ /* computed: {
+    ...mapState({ merchantID: (state) => state.merchantID }), // 从 Vuex 中映射 merchantID
+  },*/
   computed: {
-    ...mapState(['merchant_id']), // 从 Vuex 中映射 merchant_id
-  },
-  methods: {
-    async fetchMerchantDetails() {
-  try {
-    const response = await api.getMerchantDetails(this.merchant_id);
-    console.log("Response data:", response.data); // 调试用，检查响应数据
-    if (response.data) {
-      const data = response.data;
-      // 初始化商家信息
-      this.merchant_name = data.merchant_name || "";
-      this.phone_number = data.phone_number || "";
-      this.merchant_address = data.merchant_address || "";
-      this.business_type = data.business_type || "";
-      this.is_open = data.is_open || false;
-      this.opening_hours = {
-        start: data.opening_hours ? data.opening_hours.split("-")[0] : "",
-        end: data.opening_hours ? data.opening_hours.split("-")[1] : "",
-      };
-      this.merchant_description = data.merchant_description || "";
-      this.delivery_fee = data.delivery_fee || 0;
-      this.minimum_order_amount = data.minimum_order_amount || 0;
-      this.packaging_fee_per_item = data.packaging_fee_per_item || 0;
-      this.imageUrl = data.image_url || "";
-    } else {
-      console.log("商家信息为空，可能是首次登录");
-    }
-  } catch (error) {
-    console.error("获取商家信息失败:", error); // 打印完整的错误信息
-    if (error.response) {
-      console.error("Error response data:", error.response.data);
-      console.error("Error response status:", error.response.status);
-      console.error("Error response headers:", error.response.headers);
-    }
-    this.$message.error("获取商家信息失败，请稍后重试。");
+  uploadUrl() {
+    return `/api/merchants/${this.merchantID}/upload-avatar`;
   }
-    },
+},
+
+  methods: {
+    handleAvatarSuccess(response) {
+    if (response && response.avatarURL) {
+      this.avatarURL = response.avatarURL; // 确保这里设置正确的 URL
+      this.$message.success('头像上传成功');
+    } else {
+      this.$message.error('头像上传失败，未返回图片 URL');
+    }
+  },
+  async fetchMerchantDetails() {
+    try {
+      const response = await api.getMerchantDetails(this.merchantID);
+      const data = response.data;  // 检查 data 数据是否有定义
+      console.log('当前的 merchantID:', this.merchantID);
+      console.log('获取的商家信息:', data);
+      console.log('API 响应:', response);
+      if (data) {
+        // 初始化商家信息
+        this.merchantName = data.merchantName || "";
+        this.phoneNumber = data.phoneNumber || "";
+        this.merchantAddress = data.merchantAddress || "";
+        this.typeName = data.typeName || "";
+        this.isOpen = data.isOpen || false;
+
+        // 检查并分割营业时间，如果没有则设置为空字符串
+        if (data.openingHours) {
+          const hours = data.openingHours.split("-");
+          this.openingHours = {
+            start: hours[0] || "",
+            end: hours[1] || "",
+          };
+        } else {
+          this.openingHours = { start: "", end: "" };
+        }
+
+        this.merchantDescription = data.merchantDescription || "";
+        this.deliveryFee = data.deliveryFee || 0;
+        this.minimumOrderAmount = data.minimumOrderAmount || 0;
+        this.packagingFeePerItem = data.packagingFeePerItem || 0;
+        this.avatarURL = data.avatarURL || "";
+      } else {
+        console.log("商家信息为空，可能是首次登录");
+      }
+    } catch (error) {
+      console.error("获取商家信息失败:", error);
+      this.$message.error("获取商家信息失败，请稍后重试。");
+    }
+  },
+  
+  async updateMerchantDetails() {
+    try {
+      const merchantData = {
+        merchantName: this.form.merchantName,
+        phoneNumber: this.form.phoneNumber,
+        merchantAddress: this.form.merchantAddress,
+        typeName: this.form.typeName,
+        isOpen: this.form.isOpen,
+        // 格式化营业时间
+        openingHours: `${this.form.openingHours.start}-${this.form.openingHours.end}`,
+        merchantDescription: this.form.merchantDescription,
+        deliveryFee: this.form.deliveryFee,
+        minimumOrderAmount: this.form.minimumOrderAmount,
+        packagingFeePerItem: this.form.packagingFeePerItem,
+      };
+      await api.updateMerchantDetails(this.merchantID, merchantData);
+      this.$message.success("商家信息更新成功！");
+      this.isDialogVisible = false;
+      await this.fetchMerchantDetails(); // 更新成功后重新获取商家信息
+    } catch (error) {
+      console.error("更新商家信息失败:", error);
+      this.$message.error("更新商家信息失败，请稍后重试。");
+    }
+  },
 
 
-    async updateMerchantDetails() {
-      try {
-        const merchantData = {
-          merchant_name: this.form.merchant_name,
-          phone_number: this.form.phone_number,
-          merchant_address: this.form.merchant_address,
-          business_type: this.form.business_type,
-          is_open: this.form.is_open,
-          opening_hours: `${this.form.opening_hours.start}-${this.form.opening_hours.end}`,
-          merchant_description: this.form.merchant_description,
-          delivery_fee: this.form.delivery_fee,
-          minimum_order_amount: this.form.minimum_order_amount,
-          packaging_fee_per_item: this.form.packaging_fee_per_item,
-        };
-        await api.updateMerchantDetails(this.merchant_id, merchantData);
-        this.$message.success("商家信息更新成功！");
-        this.isDialogVisible = false;
-        this.fetchMerchantDetails(); // 更新成功后重新获取商家信息
-      } catch (error) {
-        console.error("更新商家信息失败:", error);
-        this.$message.error("更新商家信息失败，请稍后重试。");
+    async submitForm(type) {
+      if (type === "all") {
+        await this.updateMerchantDetails();
       }
     },
 
     async fetchBusinessTypeOptions() {
-      try {
-        const response = await api.getMerchantTypes();
-        this.businessTypeOptions = response.data.map((item) => ({
-          value: item.value,
-          label: item.label,
-        }));
-      } catch (error) {
-        console.error("获取商家类型选项失败:", error);
-        this.$message.error("获取商家类型选项失败，请稍后重试。");
-      }
+  try {
+    const response = await api.getMerchantTypes();
+    // 假设返回的是 ['书店', '健身房', '咖啡馆', ...] 这样的字符串数组
+    this.businessTypeOptions = response.data.map((item) => ({
+      value: item, // 用字符串本身作为 value
+      label: item, // 用字符串本身作为 label
+    }));
+  } catch (error) {
+    console.error("获取商家类型选项失败:", error);
+    this.$message.error("获取商家类型选项失败，请稍后重试。");
+  }
+},
+    handleAvatarSuccess(response, file) {
+      this.avatarURL = response.avatarURL;  // 假设上传成功后返回图片的 URL
+      this.$message.success('头像上传成功');
     },
 
     openDialog(type) {
-      if (type === "all") {
-        this.form.merchant_name = this.merchant_name;
-        this.form.phone_number = this.phone_number;
-        this.form.merchant_address = this.merchant_address;
-        this.form.business_type = this.business_type;
-        this.form.is_open = this.is_open;
-        this.form.opening_hours = { ...this.opening_hours };
-        this.form.merchant_description = this.merchant_description;
-        this.form.delivery_fee = this.delivery_fee;
-        this.form.minimum_order_amount = this.minimum_order_amount;
-        this.form.packaging_fee_per_item = this.packaging_fee_per_item;
-        this.isEditing = true;
-        this.isDialogVisible = true;
-      }
-    },
+    if (type === "all") {
+      this.form = {
+        merchantName: this.merchantName,
+        phoneNumber: this.phoneNumber,
+        merchantAddress: this.merchantAddress,
+        typeName: this.typeName,
+        isOpen: this.isOpen,
+        openingHours: { ...this.openingHours }, // 确保时间格式一致
+        merchantDescription: this.merchantDescription,
+        deliveryFee: this.deliveryFee,
+        minimumOrderAmount: this.minimumOrderAmount,
+        packagingFeePerItem: this.packagingFeePerItem,
+      };
+      this.isEditing = true;
+      this.isDialogVisible = true;
+    }
+  },
+
     closeDialog(type) {
       if (type === "all") {
         this.isDialogVisible = false;
         this.isEditing = false;
       }
     },
+
     beforeAvatarUpload(file) {
-      const isJPGorPNG =
-        file.type === "image/jpeg" || file.type === "image/png";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPGorPNG) {
-        this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPGorPNG && isLt2M;
-    },
+    const isJPGorPNG =
+      file.type === "image/jpeg" || file.type === "image/png";
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isJPGorPNG) {
+      this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
+    }
+    if (!isLt2M) {
+      this.$message.error("上传头像图片大小不能超过 2MB!");
+    }
+    return isJPGorPNG && isLt2M;
   },
-  mounted() {
-    // 在 mounted 中调用方法时，merchant_id 已经从 Vuex 中获取
-    if (this.merchant_id) {
-      this.uploadUrl = `/api/merchant/${this.merchant_id}/avatar`;
+  },
+
+  async mounted() {
+    if (this.merchantID) {
       this.fetchMerchantDetails(); // 获取商家信息
       this.fetchBusinessTypeOptions(); // 获取商家类型选项
     } else {
-      console.error("merchant_id 未定义，请确保已登录并获取 merchant_id");
-      this.$message.error("商家未登录或 merchant_id 未定义");
+      console.error("merchantID 未定义，请确保已登录并获取 merchantID");
+      this.$message.error("商家未登录或 merchantID 未定义");
     }
   },
 };
 </script>
+
 
 <style scoped>
 .modify-button-container {
