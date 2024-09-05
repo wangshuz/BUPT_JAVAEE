@@ -1,0 +1,88 @@
+INSERT INTO User (username, password, profile_picture) VALUES
+('用户1', 'password1', 'avatar1.jpg'),
+('用户2', 'password2', 'avatar2.jpg'),
+('用户3', 'password3', 'avatar3.jpg'),
+('用户4', 'password4', 'avatar4.jpg'),
+('用户5', 'password5', 'avatar5.jpg'),
+('用户6', 'password6', 'avatar6.jpg'),
+('用户7', 'password7', 'avatar7.jpg'),
+('用户8', 'password8', 'avatar8.jpg'),
+('用户9', 'password9', 'avatar9.jpg'),
+('用户10', 'password10', 'avatar10.jpg');
+INSERT INTO Address (user_id, recipient_name, recipient_phone, address_line, is_default, is_deleted) VALUES
+(1, '张三', '13800000001', '北京市海淀区中关村', TRUE, FALSE),
+(2, '李四', '13800000002', '上海市浦东新区陆家嘴', FALSE, FALSE),
+(3, '王五', '13800000003', '广州市天河区天河北路', TRUE, FALSE),
+(4, '赵六', '13800000004', '深圳市福田区华强北', FALSE, FALSE),
+(5, '孙七', '13800000005', '杭州市西湖区西溪路', TRUE, FALSE),
+(6, '周八', '13800000006', '成都市锦江区春熙路', FALSE, FALSE),
+(7, '吴九', '13800000007', '重庆市渝中区解放碑', TRUE, FALSE),
+(8, '郑十', '13800000008', '武汉市武昌区中南路', FALSE, FALSE),
+(9, '冯十一', '13800000009', '南京市鼓楼区玄武湖', TRUE, FALSE),
+(10, '褚十二', '13800000010', '苏州市工业园区金鸡湖', FALSE, FALSE);
+INSERT INTO Merchant_Type (type_name) VALUES
+('餐饮'),
+('零售'),
+('书店'),
+('服装'),
+('超市'),
+('电子产品'),
+('家居用品'),
+('美容美发'),
+('健身中心'),
+('便利店');
+INSERT INTO Merchant (merchant_username, merchant_password, merchant_name, merchant_avatar, merchant_address, phone_number, opening_hours, type_id, merchant_description, delivery_fee, minimum_order_amount, packaging_fee_per_item) VALUES
+('商家1', 'merchantpass1', '美味餐馆', 'merchant1.jpg', '北京市朝阳区', '13810000001', '10:00-22:00', 1, '正宗川菜', 5.00, 50.00, 1.00),
+('商家2', 'merchantpass2', '时尚服饰', 'merchant2.jpg', '上海市黄浦区', '13810000002', '09:00-21:00', 4, '最新潮流服装', 0.00, 0.00, 0.50),
+('商家3', 'merchantpass3', '电子商城', 'merchant3.jpg', '深圳市南山区', '13810000003', '10:00-20:00', 6, '电子产品及配件', 10.00, 100.00, 2.00),
+('商家4', 'merchantpass4', '精品超市', 'merchant4.jpg', '广州市越秀区', '13810000004', '08:00-23:00', 5, '新鲜蔬果', 3.00, 30.00, 0.50),
+('商家5', 'merchantpass5', '健康生活', 'merchant5.jpg', '杭州市滨江区', '13810000005', '07:00-22:00', 9, '健身及瑜伽', 8.00, 60.00, 1.50),
+('商家6', 'merchantpass6', '美容美发店', 'merchant6.jpg', '成都市武侯区', '13810000006', '09:00-20:00', 8, '时尚美容服务', 5.00, 50.00, 1.00),
+('商家7', 'merchantpass7', '书香书店', 'merchant7.jpg', '南京市秦淮区', '13810000007', '09:00-21:00', 3, '各类图书', 0.00, 0.00, 0.00),
+('商家8', 'merchantpass8', '便利商店', 'merchant8.jpg', '武汉市汉阳区', '13810000008', '24小时营业', 10, '便利物品随时购', 2.00, 20.00, 0.50),
+('商家9', 'merchantpass9', '家居精品店', 'merchant9.jpg', '重庆市南岸区', '13810000009', '09:00-20:00', 7, '家居日用品', 7.00, 70.00, 1.00),
+('商家10', 'merchantpass10', '时尚潮店', 'merchant10.jpg', '苏州市吴中区', '13810000010', '09:00-21:00', 4, '时尚鞋履包包', 0.00, 0.00, 0.50);
+INSERT INTO Product_Category (merchant_id, category_name, is_deleted) VALUES
+(1, '主食', FALSE),
+(1, '饮料', FALSE),
+(2, '男装', FALSE),
+(2, '女装', FALSE),
+(3, '手机', FALSE),
+(3, '电脑', FALSE),
+(4, '水果', FALSE),
+(4, '蔬菜', FALSE),
+(5, '瑜伽用品', FALSE),
+(5, '健身器材', FALSE);
+INSERT INTO Product (merchant_id, category_id, imageUrl, product_name, price, description, available, is_deleted) VALUES
+(1, 1, 'product1.jpg', '宫保鸡丁', 45.00, '经典川菜', TRUE, FALSE),
+(1, 2, 'product2.jpg', '冰红茶', 5.00, '清爽解渴', TRUE, FALSE),
+(2, 3, 'product3.jpg', '男士衬衫', 150.00, '纯棉男士衬衫', TRUE, FALSE),
+(2, 4, 'product4.jpg', '女士连衣裙', 200.00, '时尚连衣裙', TRUE, FALSE),
+(3, 5, 'product5.jpg', '智能手机', 3000.00, '最新款智能手机', TRUE, FALSE),
+(3, 6, 'product6.jpg', '笔记本电脑', 5000.00, '高性能笔记本电脑', TRUE, FALSE),
+(4, 7, 'product7.jpg', '苹果', 10.00, '新鲜苹果', TRUE, FALSE),
+(4, 8, 'product8.jpg', '黄瓜', 8.00, '新鲜黄瓜', TRUE, FALSE),
+(5, 9, 'product9.jpg', '瑜伽垫', 50.00, '防滑瑜伽垫', TRUE, FALSE),
+(5, 10, 'product10.jpg', '哑铃', 100.00, '10公斤哑铃', TRUE, FALSE);
+INSERT INTO Orders (merchant_id, user_id, address_id, order_date, estimated_delivery_time, actual_delivery_time, payment_method, packaging_fee, delivery_fee, order_status, notes, is_deleted_by_user, is_deleted_by_merchant, total_amount) VALUES
+(1, 1, 1, '2024-09-05 12:00:00', '2024-09-05 12:30:00', '2024-09-05 12:25:00', '微信支付', 1.00, 5.00, '已完成', '无辣', FALSE, FALSE, 51.00),
+(2, 2, 2, '2024-09-05 13:00:00', '2024-09-05 13:30:00', '2024-09-05 13:40:00', '支付宝', 0.50, 0.00, '已完成', '加急', FALSE, FALSE, 150.50),
+(3, 3, 3, '2024-09-05 14:00:00', '2024-09-05 14:30:00', '2024-09-05 14:20:00', '信用卡', 2.00, 10.00, '已完成', '保修期加长', FALSE, FALSE, 3012.00),
+(4, 4, 4, '2024-09-05 15:00:00', '2024-09-05 15:30:00', '2024-09-05 15:25:00', '现金支付', 0.50, 3.00, '已完成', '包装好点', FALSE, FALSE, 13.50),
+(5, 5, 5, '2024-09-05 16:00:00', '2024-09-05 16:30:00', '2024-09-05 16:40:00', '微信支付', 1.50, 8.00, '已完成', '尽快', FALSE, FALSE, 109.50),
+(6, 6, 6, '2024-09-05 17:00:00', '2024-09-05 17:30:00', '2024-09-05 17:20:00', '支付宝', 1.00, 5.00, '已完成', '多送点', FALSE, FALSE, 105.00),
+(7, 7, 7, '2024-09-05 18:00:00', '2024-09-05 18:30:00', '2024-09-05 18:25:00', '信用卡', 0.00, 0.00, '已完成', '快递', FALSE, FALSE, 150.00),
+(8, 8, 8, '2024-09-05 19:00:00', '2024-09-05 19:30:00', '2024-09-05 19:25:00', '现金支付', 0.50, 2.00, '已完成', '24小时送达', FALSE, FALSE, 22.50),
+(9, 9, 9, '2024-09-05 20:00:00', '2024-09-05 20:30:00', '2024-09-05 20:25:00', '微信支付', 1.00, 7.00, '已完成', '包装完好', FALSE, FALSE, 78.00),
+(10, 10, 10, '2024-09-05 21:00:00', '2024-09-05 21:30:00', '2024-09-05 21:25:00', '支付宝', 0.50, 0.00, '已完成', '打包细心', FALSE, FALSE, 150.50);
+INSERT INTO Order_Item (order_id, product_id, quantity) VALUES
+(1, 1, 1),
+(1, 2, 2),
+(2, 3, 1),
+(3, 5, 1),
+(3, 6, 1),
+(4, 7, 2),
+(5, 9, 1),
+(6, 10, 1),
+(7, 3, 2),
+(8, 4, 1);
