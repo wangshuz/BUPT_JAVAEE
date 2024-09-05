@@ -774,7 +774,8 @@ import api from '../../api/api.js';
             acceptOrder(index) {
                 // 如果当前标签页是“全部订单”
                 if (this.activeName === 'first') {
-                this.tableData[index].orderstate = '2';
+                //this.tableData[index].orderstate = '2';
+                changeOrderStatus(this.tableData[index].orderID, '2')
                 } 
                 // 如果当前标签页是“待接单”
                 else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
@@ -783,7 +784,8 @@ import api from '../../api/api.js';
                 for (let i = 0; i < this.tableData.length; i++) {
                     if (this.tableData[i].orderstate === '1') {
                     if (count === index) {
-                        this.tableData[i].orderstate = '2';
+                        //this.tableData[i].orderstate = '2';
+                        changeOrderStatus(this.tableData[i].orderID, '2');
                         break;
                     }
                     count++;
@@ -794,7 +796,8 @@ import api from '../../api/api.js';
             rejectOrder(index) {
                 // 如果当前标签页是“全部订单”
                 if (this.activeName === 'first') {
-                this.tableData[index].orderstate = '5';
+                //this.tableData[index].orderstate = '5';
+                changeOrderStatus(this.tableData[index].orderID, '5');
                 } 
                 // 如果当前标签页是“待接单”
                 else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
@@ -803,7 +806,8 @@ import api from '../../api/api.js';
                 for (let i = 0; i < this.tableData.length; i++) {
                     if (this.tableData[i].orderstate === '1') {
                     if (count === index) {
-                        this.tableData[i].orderstate = '5';
+                        //this.tableData[i].orderstate = '5';
+                        changeOrderStatus(this.tableData[i].orderID, '5');
                         break;
                     }
                     count++;
@@ -814,7 +818,8 @@ import api from '../../api/api.js';
             cancelOrder(index) {
                 // 如果当前标签页是“全部订单”
                 if (this.activeName === 'first') {
-                this.tableData[index].orderstate = '5';
+                //this.tableData[index].orderstate = '5';
+                changeOrderStatus(this.tableData[index].orderID, '5');
                 } 
                 // 如果当前标签页是“待接单”
                 else if (this.activeName === 'third') {  // 假设“待接单”标签页的 name 是 'second'
@@ -823,7 +828,8 @@ import api from '../../api/api.js';
                 for (let i = 0; i < this.tableData.length; i++) {
                     if (this.tableData[i].orderstate === '2') {
                     if (count === index) {
-                        this.tableData[i].orderstate = '5';
+                        //this.tableData[i].orderstate = '5';
+                        changeOrderStatus(this.tableData[i].orderID, '5');
                         break;
                     }
                     count++;
@@ -834,7 +840,8 @@ import api from '../../api/api.js';
             deleteOrder(index) {
                 // 如果当前标签页是“全部订单”
                 if (this.activeName === 'first') {
-                    this.tableData.splice(index, 1);
+                    //this.tableData.splice(index, 1);
+                    deleteOrder(this.tableData[index].orderID);
                 } 
                 // 如果当前标签页是“待接单”
                 else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
@@ -843,7 +850,8 @@ import api from '../../api/api.js';
                     for (let i = 0; i < this.tableData.length; i++) {
                         if (this.tableData[i].orderstate === '1') {
                         if (count === index) {
-                            this.tableData.splice(i, 1);
+                            //this.tableData.splice(i, 1);
+                            deleteOrder(this.tableData[i].orderID);
                             break;
                         }
                         count++;
@@ -857,7 +865,8 @@ import api from '../../api/api.js';
                     for (let i = 0; i < this.tableData.length; i++) {
                         if (this.tableData[i].orderstate === '2') {
                         if (count === index) {
-                            this.tableData.splice(i, 1);
+                            //this.tableData.splice(i, 1);
+                            deleteOrder(this.tableData[i].orderID);
                             break;
                         }
                         count++;
@@ -871,7 +880,8 @@ import api from '../../api/api.js';
                     for (let i = 0; i < this.tableData.length; i++) {
                         if (this.tableData[i].orderstate === '3') {
                         if (count === index) {
-                            this.tableData.splice(i, 1);
+                            //this.tableData.splice(i, 1);
+                            deleteOrder(this.tableData[i].orderID);
                             break;
                         }
                         count++;
@@ -885,7 +895,8 @@ import api from '../../api/api.js';
                     for (let i = 0; i < this.tableData.length; i++) {
                         if (this.tableData[i].orderstate === '4') {
                         if (count === index) {
-                            this.tableData.splice(i, 1);
+                            //this.tableData.splice(i, 1);
+                            deleteOrder(this.tableData[i].orderID);
                             break;
                         }
                         count++;
@@ -899,7 +910,8 @@ import api from '../../api/api.js';
                     for (let i = 0; i < this.tableData.length; i++) {
                         if (this.tableData[i].orderstate === '5') {
                         if (count === index) {
-                            this.tableData.splice(i, 1);
+                            //this.tableData.splice(i, 1);
+                            deleteOrder(this.tableData[i].orderID);
                             break;
                         }
                         count++;
@@ -989,25 +1001,32 @@ import api from '../../api/api.js';
             },
             handledialogreject()
             {
-                this.tableData[this.dialogindex].orderstate = '5';
+                //this.tableData[this.dialogindex].orderstate = '5';
+                changeOrderStatus(this.tableData[this.dialogindex].orderID, '5');
                 this.dialogVisible = false;
             },
             handledialogdelete()
             {
-                this.tableData.splice(this.dialogindex, 1);
+                //this.tableData.splice(this.dialogindex, 1);
+                deleteOrder(this.tableData[this.dialogindex].orderID);
                 this.dialogVisible = false;
             },
             handledialogaccept()
             {
-                this.tableData[this.dialogindex].orderstate = '2';
+                //this.tableData[this.dialogindex].orderstate = '2';
+                changeOrderStatus(this.tableData[this.dialogindex].orderID, '2');
                 this.dialogVisible = false;
             },
             handledialogcancle()
             {
-                this.tableData[this.dialogindex].orderstate = '5';
+                //this.tableData[this.dialogindex].orderstate = '5';
+                changeOrderStatus(this.tableData[this.dialogindex].orderID, '5');
                 this.dialogVisible = false;
             },
             fetchOrders() {
+                //getOrders(mchId){
+                //    return apiClient.get(`/api/getOrders?mchId=${mchId}`);
+                //},
                 api.getOrders(this.mchId)
                 .then(response => {
                 this.tableData = response.data.data;
@@ -1017,6 +1036,9 @@ import api from '../../api/api.js';
                 });
             },
             changeOrderStatus(orderId, status) {
+                //updateOrderStatus(orderId, status){
+                //    return apiClient.get(`/api/updateOrderStatus?orderId=${orderId}&status=${status}`);
+                //},
                 api.updateOrderStatus(orderId, status)
                 .then(response => {
                 console.log(response.data);
@@ -1027,6 +1049,9 @@ import api from '../../api/api.js';
                 });
             },
             deleteOrder(orderId) {
+                //deleteOrder(orderId){
+                //    return apiClient.get(`/api/deleteOrder?orderId=${orderId}`);
+                //},
                 api.deleteOrder(orderId)
                 .then(response => {
                 console.log(response.data);

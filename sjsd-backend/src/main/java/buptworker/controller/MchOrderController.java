@@ -3,7 +3,6 @@ package buptworker.controller;
 
 import buptworker.entity.Result;
 import buptworker.service.MchOrderService;
-import buptworker.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,7 @@ public class MchOrderController {
     private MchOrderService mchOrderService;
 
     @RequestMapping("/getOrders")
-    public Result getOrder(String mchId) {
+    public Result getOrders(String mchId) {
         return Result.success(mchOrderService.getMchOrders(mchId));
     }
 

@@ -38,12 +38,12 @@
                 <div id="msgbox" v-for="(order, index) in row.info" :key="index" style="display: flex; align-items: flex-start; margin-right: 20px; background-color: #CECECE; border-radius: 10px;">
                   <!-- 图片部分 -->
                   <span>
-                    <img id="msgpicture" class="msgcmp" :src="order[0]" alt="商品图片" style="width: 60px; height: 60px; margin-right: 10px;">
+                    <img id="msgpicture" class="msgcmp" :src="order.picture" alt="商品图片" style="width: 60px; height: 60px; margin-right: 10px;">
                   </span>
                   <!-- 订单信息部分 -->
-                  <span id="msgname" class="msgcmp">{{ order[1] }}</span>
-                  <span id="msgprice" class="msgcmp">¥ {{ order[2] }}</span>
-                  <span id="msgnum" class="msgcmp">x{{ order[3] }}</span>
+                  <span id="msgname" class="msgcmp">{{ order.name }}</span>
+                  <span id="msgprice" class="msgcmp">¥ {{ order.price }}</span>
+                  <span id="msgnum" class="msgcmp">x{{ order.num }}</span>
                 </div>
               </div>
             </template>
@@ -102,6 +102,7 @@ import SearchBox from '../SearchBox.vue';
     components: { SideBar,SearchBox },
     data() {
       return {
+        userId:'',
         content:'',
         pickerOptions: {
           shortcuts: [{
@@ -135,25 +136,27 @@ import SearchBox from '../SearchBox.vue';
         tableData: [
         // state:  1.待收货  2.已完成  3.已取消
         {
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
-            [
-              'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-              '六神清爽小火锅',
-              '198',
-              '1'
-            ],
-            [
-              'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
-              '六神清爽小火锅',
-              '198',
-              '1'
-            ]
+          {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '2'
+        },
+        {
+            picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
+            name: '六神清爽小火锅',
+            price: '198',
+            num: '2'
+        },
           ],
           date:'2024-08-30 10:30:45',
           state:'1',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -173,6 +176,7 @@ import SearchBox from '../SearchBox.vue';
           state:'2',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -186,6 +190,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -211,6 +216,7 @@ import SearchBox from '../SearchBox.vue';
           state:'3',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -230,6 +236,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -243,6 +250,7 @@ import SearchBox from '../SearchBox.vue';
           state:'2',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -256,6 +264,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -281,6 +290,7 @@ import SearchBox from '../SearchBox.vue';
           state:'3',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -294,6 +304,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -307,6 +318,7 @@ import SearchBox from '../SearchBox.vue';
           state:'2',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -320,6 +332,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -345,6 +358,7 @@ import SearchBox from '../SearchBox.vue';
           state:'3',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -358,6 +372,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -371,6 +386,7 @@ import SearchBox from '../SearchBox.vue';
           state:'2',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -384,6 +400,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
           {
@@ -431,6 +448,44 @@ import SearchBox from '../SearchBox.vue';
       }
     },
     methods: {
+      fetchOrders() {
+          //getCltOrders(userId){
+          //    return apiClient.get(`/api/getCltOrders?userId=${userId}`);
+          //},
+          api.getCltOrders(this.userId)
+          .then(response => {
+          this.tableData = response.data.data;
+          })
+          .catch(error => {
+          console.error('获取订单列表时出错:', error);
+          });
+      },
+      changeOrderStatus(orderId, status) {
+          //updateCltOrderStatus(orderId, status){
+          //    return apiClient.get(`/api/updateCltOrderStatus?orderId=${orderId}&status=${status}`);
+          //},
+          api.updateCltOrderStatus(orderId, status)
+          .then(response => {
+          console.log(response.data);
+          this.fetchCltOrders(); // 更新状态后重新获取订单列表
+          })
+          .catch(error => {
+          console.error('更新订单状态时出错:', error);
+          });
+      },
+      deleteOrder(orderId) {
+          //deleteCltOrder(orderId){
+          //    return apiClient.get(`/api/deleteCltOrder?orderId=${orderId}`);
+          //},
+          api.deleteCltOrder(orderId)
+          .then(response => {
+          console.log(response.data);
+          this.fetchCltOrders(); // 删除订单后重新获取订单列表
+          })
+          .catch(error => {
+          console.error('删除订单时出错:', error);
+          });
+      },
       handleDateChange() {
           this.filteredData();
       },
@@ -550,6 +605,9 @@ import SearchBox from '../SearchBox.vue';
       {
         this.handlecontentchange();
       }
+    },
+    mounted(){
+      fetchOrders();
     },
     computed: {
         filteredData() {
