@@ -135,7 +135,7 @@ export default {
       selectedProducts: [],
       add_edit_dialog: false,
       addCategoryDialog: false,
-      addCategoryInput,
+      addCategoryInput: '',
       isEdit: false, // 判断是新增还是修改
       productForm: {
         id: null,
