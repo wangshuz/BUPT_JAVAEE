@@ -185,7 +185,7 @@ export default {
    */
   getMchData(merchantId){
     return apiClient.get(`/api/salesData?merchantId=${merchantId}`);
-  }
+  },
 
   /* 
   function().then(item=>{
