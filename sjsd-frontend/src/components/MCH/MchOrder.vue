@@ -43,7 +43,7 @@
                         style="width: 100%"
                         height="740px"
                         :row-style="rowStyle">
-                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="orderId" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
@@ -80,7 +80,7 @@
                                     <span style="color: red;">取消</span>
                                 </el-button>
                                 <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                <el-button type="text" size="small" @click="deleteSelectOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
                             </template>
@@ -94,7 +94,7 @@
                         style="width: 100%"
                         height="750px"
                         :row-style="rowStyle">
-                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="orderId" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
@@ -118,7 +118,7 @@
                                     <span style="color: red;">拒单</span>
                                 </el-button>
                                 <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                <el-button type="text" size="small" @click="deleteSelectOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
                             </template>
@@ -132,7 +132,7 @@
                         style="width: 100%"
                         height="750px"
                         :row-style="rowStyle">
-                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="orderId" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
@@ -153,7 +153,7 @@
                                     <span style="color: red;">取消</span>
                                 </el-button>
                                 <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                <el-button type="text" size="small" @click="deleteSelectOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
                             </template>
@@ -167,7 +167,7 @@
                         style="width: 100%"
                         height="750px"
                         :row-style="rowStyle">
-                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="orderId" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
@@ -185,7 +185,7 @@
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                <el-button type="text" size="small" @click="deleteSelectOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
                             </template>
@@ -199,7 +199,7 @@
                         style="width: 100%"
                         height="750px"
                         :row-style="rowStyle">
-                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="orderId" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
@@ -217,7 +217,7 @@
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" v-if="scope.row.orderstate === '4'" @click="handleopen(scope.$index)">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                <el-button type="text" size="small" @click="deleteSelectOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
                             </template>
@@ -231,7 +231,7 @@
                         style="width: 100%"
                         height="750px"
                         :row-style="rowStyle">
-                        <el-table-column prop="orderID" label="订单号" width="220"></el-table-column>
+                        <el-table-column prop="orderId" label="订单号" width="220"></el-table-column>
                         <el-table-column prop="username" label="用户名" width="140"></el-table-column>
                         <el-table-column prop="phonenumber" label="手机号" width="160"></el-table-column>
                         <el-table-column prop="location" label="地址" width="290"></el-table-column>
@@ -249,7 +249,7 @@
                         <el-table-column prop="operation" label="操作" width="200" align="right">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" @click="handleopen(scope.$index)">查看</el-button>
-                                <el-button type="text" size="small" @click="deleteOrder(scope.$index)">
+                                <el-button type="text" size="small" @click="deleteSelectOrder(scope.$index)">
                                     <span style="color: red;">删除订单</span>
                                 </el-button>
                             </template>
@@ -264,7 +264,7 @@
             width="50%">
             <div style="color: black; font-size: 20px;">
                 <div style="font-size: 30px;">
-                    <span>订单号：{{ dialogitem.orderID }}</span>
+                    <span>订单号：{{ dialogitem.orderId }}</span>
                     <span style="margin-left: 10%;">
                         <span>订单状态：</span>
                         <span v-if="dialogitem.orderstate === '1'" style="color: red;">待接单</span>
@@ -345,7 +345,7 @@ import api from '../../api/api.js';
                 //searcher=======================================================================================================
                 input:'',
                 dialogitem:{
-                        orderID:'1332666559995544599',
+                        orderId:'1332666559995544599',
                         username:'爱吃海底捞',
                         phonenumber:'13655263459',
                         location:'北京邮电大学学十三公寓美团外卖柜',
@@ -428,9 +428,9 @@ import api from '../../api/api.js';
                 },
                 //table========================================================================================================
                 tableData: [
-                    // orderstate: 1.待接单  2.待派送  3.派送中  4.已完成  5.已取消
+                    //orderstate: 1.待接单  2.待派送  3.派送中  4.已完成  5.已取消
                     // {
-                    //     orderID:'1',
+                    //     orderId:'1',
                     //     username:'不爱吃海底捞',
                     //     phonenumber:'13655263459',
                     //     location:'北京邮电大学学十三公寓美团外卖柜',
@@ -482,8 +482,9 @@ import api from '../../api/api.js';
                     //     payway:'1',
                     //     money:'154',
                     //     orderstate:'1'
-                    // }, {
-                    //     orderID:'1332666559995544598',
+                    // }, 
+                    //{
+                    //     orderId:'1332666559995544598',
                     //     username:'爱吃海底捞',
                     //     phonenumber:'13655263459',
                     //     location:'北京邮电大学学十三公寓美团外卖柜',
@@ -536,7 +537,7 @@ import api from '../../api/api.js';
                     //     money:'154',
                     //     orderstate:'2'
                     // },  {
-                    //     orderID:'1332666559995544597',
+                    //     orderId:'1332666559995544597',
                     //     username:'爱吃海底捞',
                     //     phonenumber:'13655263459',
                     //     location:'北京邮电大学学十三公寓美团外卖柜',
@@ -589,7 +590,7 @@ import api from '../../api/api.js';
                     //     money:'154',
                     //     orderstate:'3'
                     // },  {
-                    //     orderID:'1332666559995544596',
+                    //     orderId:'1332666559995544596',
                     //     username:'不爱吃海底捞',
                     //     phonenumber:'13655263459',
                     //     location:'北京邮电大学学十三公寓美团外卖柜',
@@ -642,7 +643,7 @@ import api from '../../api/api.js';
                     //     money:'154',
                     //     orderstate:'4'
                     // },  {
-                    //     orderID:'1332666559995544595',
+                    //     orderId:'1332666559995544595',
                     //     username:'爱吃海底捞',
                     //     phonenumber:'13655263459',
                     //     location:'北京邮电大学学十三公寓美团外卖柜',
@@ -695,7 +696,7 @@ import api from '../../api/api.js';
                     //     money:'154',
                     //     orderstate:'5'
                     // },  {
-                    //     orderID:'1332666559995544594',
+                    //     orderId:'1332666559995544594',
                     //     username:'爱吃海底捞',
                     //     phonenumber:'13655263459',
                     //     location:'北京邮电大学学十三公寓美团外卖柜',
@@ -783,7 +784,7 @@ import api from '../../api/api.js';
                 // 如果当前标签页是“全部订单”
                 if (this.activeName === 'first') {
                 //this.tableData[index].orderstate = '2';
-                await changeOrderStatus(this.tableData[index].orderID, '2')
+                await this.changeOrderStatus(this.tableData[index].orderId, '2')
                 } 
                 // 如果当前标签页是“待接单”
                 else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
@@ -793,7 +794,7 @@ import api from '../../api/api.js';
                     if (this.tableData[i].orderstate === '1') {
                     if (count === index) {
                         //this.tableData[i].orderstate = '2';
-                        await changeOrderStatus(this.tableData[i].orderID, '2');
+                        await this.changeOrderStatus(this.tableData[i].orderId, '2');
                         break;
                     }
                     count++;
@@ -805,7 +806,7 @@ import api from '../../api/api.js';
                 // 如果当前标签页是“全部订单”
                 if (this.activeName === 'first') {
                 //this.tableData[index].orderstate = '5';
-                await changeOrderStatus(this.tableData[index].orderID, '5');
+                await this.changeOrderStatus(this.tableData[index].orderId, '5');
                 } 
                 // 如果当前标签页是“待接单”
                 else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
@@ -815,7 +816,7 @@ import api from '../../api/api.js';
                     if (this.tableData[i].orderstate === '1') {
                     if (count === index) {
                         //this.tableData[i].orderstate = '5';
-                        await changeOrderStatus(this.tableData[i].orderID, '5');
+                        await this.changeOrderStatus(this.tableData[i].orderId, '5');
                         break;
                     }
                     count++;
@@ -827,7 +828,7 @@ import api from '../../api/api.js';
                 // 如果当前标签页是“全部订单”
                 if (this.activeName === 'first') {
                 //this.tableData[index].orderstate = '5';
-                await changeOrderStatus(this.tableData[index].orderID, '5');
+                await this.changeOrderStatus(this.tableData[index].orderId, '5');
                 } 
                 // 如果当前标签页是“待接单”
                 else if (this.activeName === 'third') {  // 假设“待接单”标签页的 name 是 'second'
@@ -837,7 +838,7 @@ import api from '../../api/api.js';
                     if (this.tableData[i].orderstate === '2') {
                     if (count === index) {
                         //this.tableData[i].orderstate = '5';
-                        await changeOrderStatus(this.tableData[i].orderID, '5');
+                        await this.changeOrderStatus(this.tableData[i].orderId, '5');
                         break;
                     }
                     count++;
@@ -845,11 +846,11 @@ import api from '../../api/api.js';
                 }
                 }
             },
-            async deleteOrder(index) {
+            async deleteSelectOrder(index) {
                 // 如果当前标签页是“全部订单”
                 if (this.activeName === 'first') {
                     //this.tableData.splice(index, 1);
-                    await deleteOrder(this.tableData[index].orderID);
+                    await this.deleteOrder(this.tableData[index].orderId);
                 } 
                 // 如果当前标签页是“待接单”
                 else if (this.activeName === 'second') {  // 假设“待接单”标签页的 name 是 'second'
@@ -859,7 +860,7 @@ import api from '../../api/api.js';
                         if (this.tableData[i].orderstate === '1') {
                         if (count === index) {
                             //this.tableData.splice(i, 1);
-                            await deleteOrder(this.tableData[i].orderID);
+                            await this.deleteOrder(this.tableData[i].orderId);
                             break;
                         }
                         count++;
@@ -874,7 +875,7 @@ import api from '../../api/api.js';
                         if (this.tableData[i].orderstate === '2') {
                         if (count === index) {
                             //this.tableData.splice(i, 1);
-                            await deleteOrder(this.tableData[i].orderID);
+                            await this.deleteOrder(this.tableData[i].orderId);
                             break;
                         }
                         count++;
@@ -889,7 +890,7 @@ import api from '../../api/api.js';
                         if (this.tableData[i].orderstate === '3') {
                         if (count === index) {
                             //this.tableData.splice(i, 1);
-                            await deleteOrder(this.tableData[i].orderID);
+                            await this.deleteOrder(this.tableData[i].orderId);
                             break;
                         }
                         count++;
@@ -904,7 +905,7 @@ import api from '../../api/api.js';
                         if (this.tableData[i].orderstate === '4') {
                         if (count === index) {
                             //this.tableData.splice(i, 1);
-                            await deleteOrder(this.tableData[i].orderID);
+                            await this.deleteOrder(this.tableData[i].orderId);
                             break;
                         }
                         count++;
@@ -919,7 +920,7 @@ import api from '../../api/api.js';
                         if (this.tableData[i].orderstate === '5') {
                         if (count === index) {
                             //this.tableData.splice(i, 1);
-                            await deleteOrder(this.tableData[i].orderID);
+                            await this.deleteOrder(this.tableData[i].orderId);
                             break;
                         }
                         count++;
@@ -1010,25 +1011,25 @@ import api from '../../api/api.js';
             async handledialogreject()
             {
                 //this.tableData[this.dialogindex].orderstate = '5';
-                await changeOrderStatus(this.tableData[this.dialogindex].orderID, '5');
+                await this.changeOrderStatus(this.tableData[this.dialogindex].orderId, '5');
                 this.dialogVisible = false;
             },
             async handledialogdelete()
             {
                 //this.tableData.splice(this.dialogindex, 1);
-                await deleteOrder(this.tableData[this.dialogindex].orderID);
+                await this.deleteOrder(this.tableData[this.dialogindex].orderId);
                 this.dialogVisible = false;
             },
             async handledialogaccept()
             {
                 //this.tableData[this.dialogindex].orderstate = '2';
-                await changeOrderStatus(this.tableData[this.dialogindex].orderID, '2');
+                await this.changeOrderStatus(this.tableData[this.dialogindex].orderId, '2');
                 this.dialogVisible = false;
             },
             async handledialogcancle()
             {
                 //this.tableData[this.dialogindex].orderstate = '5';
-                await changeOrderStatus(this.tableData[this.dialogindex].orderID, '5');
+                await this.changeOrderStatus(this.tableData[this.dialogindex].orderId, '5');
                 this.dialogVisible = false;
             },
             async fetchOrders() {
@@ -1036,7 +1037,7 @@ import api from '../../api/api.js';
                 //    return apiClient.get(`/api/getOrders?mchId=${mchId}`);
                 //},
                 try{
-                    const response = await api.getOrders(this.mchId);
+                    const response = await api.getOrders('5');
                     this.tableData = response.data.data;
                 }
                 catch (error){

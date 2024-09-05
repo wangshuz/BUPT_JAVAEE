@@ -3,11 +3,13 @@ package buptworker.controller;
 import buptworker.entity.Result;
 import buptworker.service.CltOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:8080")  // 允许 http://localhost:8080 的跨域请求
 public class CltOrderController {
     @Autowired
     private CltOrderService cltOrderService;

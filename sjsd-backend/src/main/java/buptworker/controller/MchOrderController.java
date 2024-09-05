@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8080")  // 允许 http://localhost:8081 的跨域请求
+@CrossOrigin(origins = "http://localhost:8080")  // 允许 http://localhost:8080 的跨域请求
 public class MchOrderController {
 
     @Autowired
@@ -30,6 +30,6 @@ public class MchOrderController {
     @RequestMapping("/deleteOrder")
     public Result deleteOrder(String orderId) {
         mchOrderService.deleteMchOrder(orderId);
-        return Result.success();
+        return Result.success("删除成功");
     }
 }
