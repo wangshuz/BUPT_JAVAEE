@@ -22,15 +22,28 @@ public class MchDetailController {
     // 获取商家信息 API
     @GetMapping("/merchants/{merchant_id}")
     public ResponseEntity<Merchant> getMerchantById(@PathVariable("merchant_id") int merchantID) {
-        Merchant merchant = mchdetailService.getMerchantById(merchantID);
+       Merchant merchant = mchdetailService.getMerchantById(merchantID);
         if (merchant != null) {
             return ResponseEntity.ok(merchant);
         } else {
             return ResponseEntity.notFound().build();
         }
+        // 创建一个带有默认值的 Merchant 实例
+        /*Merchant defaultMerchant = new Merchant();
+        defaultMerchant.setMerchantID(0);
+        defaultMerchant.setMerchantName("默认商家");
+        defaultMerchant.setMerchantAddress("无地址");
+        defaultMerchant.setPhoneNumber("无电话");
+        defaultMerchant.setOpeningHours("无营业时间");
+        defaultMerchant.setMerchantDescription("暂无描述");
+        defaultMerchant.setIsOpen(false);
+        defaultMerchant.setDeliveryFee(0.0);
+        defaultMerchant.setMinimumOrderAmount(0.0);
+        defaultMerchant.setPackagingFeePerItem(0.0);
+        return ResponseEntity.ok(defaultMerchant);*/
     }
 
-    // 更新商家信息 API
+    // 更新商家信息 APIf
     @PutMapping("/merchants/{merchant_id}")
     public ResponseEntity<Map<String, Object>> updateMerchant(
             @PathVariable("merchant_id") int merchantID,
