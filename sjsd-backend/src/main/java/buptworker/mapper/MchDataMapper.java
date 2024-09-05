@@ -1,5 +1,8 @@
 package buptworker.mapper;
 
+import buptworker.entity.MerchantInfo;
+import buptworker.entity.OrderStats;
+import buptworker.entity.ProductStats;
 import buptworker.entity.SalesData;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -62,6 +65,31 @@ public interface MchDataMapper {
             "AND DATE(o.order_date) = CURDATE() " +
             "GROUP BY DATE(o.order_date)")
     SalesData getCurData(@Param("merchantId") int merchantId);
+
+    // 查询商家的名称、电话、地址和营业时间
+    @Select("SELECT merchant_name AS merchantName, phone_number AS phoneNumber, merchant_address AS merchantAddress, opening_hours AS openingHours " +
+            "FROM merchant " +
+            "WHERE merchant_id = #{merchantId}")
+    MerchantInfo getMerchantInfo(@Param("merchantId") int merchantId);
+
+    @Select("SELECT COUNT(DISTINCT p.product_id) AS totalCategoryCount, " +
+            "SUM(CASE WHEN p.available = 1 THEN 1 ELSE 0 END) AS availableProductCount, " +
+            "SUM(CASE WHEN p.available = 0 THEN 1 ELSE 0 END) AS unavailableProductCount " +
+            "FROM product p " +
+            "WHERE p.merchant_id = #{merchantId} " +
+            "AND p.is_deleted = 0")  // 仅统计未被删除的菜品
+    ProductStats getProductStats(@Param("merchantId") int merchantId);
+
+    @Select("SELECT SUM(CASE WHEN o.order_status = '1' THEN 1 ELSE 0 END) AS pendingOrderCount, " +
+            "SUM(CASE WHEN o.order_status = '2' THEN 1 ELSE 0 END) AS waitingForDeliveryCount, " +
+            "SUM(CASE WHEN o.order_status = '3' THEN 1 ELSE 0 END) AS deliveringCount, " +
+            "SUM(CASE WHEN o.order_status = '4' THEN 1 ELSE 0 END) AS completedCount, " +
+            "SUM(CASE WHEN o.order_status = '5' THEN 1 ELSE 0 END) AS canceledCount " +
+            "FROM orders o " +
+            "WHERE o.merchant_id = #{merchantId} " +
+            "AND o.order_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE()")
+    OrderStats getMonthlyOrderStats(@Param("merchantId") int merchantId);
+
 
 }
 

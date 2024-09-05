@@ -1,7 +1,6 @@
 package buptworker.service.impl;
 
-import buptworker.entity.Data;
-import buptworker.entity.SalesData;
+import buptworker.entity.*;
 import buptworker.mapper.MchDataMapper;
 import buptworker.service.MchDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +40,20 @@ public class MchDataService_ implements MchDataService {
         listData.add(new Data("订单数",salesData.getTotalOrderCount()));
         listData.add(new Data("用户数",salesData.getTotalCustomerCount()));
         return listData;
+    }
+
+    @Override
+    public MerchantInfo getMerchantInfo(int merchantId) {
+        return mchDataMapper.getMerchantInfo(merchantId);
+    }
+
+    @Override
+    public ProductStats getProdStats(int merchantId) {
+        return  mchDataMapper.getProductStats(merchantId);
+    }
+
+    @Override
+    public OrderStats getMonthlyOrderStats(int merchantId) {
+        return mchDataMapper.getMonthlyOrderStats(merchantId);
     }
 }

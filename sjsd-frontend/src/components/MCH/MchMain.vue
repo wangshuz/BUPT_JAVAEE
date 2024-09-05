@@ -55,81 +55,15 @@
 </template>
 
 <script>
+import api from '../../api/api.js';
+
 export default {
     data(){
         return {
-            statisticData: [
-                {
-                    "name":"营业额",
-                    "value":100,
-                },
-                {
-                    "name":"订单数",
-                    "value":100,
-                },
-                {
-                    "name":"用户数",
-                    "value":100,
-                },
-                {
-                    "name":"总销量",
-                    "value":100,
-                },
-            ],
-            orderData: [
-                {
-                    "name":"待接单",
-                    "value":100,
-                },
-                {
-                    "name":"待派送",
-                    "value":100,
-                },
-                {
-                    "name":"派送中",
-                    "value":100,
-                },
-                {
-                    "name":"已完成",
-                    "value":100,
-                },
-                {
-                    "name":"全部订单",
-                    "value":100,
-                },
-            ],
-            menuData: [
-                {
-                    "name":"菜品总数",
-                    "value":100,
-                },
-                {
-                    "name":"在售菜品",
-                    "value":100,
-                },
-                {
-                    "name":"停售菜品",
-                    "value":100,
-                },
-            ],
-            detailData: [
-                {
-                    "name":"商家名称",
-                    "value":"学苑餐厅"
-                },
-                {
-                    "name":"商家电话",
-                    "value":"12345678910",
-                },
-                {
-                    "name":"商家地址",
-                    "value":"西土城路10号",
-                },
-                {
-                    "name":"营业时间",
-                    "value":"9:00-18:00",
-                },
-            ]
+            statisticData: [],
+            orderData: [],
+            menuData: [],
+            detailData: []
         }
     },
     methods:{
@@ -159,8 +93,94 @@ export default {
 
         }
 
+    },
+    async created(){
+        try {
+            // 使用 await 等待异步请求完成
+            const response = await api.getCurData(10001);
+            this.statisticData = response.data.data;
+        
+        } catch (error) {
+            console.error('获取商家统计数据失败', error);
+        }
+        try {
+            const response = await api.getMonthlyOrderStats(10001);
+            let data = response.data.data;
+            this.orderData = [
+                {
+                    "name":"待接单",
+                    "value":data.pendingOrderCount
+                },
+                {
+                    "name":"待派送",
+                    "value":data.waitingForDeliveryCount
+                },
+                {
+                    "name":"派送中",
+                    "value":data.deliveringCount
+                },
+                {
+                    "name":"已完成",
+                    "value":data.completedCount
+                },
+                {
+                    "name":"已取消",
+                    "value":data.canceledCount
+                },
+            ]
+
+        } catch (error) {
+            console.error('获取商家订单数据失败', error);
+        }
+        try {
+            const response = await api.getProdStats(10001);
+            let data = response.data.data;
+            this.menuData = [
+                {
+                    "name":"菜品总数",
+                    "value":data.totalCategoryCount
+                },
+                {
+                    "name":"在售菜品",
+                    "value":data.availableProductCount
+                },
+                {
+                    "name":"停售菜品",
+                    "value":data.unavailableProductCount
+                },
+            ]
+        
+        } catch (error) {
+            console.error('获取商家菜品信息失败', error);
+        }
+        try {
+            const response = await api.getMerchantInfo(10001);
+            let data = response.data.data;
+            this.detailData = [
+                {
+                    "name":"商家名称",
+                    "value":data.merchantName
+                },
+                {
+                    "name":"商家电话",
+                    "value":data.phoneNumber
+                },
+                {
+                    "name":"商家地址",
+                    "value":data.merchantAddress
+                },
+                {
+                    "name":"营业时间",
+                    "value":data.openingHours
+                },
+            ]
+        } catch (error) {
+            console.error('获取商家基本信息失败', error);
+        }
     }
+
 }
+
 </script>
 
 <style scoped>
@@ -188,7 +208,7 @@ export default {
   align-items: flex-start; /* 标题左对齐 */
   border: 1px solid #ccc; /* 边框颜色 */
   padding: 10px;
-  width: 200px; /* 设置宽度，视需求调整 */
+  width: 220px; /* 设置宽度，视需求调整 */
   height: 120px; /* 设置高度，视需求调整 */
   position: relative; /* 使内容位置定位 */
 }

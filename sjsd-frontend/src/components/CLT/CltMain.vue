@@ -76,9 +76,6 @@ export default {
         };
     
     },
-    created: {
-
-    },
     methods: {
         changeLabel(label)
         {
@@ -103,24 +100,35 @@ export default {
         
         
     },
-    mounted() {
-        api.getMerchantIntros().then(result => {
-            this.mchIntro = result.data.data;
-        });
-        api.getMerchantTypes().then(result => {
+    async created() {
+        try {
+            // 使用 await 等待异步请求完成
+            const response = await api.getMerchantIntros();
+            this.mchIntro = response.data.data;
+         
+        } catch (error) {
+            console.error('获取商家简介失败', error);
+        }
+        try {
+            const response = await api.getMerchantTypes();
             this.mchTypes = [{
                     "id":0,
                     "typeName":"全部",
                     "cb":function(){
-                      this.$emit('changeLabel',0);
+                    this.$emit('changeLabel',0);
                     },
                 },]
-            let types = result.data.data;
+            let types = response.data.data;
             for (let type of types) {
                 type.cb = function(){ this.$emit('changeLabel', type.typeId); };
                 this.mchTypes.push(type); // 使用 push 而不是 add，假设 mchTypes 是一个数组
             }
-        });
+             
+        } catch (error) {
+            console.error('获取商家类型失败', error);
+        }
+    },
+    mounted() {
         
     },
     computed: {

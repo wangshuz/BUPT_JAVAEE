@@ -3,6 +3,7 @@ package buptworker.controller;
 import buptworker.entity.Result;
 import buptworker.service.CltMainService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
+@RequestMapping("/api")
 public class CltMainController {
     @Autowired
     private CltMainService cltMainService;
@@ -26,9 +29,10 @@ public class CltMainController {
         return Result.success(cltMainService.listMchIntro());
     }
 
-    @RequestMapping("/merchant-types")
+    @RequestMapping("/merchant-type")
     public Result MchType(){
         return Result.success(cltMainService.listMchType());
     }
+
 
 }
