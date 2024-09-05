@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CltOrderDetailService {
 
-    public List<CltOrderDetail> getCltOrderDetail(String orderId);
+    public CltOrderDetail getCltOrderDetail(String orderId);
 
     public void updateCltOrderDetailStatus(String orderId, String status);
 

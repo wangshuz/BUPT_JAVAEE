@@ -30,7 +30,7 @@ public interface CltOrderDetailMapper {
             "JOIN Address a ON o.address_id = a.address_id " +
             "WHERE o.order_id = #{orderId} " +
             "AND o.is_deleted_by_user = FALSE; ")
-    public List<CltOrderDetailItem> getcltOrderDetailItemByOrderId(@Param("orderId") String orderId);
+    public CltOrderDetailItem getcltOrderDetailItemByOrderId(@Param("orderId") String orderId);
 
     @Select("SELECT p.imageUrl AS picture,  " +
             "       p.product_name AS name,  " +

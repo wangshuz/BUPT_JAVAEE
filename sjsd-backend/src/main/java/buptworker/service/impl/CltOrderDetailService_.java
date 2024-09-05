@@ -16,20 +16,16 @@ public class CltOrderDetailService_ implements CltOrderDetailService {
     private CltOrderDetailMapper cltOrderDetailMapper;
 
     @Override
-    public List<CltOrderDetail> getCltOrderDetail(String orderId)
+    public CltOrderDetail getCltOrderDetail(String orderId)
     {
-        List<CltOrderDetail> cltOrdersDetails = new ArrayList<CltOrderDetail>();
-        List<CltOrderDetailItem> cltOrderDetailItems = cltOrderDetailMapper.getcltOrderDetailItemByOrderId(orderId);
-        for (CltOrderDetailItem cltOrderDetailItem : cltOrderDetailItems) {
-            switch (cltOrderDetailItem.getState()) {
-                case "1", "2", "3" -> cltOrderDetailItem.setState("1");
-                case "4" -> cltOrderDetailItem.setState("2");
-                case "5" -> cltOrderDetailItem.setState("3");
-            }
-            List<CltOrderDDetailInfo> cltOrderDetailInfos = cltOrderDetailMapper.listCltOrderDetailInfoByOrderId(orderId);
-            cltOrdersDetails.add(new CltOrderDetail(cltOrderDetailItem, cltOrderDetailInfos));
+        CltOrderDetailItem cltOrderDetailItems = cltOrderDetailMapper.getcltOrderDetailItemByOrderId(orderId);
+        switch (cltOrderDetailItems.getState()) {
+            case "1", "2", "3" -> cltOrderDetailItems.setState("1");
+            case "4" -> cltOrderDetailItems.setState("2");
+            case "5" -> cltOrderDetailItems.setState("3");
         }
-        return cltOrdersDetails;
+        List<CltOrderDDetailInfo> cltOrderDetailInfos = cltOrderDetailMapper.listCltOrderDetailInfoByOrderId(orderId);
+        return new CltOrderDetail(cltOrderDetailItems, cltOrderDetailInfos);
     }
 
     public void updateCltOrderDetailStatus(String orderId, String status)
