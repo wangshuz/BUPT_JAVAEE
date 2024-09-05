@@ -27,7 +27,9 @@ public class AuthService_ implements AuthService {
     public User findByCltname(String username, String password) {
         // 查询数据库获取用户信息
         User user = authMapper.findByCltname(username);
-        if (user == null || password != user.getPassword()) {
+        if (user == null) {
+            return null;
+        }else if(!(password.equals(user.getPassword()))){
             return null;
         }else{
             return user;
