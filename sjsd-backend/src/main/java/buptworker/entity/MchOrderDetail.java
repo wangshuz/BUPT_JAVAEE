@@ -2,7 +2,7 @@ package buptworker.entity;
 
 public class MchOrderDetail {
 
-    private String orderId;//merchant_id
+    private String orderId;//order_id
     private String username;//username
     private String phonenumber;//recipient_phone
     private String location;//address_line

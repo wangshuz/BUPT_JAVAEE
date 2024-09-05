@@ -82,7 +82,7 @@
                   <el-button type="text" v-if="scope.row.state != '1'" @click="deleteOrder(scope.$index)">
                     <span style="color: red">删除订单</span>
                   </el-button >
-                  <el-button type="text" @click="goToOrder">
+                  <el-button type="text" @click="goToOrder(scope.$index)">
                     <span>查看详情</span>
                   </el-button>
               </template>
@@ -136,6 +136,7 @@ import SearchBox from '../SearchBox.vue';
         tableData: [
         // state:  1.待收货  2.已完成  3.已取消
         {
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -156,6 +157,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -176,6 +178,7 @@ import SearchBox from '../SearchBox.vue';
           state:'2',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -190,6 +193,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -216,6 +220,7 @@ import SearchBox from '../SearchBox.vue';
           state:'3',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -236,6 +241,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -250,6 +256,7 @@ import SearchBox from '../SearchBox.vue';
           state:'2',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -264,6 +271,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -290,6 +298,7 @@ import SearchBox from '../SearchBox.vue';
           state:'3',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -304,6 +313,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -318,6 +328,7 @@ import SearchBox from '../SearchBox.vue';
           state:'2',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -332,6 +343,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -358,6 +370,7 @@ import SearchBox from '../SearchBox.vue';
           state:'3',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -372,6 +385,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -386,6 +400,7 @@ import SearchBox from '../SearchBox.vue';
           state:'2',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -400,6 +415,7 @@ import SearchBox from '../SearchBox.vue';
           state:'1',
           money:'496'
         },{
+          mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
           info:[ 
@@ -460,7 +476,7 @@ import SearchBox from '../SearchBox.vue';
           console.error('获取订单列表时出错:', error);
           });
       },
-      changeOrderStatus(orderId, status) {
+      changeCltOrderStatus(orderId, status) {
           //updateCltOrderStatus(orderId, status){
           //    return apiClient.get(`/api/updateCltOrderStatus?orderId=${orderId}&status=${status}`);
           //},
@@ -473,7 +489,7 @@ import SearchBox from '../SearchBox.vue';
           console.error('更新订单状态时出错:', error);
           });
       },
-      deleteOrder(orderId) {
+      deleteCltOrder(orderId) {
           //deleteCltOrder(orderId){
           //    return apiClient.get(`/api/deleteCltOrder?orderId=${orderId}`);
           //},
@@ -502,10 +518,100 @@ import SearchBox from '../SearchBox.vue';
         this.filteredData();
       },
       goToStore() {
-        this.$router.push({ name: 'CltStore' }); // 通过路由的名称跳转
+         // 如果当前标签页是“待接单”
+         if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
+        // 计算在“待接单”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '1') {
+                if (count === index) {
+                    index = i;
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+        // 如果当前标签页是“待派送”
+        else if (this.pagestate === '2') {  // 假设“待派送”标签页的 name 是 'third'
+        // 计算在“待派送”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '2') {
+                if (count === index) {
+                  index = i;
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+        // 如果当前标签页是“派送中”
+        else if (this.pagestate === '3') {  // 假设“派送中”标签页的 name 是 'fourth'
+        // 计算在“派送中”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '3') {
+                if (count === index) {
+                  index = i;
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+        this.$router.push({ 
+          name: 'CltStore',
+          query: { mchId : this.tableData[index].mchId }  // 传递数据
+         }); // 通过路由的名称跳转
       },
-      goToOrder() {
-        this.$router.push({ name: 'CltOrderDetail' }); // 通过路由的名称跳转
+      goToOrder(index) {
+        // 如果当前标签页是“待接单”
+        if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
+        // 计算在“待接单”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '1') {
+                if (count === index) {
+                    index = i;
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+        // 如果当前标签页是“待派送”
+        else if (this.pagestate === '2') {  // 假设“待派送”标签页的 name 是 'third'
+        // 计算在“待派送”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '2') {
+                if (count === index) {
+                  index = i;
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+        // 如果当前标签页是“派送中”
+        else if (this.pagestate === '3') {  // 假设“派送中”标签页的 name 是 'fourth'
+        // 计算在“派送中”标签页中索引对应的订单
+            let count = 0;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].state === '3') {
+                if (count === index) {
+                  index = i;
+                    break;
+                }
+                count++;
+                }
+            }
+        }
+        this.$router.push({ 
+          name: 'CltOrderDetail' ,
+          query: { orderId : this.tableData[index].orderId }  // 传递数据
+        }); // 通过路由的名称跳转
       },
       confirmreceipt(index) {
         // 如果当前标签页是“全部订单”

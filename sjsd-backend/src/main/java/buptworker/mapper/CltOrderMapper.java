@@ -11,14 +11,14 @@ import java.util.List;
 
 @Mapper
 public interface CltOrderMapper {
-    @Select("SELECT o.order_id, m.merchant_name, o.order_date, o.order_status, o.total_amount " +
+    @Select("SELECT o.order_id AS orderId, o.merchant_id AS mchId, m.merchant_name AS mchname, o.order_date As data, o.order_status AS state, o.total_amount AS money " +
             "FROM Orders o " +
             "JOIN Merchant m ON o.merchant_id = m.merchant_id " +
             "WHERE o.user_id = #{userId} " +
             "AND o.is_deleted_by_user = FALSE;")
     public List<CltOrderItem> getCltOrderItems(@Param("userId") String userId);
 
-    @Select("SELECT p.imageUrl, p.product_name, p.price, oi.quantity " +
+    @Select("SELECT p.imageUrl AS picture, p.product_name AS name, p.price AS price, oi.quantity AS num " +
             "FROM Order_Item oi " +
             "JOIN Product p ON oi.product_id = p.product_id " +
             "WHERE oi.order_id = #{orderId}; ")

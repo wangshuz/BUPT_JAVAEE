@@ -2,17 +2,27 @@ package buptworker.entity;
 
 public class CltOrderItem {
     private String orderId;//order_id
+    private String mchId;//merchant_id
     private String mchname;//merchant_name
     private String date;//order_date
     private String state;//order_status
     private String money;//total_amount
 
-    public CltOrderItem(String orderId, String mchname, String date, String state, String money) {
-        this.orderId = orderId;
+    public CltOrderItem(String orderId, String mchId, String mchname, String date, String state, String money) {
         this.mchname = mchname;
+        this.orderId = orderId;
+        this.mchId = mchId;
         this.date = date;
         this.state = state;
         this.money = money;
+    }
+
+    public String getMchId() {
+        return mchId;
+    }
+
+    public void setMchId(String mchId) {
+        this.mchId = mchId;
     }
 
     public String getOrderId() {
