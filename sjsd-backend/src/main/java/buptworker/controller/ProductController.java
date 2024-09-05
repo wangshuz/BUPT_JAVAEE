@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+@RequestMapping("/api")
 public class ProductController {
 
     @Autowired
@@ -27,11 +28,11 @@ public class ProductController {
     }
 
     @RequestMapping("/productMch")
-    public int productMch(int merchantId){
-        return merchantId;
+    public Result productMch(int merchantId){
+        return Result.success(productService.listProductMch(merchantId));
     }
 
-    @RequestMapping("/merchantInfo")
+    @RequestMapping("/mchInfo")
     public Result mchInfo(int merchantId){
         return Result.success(productService.getMerchant(merchantId));
     }

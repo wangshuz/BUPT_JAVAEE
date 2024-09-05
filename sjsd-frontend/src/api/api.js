@@ -26,18 +26,8 @@ const apiClient = axios.create({
  * 这里只包含一个示例方法，用于获取商品列表。
  */
 export default {
-  /**
-   * 获取商品列表
-   * 
-   * 这是一个示例方法，用于从服务器获取商品列表。
-   * 它发送一个 GET 请求到 `/items` 这个端点，并返回一个 Promise 对象。
-   * 
-   * @returns {Promise} 包含商品列表的 Promise 对象
-   */
-//   getItems() {
-//     // 发送 GET 请求到 /items 端点
-//     return apiClient.get('/items');
-//   }
+  
+
   /**
    * 获取商家信息
    * 
@@ -119,7 +109,17 @@ export default {
   },
 
   /**
-   * 获取特定商家的商品列表
+   * 获取特定商家的商品信息（商家端）
+   * 
+   * @returns {Promise} Promise 
+   */
+  async getProductMch(){
+    return apiClient.Client.get(`/api/productMch`)
+  },
+
+
+  /**
+   * 获取特定商家的商品列表(用户端)
    * 
    * @param {number} merchantId - 商家的唯一标识符
    * @returns {Promise} 包含商家的所有商品
@@ -235,14 +235,11 @@ export default {
     return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`)
   },
 
-  changeCltOrderRealtime(orderId, time){
+  async changeCltOrderRealtime(orderId, time){
       return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
   },
 
-  /**
-   * 
-   */
-
+  
 };
 
 

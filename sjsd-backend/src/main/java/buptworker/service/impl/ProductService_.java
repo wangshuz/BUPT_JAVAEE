@@ -38,7 +38,13 @@ public class ProductService_ implements ProductService {
 
     @Override
     public List<ProductMch> listProductMch(int merchantId) {
-        return null;
+        List<ProductMch> ret = new ArrayList<>();
+        List<Product> products = productMapper.listProduct(merchantId);
+        products.stream().forEach(item->{
+            ProductMch t = new ProductMch(item);
+            ret.add(t);
+        });
+        return ret;
     }
 
     @Override
