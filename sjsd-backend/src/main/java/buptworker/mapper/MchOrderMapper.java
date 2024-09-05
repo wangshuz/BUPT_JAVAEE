@@ -30,7 +30,7 @@ public interface MchOrderMapper {
             "JOIN " +
             "   Address a ON o.address_id = a.address_id " +
             "WHERE " +
-            "   o.merchant_id = #{{mchID}} " +
+            "   o.merchant_id = #{mchID} " +
             "   AND o.is_deleted_by_merchant = FALSE; "
     )
     public List<MchOrderDetail> listMchOrderDetail(@Param("mchID") String mchID);
