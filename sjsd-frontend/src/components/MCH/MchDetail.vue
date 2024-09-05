@@ -526,11 +526,19 @@ export default {
 }
 
 .avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
+  width: 60px; /* 固定宽度为 80px */
+  height: 60px; /* 固定高度为 80px */
+  object-fit: cover; /* 保持图片的比例缩放 */
+  border-radius: 50%; /* 将头像裁剪为圆形 */
+  border: 2px solid #ddd; /* 添加边框 */
 }
 
+.avatar-placeholder {
+  font-size: 80px;
+  color: #ddd;
+  width: 80px;
+  height: 80px;
+}
 .dialog-footer {
   text-align: right;
 }
