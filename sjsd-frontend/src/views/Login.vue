@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import api from '../api/api.js';
+import api from '../api/loginAPI.js';
 // 引入 crypto-js 用于MD5加密
 const CryptoJS = require("crypto-js");
 
@@ -115,7 +115,8 @@ export default {
                         this.$message.error('用户名已存在');
                     else{
                         this.$message.success('注册成功');
-                        this.$router.push('/clt/main');
+                        this.customerUsername = '';
+                        this.customerPassword = '';
                     }
                 }
                 else{
@@ -157,7 +158,9 @@ export default {
                         this.$message.error('用户名已存在');
                     else{
                         this.$message.success('注册成功');
-                        this.$router.push('/mch/main');
+                        this.merchantUsername = '';
+                        this.merchantPassword = '';
+
                     }
                 }
                 else{
