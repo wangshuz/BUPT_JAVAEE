@@ -40,7 +40,7 @@ public interface MchDetailMapper {
             "WHERE merchant_id = #{merchantID}")
     int updateMerchant(Merchant merchant);
 
-    @Update("UPDATE merchant SET avatar_url = #{avatarURL} WHERE merchant_id = #{merchantID}")
+    @Update("UPDATE merchant SET merchant_avatar = #{avatarURL} WHERE merchant_id = #{merchantID}")
     int updateMerchantAvatar(int merchantID, String avatarURL);
 
     @Select("SELECT type_name FROM merchant_type")
