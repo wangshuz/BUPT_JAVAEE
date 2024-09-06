@@ -1,10 +1,11 @@
 package buptworker.controller;
 
-import buptworker.entity.Product;
-import buptworker.entity.Result;
+import buptworker.entity.*;
 import buptworker.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author : [Xieyx]
@@ -100,7 +101,14 @@ public class ProductController {
         }
     }
 
-
+    @RequestMapping("/order/submit")
+    public Result insertOrdre(@RequestBody OrderPackage orderPackage){
+        Order order = orderPackage.getOrder();
+        List<OrderItem> itemList = orderPackage.getItemList();
+        order.setUserId(cltId);
+        productService.createOrder(order,itemList);
+        return Result.success();
+    }
 
 
 }

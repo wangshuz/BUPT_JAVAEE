@@ -119,8 +119,9 @@ export default {
         } catch (error) {
             console.error('获取推荐图片失败', error);
         }
+        
     },
-    mounted() {
+    async mounted() {
         
     },
     computed: {

@@ -31,7 +31,7 @@
 
         // 调用后端 API 获取用户名
         const response = await api.getPresentName(id, flag);
-          this.personName = response.data.data.personName;// 赋值用户名
+          // this.personName = response.data.data.personName;// 赋值用户名
           console.log('获取用户名成功', this.personName);
       } catch (error) {
         console.error('获取用户名时发生错误', error);
