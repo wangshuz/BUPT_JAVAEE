@@ -36,6 +36,8 @@
   
   <script>
   import api from '../api/api.js';
+  // 引入 crypto-js 用于MD5加密
+  const CryptoJS = require("crypto-js");  
   export default {
     data() {
       return {
@@ -70,7 +72,7 @@
             const flag = 0; // 或者根据具体情况设置为 0
             const id = 11; // 替换为实际的用户/商家 ID
             // alart(this.passwordForm.password);
-            const response = await api.updatePassword(this.passwordForm.password, id, flag);
+            const response = await api.updatePassword(CryptoJS.MD5(this.passwordForm.password).toString(), id, flag);
             
             this.$message({
               message: '密码设置成功',
