@@ -22,16 +22,23 @@
   // import SetNickname from './SetNickname.vue';
   import SetPassword from './SetPassword.vue';
   import SetAddress from './SetAddress.vue';
-  
+  import api from '../api/api.js';
   export default {
     async created() {
-        try {
-        // 使用 await 等待异步请求完成
-        const response = await api.getPresentName();
-        this.personName = response; // 将返回的结果赋值给 temp
-        } catch (error) {
-        console.error('获取用户名失败', error);
+      try {
+        const id = 1; // 假设 ID 是 1，你可以根据需要获取实际的 ID
+        const flag = 0; // 假设是商家，传递 0，客户为 1
+
+        // 调用后端 API 获取用户名
+        const response = await api.getPresentName(id, flag);
+        if (response.data.success) {
+          this.personName = response.data.data; // 赋值用户名
+        } else {
+          console.error('获取用户名失败', response.data.message);
         }
+      } catch (error) {
+        console.error('获取用户名时发生错误', error);
+      }
     },
     components: {
       // SetNickname,

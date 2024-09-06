@@ -245,7 +245,16 @@ export default {
    * @returns {Promise} - 返回的结果
    */
   async updatePassword(password, id, flag) {
-    return await apiClient.post(`/api/password/update`, { password, id, flag });
+    return apiClient.post(`/api/password/update`, { password, id, flag });
+  },
+  /*
+  *
+  * 展示用户名
+  * @param {Number} id - 用户或者商家的id
+  * @param {Number} flag - 商家是1，用户是0
+  */
+  getPresentName(id, flag) {
+    return apiClient.get('/api/PresentName', { params: { id, flag } });
   },
   
 };

@@ -35,7 +35,7 @@
   </template>
   
   <script>
-  import api from '../../api/api.js';
+  import api from '../api/api.js';
   export default {
     data() {
       return {
@@ -65,12 +65,23 @@
             /* valid 通常用于表单验证规则，表示当输入框失去焦点（blur 事件）时触发验证 */
             /*   =>里面的就是验证回调函数 */
           if (valid) {
-            // 这里可以添加发送新密码到服务器的代码
+            try {
+            // 假设你已经有用户或商家的 ID 和标识（1 表示商家，0 表示用户）
+            const flag = 1; // 或者根据具体情况设置为 0
+            const id = 123; // 替换为实际的用户/商家 ID
+            const response = api.updatePassword(this.passwordForm.password, id, flag);
             this.$message({
               message: '密码设置成功',
               type: 'success'
             });
-            this.dialogVisible = false; // 关闭浮窗
+            this.dialogVisible = false;
+          } catch (error) {
+            console.error('更新密码失败', error);
+            this.$message({
+              message: '更新密码失败',
+              type: 'error'
+            });
+          }
           } else {
             console.log('表单验证失败');
             return false;

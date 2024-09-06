@@ -19,7 +19,7 @@ public class PresentNameController {
     // 用来存储 sessionID 对应的用户或商家ID及其类型
     @RequestMapping("/PresentName")
     public Result PresentName(Integer id,Integer flag){
-        if (flag==0)
+        if (flag==1)
         {
             return Result.success(presentNameService.ListMchPresentName(id));
         }
