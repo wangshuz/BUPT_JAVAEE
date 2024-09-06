@@ -290,7 +290,7 @@
         }
       try {
         // 使用 await 等待异步请求完成
-        const response = await api.getProductClt();
+        const response = await api.getProductClt(this.merchantID);
         this.products = response.data.data;
         console.log(this.products);
       } catch (error) {
@@ -298,7 +298,7 @@
       }
       try {
         // 使用 await 等待异步请求完成
-        const response = await api.getProType();
+        const response = await api.getProTypeClt(this.merchantID);
         this.categoryList = response.data.data;
         console.log(this.categoryList);
         // 复制到ListData中
