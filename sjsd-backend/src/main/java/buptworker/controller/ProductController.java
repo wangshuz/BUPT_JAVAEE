@@ -39,8 +39,7 @@ public class ProductController {
     }
 
     @RequestMapping("/mchInfo")
-    public Result mchInfo(HttpServletRequest request){
-        int merchantId = cookie.getUserID(request).intValue();
+    public Result mchInfo(int merchantId){
         return Result.success(productService.getMerchant(merchantId));
     }
 

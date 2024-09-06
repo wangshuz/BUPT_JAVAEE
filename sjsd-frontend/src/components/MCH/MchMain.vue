@@ -13,7 +13,7 @@
             </div>
         </el-card>
 
-        <el-card class="box-card">
+        <!-- <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <span>订单管理</span>
                 <el-button style="float: right; padding: 3px 0" type="text" @click="handleClick(2)">详情>></el-button>
@@ -24,7 +24,7 @@
                     <div class="card_item_content">{{ item.value }}</div>
                 </div>
             </div>
-        </el-card>
+        </el-card> -->
 
         <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -104,31 +104,29 @@ export default {
             console.error('获取商家统计数据失败', error);
         }
         try {
-            alert(111);
             const response = await api.getMonthlyOrderStats();
-            let data = response.data.data;
+            let t = response.data.data;
             this.orderData = [
                 {
                     "name":"待接单",
-                    // "value":data.pendingOrderCount
-                    "value":1
+                    "value":t.pendingOrderCount
                 },
-                // {
-                //     "name":"待派送",
-                //     "value":data.waitingForDeliveryCount
-                // },
-                // {
-                //     "name":"派送中",
-                //     "value":data.deliveringCount
-                // },
-                // {
-                //     "name":"已完成",
-                //     "value":data.completedCount
-                // },
-                // {
-                //     "name":"已取消",
-                //     "value":data.canceledCount
-                // },
+                {
+                    "name":"待派送",
+                    "value":t.waitingForDeliveryCount
+                },
+                {
+                    "name":"派送中",
+                    "value":t.deliveringCount
+                },
+                {
+                    "name":"已完成",
+                    "value":t.completedCount
+                },
+                {
+                    "name":"已取消",
+                    "value":t.canceledCount
+                },
             ]
 
         } catch (error) {

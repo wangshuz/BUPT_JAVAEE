@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper //运行时会自动生成该接口的实现类对象（代理对象），并交给IOC管理
 public interface CltMainMapper {
-    @Select("SELECT merchant_id as id,merchant_username as name,merchant_description as intro,type_id as label,merchant_avatar as url FROM merchant")
+    @Select("SELECT merchant_id as id,merchant_name as name,merchant_description as intro,type_id as label,merchant_avatar as url FROM merchant")
     public List<MchIntro> listMchIntro();
 
     @Select("SELECT type_id AS typeId, type_name AS typeName FROM merchant_type")
