@@ -84,6 +84,17 @@ export default {
     return apiClient.get(`/api/merchant-types`);
   },
 
+     /**
+   * 获取商家类型 (用户首页)
+   * 
+   * 获取商家类型的选项列表。
+   * 
+   * @returns {Promise} 包含商家类型选项列表的 Promise 对象
+   */
+     getMerchantTypes() {
+      return apiClient.get(`/api/merchant-type`);
+    },
+
   /**
    * 获取商家简介信息
    * 
