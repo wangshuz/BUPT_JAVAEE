@@ -97,5 +97,16 @@ public class ProductService_ implements ProductService {
         return result > 0 ? 1 : 0;  // 如果更新成功返回 1，否则返回 0
     }
 
+    @Override
+    public int addProduct(Product product, int merchantId) {
+        // 调用Mapper层插入商品
+        return productMapper.insertProduct(product, merchantId);
+    }
 
+    @Override
+    public int updateProduct(Product product, int merchantId) {
+        productMapper.deleteProduct(product.getId());
+        int ret = productMapper.insertProduct(product, merchantId);
+        return ret;
+    }
 }

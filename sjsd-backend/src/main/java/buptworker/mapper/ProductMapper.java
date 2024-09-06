@@ -54,4 +54,8 @@ public interface ProductMapper {
     @Update("UPDATE Product SET available = #{status} WHERE product_id = #{productId} AND is_deleted = FALSE")
     int updateProductStatus(@Param("productId") int productId, @Param("status") boolean status);
 
+    // 插入商品信息
+    @Insert("INSERT INTO Product (merchant_id, category_id, imageUrl, product_name, price, description, available, is_deleted) " +
+            "VALUES (#{merchantId}, #{product.category_id}, #{product.image}, #{product.name}, #{product.price}, #{product.description}, TRUE, FALSE)")
+    int insertProduct(@Param("product") Product product, @Param("merchantId") int merchantId);
 }

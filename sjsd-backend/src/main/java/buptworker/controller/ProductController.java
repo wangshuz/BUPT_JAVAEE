@@ -1,11 +1,10 @@
 package buptworker.controller;
 
+import buptworker.entity.Product;
 import buptworker.entity.Result;
 import buptworker.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : [Xieyx]
@@ -80,4 +79,28 @@ public class ProductController {
             return Result.error("状态更新失败");
         }
     }
+
+    @RequestMapping("/product/add")
+    public Result addProduct(@RequestBody Product product) {
+        int result = productService.addProduct(product, merchantId);
+        if (result > 0) {
+            return Result.success();
+        } else {
+            return Result.error("新增商品失败");
+        }
+    }
+
+    @RequestMapping("/product/update")
+    public Result updataProduct(@RequestBody Product product){
+        int result = productService.updateProduct(product,merchantId);
+        if (result > 0) {
+            return Result.success();
+        } else {
+            return Result.error("新增商品失败");
+        }
+    }
+
+
+
+
 }

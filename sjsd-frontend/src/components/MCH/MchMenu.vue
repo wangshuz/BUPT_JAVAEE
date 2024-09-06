@@ -160,7 +160,7 @@ export default {
       },
       categoryList:[
         {
-          categoryID:1,
+          category_:1,
           categoryName:'分类1'
         },
         {

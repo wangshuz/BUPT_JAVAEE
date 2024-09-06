@@ -20,35 +20,60 @@ export default {
   // 新增分类
   // get
   // return.data.code: 1:新增成功 0:失败
-  async addCategory(CategoryName) {
-      return apiClient.get(`/api//category/add?CategoryName=${CategoryName}`)
+  async addCategory(categoryName) {
+      return apiClient.get(`/api//category/add?CategoryName=${categoryName}`)
   },
   // 删除指定商品
   // get
   // return.data.code: 1:删除成功 0:失败
-  async deleteProduct(ProductId) {
-    return apiClient.get(`/api/product/delete?ProductId=${ProductId}`)
+  async deleteProduct(productId) {
+    return apiClient.get(`/api/product/delete?ProductId=${productId}`)
   },
+
+
+  // product数据结构
+  // public class Product {
+  //   private Integer id; null
+  //   private String name;
+  //   private String image;
+  //   private Integer category_id; 
+  //   private String category_name; null
+  //   private Integer price;
+  //   private String description;
+  //   private Boolean status; null
+  //   }
   // 添加商品
   // post
   // return.data.code: 1:添加成功 0:失败
-  async addProduct(Product) {
-    return apiClient.post('/api/product/add', Product )
+  async addProduct(product) {
+    return apiClient.post('/api/product/add', product )
   },
   // 修改商品信息
   // post
   // 通过软删除再新增的方式实现,注意在新增的时候不要把id拷贝过去
   // return.data.code: 1:修改成功 0:失败
-  async updateProduct(Product) {
-    return apiClient.post('/api/product/update', Product )
+  async updapteProduct(product) {
+    return apiClient.post('/api/product/update', product )
   },
+
+  // product数据结构
+  // public class Product {
+  //   private Integer id;
+  //   private String name;
+  //   private String image;
+  //   private Integer category_id;
+  //   private String category_name; null
+  //   private Integer price;
+  //   private String description;
+  //   private Boolean status; null
+  //   }
   
   // 修改商品在售状态
   // get
   // 真修改
   // return.data.code: 1:修改成功 0:失败
-  async updateProductStatus(ProductId, status) {
-    return apiClient.get(`/api/product/updateStatus?ProductId=${ProductId}&status=${status}`)
+  async updateProductStatus(productId, status) {
+    return apiClient.get(`/api/product/updateStatus?ProductId=${productId}&status=${status}`)
   },
   
 };

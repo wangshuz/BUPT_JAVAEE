@@ -22,4 +22,8 @@ public interface ProductService {
 
     public int updateProductStatus(int productId, boolean status);
 
+    public int addProduct(Product product, int merchantId);
+
+    public int updateProduct(Product product, int merchantId);
+
 }
