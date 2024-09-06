@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8080")  // 允许 http://localhost:8080 的跨域请求
+@CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true") // 允许 http://localhost:8080 的跨域请求
 public class CltOrderDetailController {
 
     @Autowired

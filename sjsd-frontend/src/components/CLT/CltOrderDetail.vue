@@ -299,6 +299,7 @@ export default {
     async mounted()
     {
         this.orderId = this.$route.query.orderId;
+        console.log(this.orderId);
         await this.fetchOrderDetail();
         // 每隔5秒钟刷新数据
       console.log('数据获取完成，启动定时器');

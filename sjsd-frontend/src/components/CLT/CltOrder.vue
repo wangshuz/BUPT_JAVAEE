@@ -660,6 +660,7 @@ import api from '../../api/api.js';
                 }
             }
         }
+        console.log(this.tableData[index].orderId);
         this.$router.push({ 
           name: 'CltOrderDetail' ,
           query: { orderId : this.tableData[index].orderId }  // 传递数据
