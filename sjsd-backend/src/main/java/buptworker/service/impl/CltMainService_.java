@@ -1,5 +1,6 @@
 package buptworker.service.impl;
 
+import buptworker.entity.TopPicture;
 import buptworker.mapper.CltMainMapper;
 import buptworker.entity.MchIntro;
 import buptworker.entity.MchType;
@@ -33,6 +34,11 @@ public class CltMainService_ implements CltMainService {
     @Override
     public List<MchType> listMchType() {
         return cltMainMapper.listMchType();
+    }
+
+    @Override
+    public List<TopPicture> listTopPicture(int cltId) {
+        return cltMainMapper.listTopPicture(cltId);
     }
 
 }
