@@ -190,7 +190,7 @@ export default {
             this.mchId = response.mchId;
             
             this.address = response.address;
-            this.note = response.note;
+            this.note = response.note; 
             this.packingCharge = response.packingCharge;
             this.deliveryCharge = response.deliveryCharge;
             this.orderdate = response.orderdate;
