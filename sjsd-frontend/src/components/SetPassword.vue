@@ -67,9 +67,11 @@
           if (valid) {
             try {
             // 假设你已经有用户或商家的 ID 和标识（1 表示商家，0 表示用户）
-            const flag = 1; // 或者根据具体情况设置为 0
-            const id = 123; // 替换为实际的用户/商家 ID
+            const flag = 0; // 或者根据具体情况设置为 0
+            const id = 11; // 替换为实际的用户/商家 ID
+            // alart(this.passwordForm.password);
             const response = api.updatePassword(this.passwordForm.password, id, flag);
+            
             this.$message({
               message: '密码设置成功',
               type: 'success'
