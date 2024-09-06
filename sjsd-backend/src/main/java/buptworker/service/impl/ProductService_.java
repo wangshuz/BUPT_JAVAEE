@@ -109,4 +109,13 @@ public class ProductService_ implements ProductService {
         int ret = productMapper.insertProduct(product, merchantId);
         return ret;
     }
+
+    @Override
+    public void createOrder(Order order, List<OrderItem> itemList) {
+        int order_id = productMapper.insertOrder(order);
+        itemList.stream().forEach(it->{
+            it.setOrder_id(order_id);
+            productMapper.insertOrderItem(it);
+        });
+    }
 }

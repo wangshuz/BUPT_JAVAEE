@@ -21,9 +21,9 @@
           <el-menu-item index="3" id="name">
             <personal-setting/>
           </el-menu-item>
-          <el-menu-item index="4" id="exit">
+          <!-- <el-menu-item index="4" id="exit">
             <router-link to="/">EXIT</router-link>
-          </el-menu-item>
+          </el-menu-item> -->
         </el-menu>
       </el-header>
 
@@ -71,8 +71,8 @@ import UploadPicture from '../components/UploadPicture.vue';
   left: 70%;
 }
 
-#exit {
+/* #exit {
   left:70%
-}
+} */
 
 </style>

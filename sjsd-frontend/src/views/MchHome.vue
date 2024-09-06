@@ -21,9 +21,9 @@
           <el-menu-item index="3" id="name">
             <personal-setting />
           </el-menu-item>
-          <el-menu-item index="4" id="exit">
+          <!-- <el-menu-item index="4" id="exit">
             <router-link to="/">EXIT</router-link>
-          </el-menu-item>
+          </el-menu-item> -->
         </el-menu>
       </el-header>
 
@@ -150,9 +150,9 @@ export default {
   left: 75%;
 }
 
-#exit {
+/* #exit {
   left: 75%;
-}
+} */
 
 .MCH-menu-v .el-menu-item.is-active {
   background-color: #CECECE !important;

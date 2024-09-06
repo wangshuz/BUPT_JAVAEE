@@ -26,4 +26,5 @@ public interface ProductService {
 
     public int updateProduct(Product product, int merchantId);
 
+    public void createOrder(Order order, List<OrderItem> itemList);
 }
