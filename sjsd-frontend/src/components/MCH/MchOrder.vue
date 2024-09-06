@@ -1038,7 +1038,7 @@ import api from '../../api/api.js';
                 //    return apiClient.get(`/api/getOrders?mchId=${mchId}`);
                 //},
                 try{
-                    const response = await api.getOrders('5');
+                    const response = await api.getOrders();
                     this.tableData = response.data.data;
                 }
                 catch (error){

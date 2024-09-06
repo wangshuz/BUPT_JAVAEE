@@ -471,7 +471,7 @@ import api from '../../api/api.js';
           //    return apiClient.get(`/api/getCltOrders?userId=${userId}`);
           //},
           try{
-            const response = await api.getCltOrders('1');
+            const response = await api.getCltOrders();
             this.tableData = response.data.data;
           }
           catch(error)
@@ -784,7 +784,7 @@ import api from '../../api/api.js';
       console.log('数据获取完成，启动定时器');
                 this.interval = setInterval(async () => {
                     console.log('定时器触发'); // 确认定时器是否被触发
-                this.currentTime = new Date().toLocaleTimeString();
+                this.currentTime = new Date().toString();
                 console.log(this.currentTime);
                 await this.fetchOrders();
                 }, 3000); // 5000 毫秒 = 5秒

@@ -15,8 +15,8 @@ public class CltOrderController {
     private CltOrderService cltOrderService;
 
     @RequestMapping("/getCltOrders")
-    public Result getCltOrders(String userId) {
-        return Result.success(cltOrderService.getCltOrders(userId));
+    public Result getCltOrders() {
+        return Result.success(cltOrderService.getCltOrders("1"));
     }
 
     @RequestMapping("/updateCltOrderStatus")

@@ -17,8 +17,8 @@ public class MchOrderController {
     private MchOrderService mchOrderService;
 
     @RequestMapping("/getOrders")
-    public Result getOrders(String mchId) {
-        return Result.success(mchOrderService.getMchOrders(mchId));
+    public Result getOrders() {
+        return Result.success(mchOrderService.getMchOrders("5"));
     }
 
     @RequestMapping("/updateOrderStatus")
