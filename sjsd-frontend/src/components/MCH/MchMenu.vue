@@ -197,6 +197,13 @@ export default {
     } catch (error) {
       console.error('获取数据失败', error);
     }
+    try {
+        // 使用 await 等待异步请求完成
+        const response = await api.getProType();
+        this.categoryList = response.data.data; // 将返回的结果赋值给 temp
+        } catch (error) {
+        console.error('获取商品类型列表失败', error);
+        }
 
   },
 

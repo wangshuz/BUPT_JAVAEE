@@ -108,11 +108,10 @@ export default {
   /**
    * 获取商家详细信息
    * 
-   * @param {number} merchantId - 商家的唯一标识符
    * @returns {Promise} 包含商家详情
    */
-  async getMerchantDetails(merchantId) {
-    return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`);
+  async getMerchantDetails() {
+    return apiClient.get(`/api/mchInfo`);
   },
 
   /**
@@ -128,11 +127,10 @@ export default {
   /**
    * 获取特定商家的商品列表(用户端)
    * 
-   * @param {number} merchantId - 商家的唯一标识符z
    * @returns {Promise} 包含商家的所有商品
    */
   async getProductClt() {
-    return apiClient.get(`/api/productClt?merchantId=${merchantId}`);
+    return apiClient.get(`/api/productClt`);
   },
 
   /**
@@ -156,11 +154,10 @@ export default {
   /**
    * 获取用户地址
    * 
-   * @param {number} cltId - 用户唯一标识符
    * @returns {Promise} 包含默认地址和全部地址列表
    */
-  async getCltAddress(cltId) {
-    return apiClient.get(`/api/cltAddress?cltId=${cltId}`);
+  async getCltAddress() {
+    return apiClient.get(`/api/cltAddress`);
   },
 
 
@@ -281,7 +278,37 @@ export default {
     return apiClient.get(`/api/PresentName?id=${id}&flag=${flag}`);
   },
 
-
+  // OrderAndOrderItemList数据结构
+  // const OrderAndOrderItemList = {
+  //   order: order,
+  //   itemsList: []
+  // };
+  // 其中order数据结构:
+  // const order = {
+  //    merchantId INT,
+  //    addressId INT,
+  //    paymentMethod VARCHAR(50) = '支付宝',
+  //    packagingFee DECIMAL(10, 2) NOT NULL,
+  //    deliveryFee DECIMAL(10, 2) NOT NULL,
+  //    orderStatus VARCHAR(50) = '1',
+  //    notes TEXT,
+  //    totalAmount DECIMAL(10, 2) NOT NULL,
+  // }
+  // 其中orderItems数据结构:
+  //  const orderItems = {
+  //    product_id INT,
+  //    quantity INT NOT NULL,
+  //  }
+  
+  
+  // 提交订单
+  // post
+  // return.data.code: 1:提交成功 0:失败
+  async submitOrder(OrderAndOrderItemList) {
+    return apiClient.post('/api/order/submit', OrderAndOrderItemList,{headers: {
+      'Content-Type': 'application/json',
+    },})
+  },
   uploadImage(merchantId, formData) {
     // 发送 POST 请求到 /api/merchants/{merchant_id}/upload-avatar 或 /upload-image 端点
     return apiClient.post(`/api/merchants/upload-avatar`, formData, {

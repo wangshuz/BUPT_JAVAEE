@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    merchant_id: null,
+    merchant_id: 0,
     cart: []
   },
   mutations: {
