@@ -2,6 +2,8 @@ package buptworker.controller;
 
 import buptworker.entity.Result;
 import buptworker.service.CltMainService;
+import buptworker.util.SessionUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
 @RequestMapping("/api")
 public class CltMainController {
-    private Integer cltId = 1; //测试数据
+    private SessionUtil cookie;
     @Autowired
     private CltMainService cltMainService;
 
@@ -37,7 +39,8 @@ public class CltMainController {
     }
 
     @RequestMapping("/cltMain/topPicture")
-    public Result topPicture(){
+    public Result topPicture(HttpServletRequest request){
+        int cltId = cookie.getUserID(request).intValue();
         return Result.success(cltMainService.listTopPicture(cltId));
     }
 

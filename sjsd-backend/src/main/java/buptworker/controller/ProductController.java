@@ -2,6 +2,8 @@ package buptworker.controller;
 
 import buptworker.entity.*;
 import buptworker.service.ProductService;
+import buptworker.util.SessionUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,35 +20,39 @@ import java.util.List;
  */
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
 @RequestMapping("/api")
 public class ProductController {
-    private Integer merchantId = 1; // 测试数据
-    private Integer cltId = 1;  // 测试数据
+    private SessionUtil cookie;
     @Autowired
     private ProductService productService;
     @RequestMapping("/productClt")
-    public Result productClt(){
+    public Result productClt(HttpServletRequest request){
+        int merchantId = cookie.getUserID(request).intValue();
         return Result.success(productService.listProductClt(merchantId));
     }
 
     @RequestMapping("/productMch")
-    public Result productMch(){
+    public Result productMch(HttpServletRequest request){
+        int merchantId = cookie.getUserID(request).intValue();
         return Result.success(productService.listProductMch(merchantId));
     }
 
     @RequestMapping("/mchInfo")
-    public Result mchInfo(){
+    public Result mchInfo(HttpServletRequest request){
+        int merchantId = cookie.getUserID(request).intValue();
         return Result.success(productService.getMerchant(merchantId));
     }
 
     @RequestMapping("/proType")
-    public Result proType() {
+    public Result proType(HttpServletRequest request) {
+        int merchantId = cookie.getUserID(request).intValue();
         return Result.success(productService.listProType(merchantId));
     }
 
     @RequestMapping("/cltAddress")
-    public Result cltAddress(){
+    public Result cltAddress(HttpServletRequest request){
+        int cltId = cookie.getUserID(request).intValue();
         return Result.success(productService.getCltAddress(cltId));
     }
 
@@ -82,7 +88,8 @@ public class ProductController {
     }
 
     @RequestMapping("/product/add")
-    public Result addProduct(@RequestBody Product product) {
+    public Result addProduct(@RequestBody Product product,HttpServletRequest request) {
+        int merchantId = cookie.getUserID(request).intValue();
         int result = productService.addProduct(product, merchantId);
         if (result > 0) {
             return Result.success();
@@ -92,7 +99,8 @@ public class ProductController {
     }
 
     @RequestMapping("/product/update")
-    public Result updataProduct(@RequestBody Product product){
+    public Result updataProduct(@RequestBody Product product,HttpServletRequest request){
+        int merchantId = cookie.getUserID(request).intValue();
         int result = productService.updateProduct(product,merchantId);
         if (result > 0) {
             return Result.success();
@@ -102,7 +110,8 @@ public class ProductController {
     }
 
     @RequestMapping("/order/submit")
-    public Result insertOrdre(@RequestBody OrderPackage orderPackage){
+    public Result insertOrdre(@RequestBody OrderPackage orderPackage,HttpServletRequest request){
+        int cltId = cookie.getUserID(request).intValue();
         Order order = orderPackage.getOrder();
         List<OrderItem> itemList = orderPackage.getItemList();
         order.setUserId(cltId);
