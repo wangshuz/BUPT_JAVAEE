@@ -301,9 +301,9 @@ export default {
       console.log('数据获取完成，启动定时器');
                 this.interval = setInterval(async () => {
                     console.log('定时器触发'); // 确认定时器是否被触发
-                this.currentTime = new Date().toLocaleTimeString();
+                this.currentTime = new Date().toString();
                 console.log(this.currentTime);
-                await this.fetchOrders();
+                await this.fetchOrderDetail();
                 }, 3000); // 5000 毫秒 = 5秒
     },
     beforeDestroy() {
