@@ -263,18 +263,8 @@ export default {
           //    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
           //},
           try{
-            const now = new Date();
-
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');  // 确保月份为两位数
-            const day = String(now.getDate()).padStart(2, '0');         // 确保日期为两位数
-            const hour = String(now.getHours()).padStart(2, '0');       // 确保小时为两位数
-            const minute = String(now.getMinutes()).padStart(2, '0');   // 确保分钟为两位数
-            const second = String(now.getSeconds()).padStart(2, '0');   // 确保秒数为两位数
-
-            const formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-            console.log(now.toString());
-            const response = await api.changeCltOrderRealtime(orderId, now);
+            console.log(this.getCurrentTime());
+            const response = await api.changeCltOrderRealtime(orderId, this.getCurrentTime());
             console.log(response);
             await this.fetchCltOrders(); // 更新状态后重新获取订单列表
           }
@@ -292,6 +282,19 @@ export default {
         //   console.error('更新送达时间时出错:', error);
         //   });
       },
+      getCurrentTime() {
+        const now = new Date();
+        
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要+1
+        const day = String(now.getDate()).padStart(2, '0');
+        
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
     },
     async mounted()
     {

@@ -487,12 +487,11 @@ import api from '../../api/api.js';
           // });
       },
       async changeCltOrderRealtime(orderId){
-        //changeCltOrderRealtime(orderId, time){
-          //    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
+        //changeCltOrderRealtime(orderId, realtime){
+          //    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&realtime=${realtime}`);
           //},
           try{
-            const now = new Date();
-            const response = await api.changeCltOrderRealtime(orderId, now.toString());
+            const response = await api.changeCltOrderRealtime(orderId, this.getCurrentTime());
             console.log(response.data);
             await this.fetchOrders(); 
           }
@@ -766,6 +765,19 @@ import api from '../../api/api.js';
     handlecontentchange()
     {
       this.filteredData();
+    },
+    getCurrentTime() {
+      const now = new Date();
+      
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要+1
+      const day = String(now.getDate()).padStart(2, '0');
+      
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
     },
     watch:{
@@ -785,7 +797,7 @@ import api from '../../api/api.js';
                 this.interval = setInterval(async () => {
                     console.log('定时器触发'); // 确认定时器是否被触发
                 this.currentTime = new Date().toString();
-                console.log(this.currentTime);
+                console.log(this.getCurrentTime());
                 await this.fetchOrders();
                 }, 3000); // 5000 毫秒 = 5秒
     },
