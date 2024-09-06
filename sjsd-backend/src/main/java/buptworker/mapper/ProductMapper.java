@@ -70,6 +70,10 @@ public interface ProductMapper {
     @Options(useGeneratedKeys = true, keyProperty = "orderId", keyColumn = "order_id")
     int insertOrder(Order order);
 
+    @Select("SELECT order_id FROM Orders ORDER BY order_id DESC LIMIT 1")
+    int findLastId();
+
+
 //    @Insert("INSERT INTO Orders (" +
 //            "merchant_id, user_id, address_id, payment_method, packaging_fee, " +
 //            "delivery_fee, order_status, notes, total_amount, order_date, estimated_delivery_time) " +

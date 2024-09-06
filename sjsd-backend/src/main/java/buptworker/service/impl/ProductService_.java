@@ -112,7 +112,8 @@ public class ProductService_ implements ProductService {
 
     @Override
     public void createOrder(Order order, List<OrderItem> itemList) {
-        int order_id = productMapper.insertOrder(order);
+        productMapper.insertOrder(order);
+        int order_id = productMapper.findLastId();
         itemList.stream().forEach(it->{
             it.setOrder_id(order_id);
             productMapper.insertOrderItem(it);
