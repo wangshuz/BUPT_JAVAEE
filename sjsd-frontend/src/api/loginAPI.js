@@ -8,6 +8,7 @@ import axios from 'axios';
 const apiClient = axios.create({
   baseURL:'http://localhost:8081', // 根据你的后端服务地址调整
   timeout: 10000, // 请求超时时间
+  withCredentials: true,              // 允许发送 Cookie
 })
 
 
