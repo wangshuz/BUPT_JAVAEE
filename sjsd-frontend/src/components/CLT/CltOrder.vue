@@ -491,6 +491,7 @@ import api from '../../api/api.js';
           //    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&realtime=${realtime}`);
           //},
           try{
+            console.log("确认收货："  + orderId.toString() + this.getCurrentTime());
             const response = await api.changeCltOrderRealtime(orderId, this.getCurrentTime());
             console.log(response.data);
             await this.fetchOrders(); 

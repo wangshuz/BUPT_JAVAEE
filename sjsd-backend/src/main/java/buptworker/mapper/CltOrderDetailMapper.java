@@ -52,4 +52,9 @@ public interface CltOrderDetailMapper {
             "WHERE order_id = #{orderId}; ")
     public void updateIsDeletedByUser(@Param("orderId") String orderId);
 
+    @Update("UPDATE Orders " +
+            "SET actual_delivery_time = #{actualDeliveryTime} " +
+            "WHERE order_id = #{orderId}; ")
+    public void changeCltOrderRealtime(@Param("orderId") String orderId, @Param("actualDeliveryTime") String actualDeliveryTime);
+
 }

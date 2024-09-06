@@ -16,4 +16,14 @@ public interface ProductService {
 
     public CltAddress getCltAddress(int cltId);
 
+    public int addCategory(String categoryName);
+
+    public int deleteProduct(int productId);
+
+    public int updateProductStatus(int productId, boolean status);
+
+    public int addProduct(Product product, int merchantId);
+
+    public int updateProduct(Product product, int merchantId);
+
 }

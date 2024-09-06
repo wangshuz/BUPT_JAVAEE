@@ -17,7 +17,7 @@ import axios from 'axios';
 //   }
 // });
 const apiClient = axios.create({
-  baseURL:'http://localhost:8081/', // 根据你的后端服务地址调整
+  baseURL: 'http://localhost:8081/', // 根据你的后端服务地址调整
   timeout: 10000, // 请求超时时间
 })
 /**
@@ -26,19 +26,17 @@ const apiClient = axios.create({
  * 这里只包含一个示例方法，用于获取商品列表。
  */
 export default {
-  
-
   /**
-   * 获取商家信息
-   * 
-   * 获取特定商家的所有详细信息。
-   * 
-   * @param {number} merchantId - 商家的唯一标识符
-   * @returns {Promise} 包含商家信息的 Promise 对象
-   */
-  getMerchantDetails(merchantId) {
-    // 发送 GET 请求到 /api/merchants/{merchant_id} 端点
-    return apiClient.get(`/api/merchants/${merchantId}`);
+    * 获取商家信息
+    * 
+    * 获取特定商家的所有详细信息。
+    * 
+    * @param {number} merchantId - 商家的唯一标识符
+    * @returns {Promise} 包含商家信息的 Promise 对象
+    */
+  getMerchantDetailChange() {
+    // 发送 GET 请求到 /api/merchants端点
+    return apiClient.get(`/api/merchants`);
   },
 
   /**
@@ -50,9 +48,9 @@ export default {
    * @param {Object} merchantData - 包含商家信息的对象
    * @returns {Promise} 包含操作结果的 Promise 对象
    */
-  updateMerchantDetails(merchantId, merchantData) {
+  updateMerchantDetails(merchantData) {
     // 发送 PUT 请求到 /api/merchants/{merchant_id} 端点
-    return apiClient.put(`/api/merchants/${merchantId}`, merchantData);
+    return apiClient.put(`/api/merchants`, merchantData);
   },
 
   /**
@@ -66,23 +64,11 @@ export default {
    */
   uploadMerchantImage(merchantId, formData) {
     // 发送 POST 请求到 /api/merchants/{merchant_id}/upload-avatar 或 /upload-image 端点
-    return apiClient.post(`/api/merchants/${merchantId}/upload-avatar`, formData, {
+    return apiClient.post(`/api/merchants/upload-avatar`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     });
-  },
-
-
-
-
-  /**
-   * 获取商家简介信息
-   * 
-   * @returns {Promise} 包含商家简介信息的 List
-   */
-  async getMerchantIntros(){
-    return apiClient.get(`/api/merchant-intros`)
   },
 
   /**
@@ -93,9 +79,18 @@ export default {
    * 
    * @returns {Promise} 包含商家类型选项列表的 Promise 对象
    */
-  async getMerchantTypes() {
+  getMerchantTypeChange() {
     // 发送 GET 请求到 /api/merchant-types 端点
-    return apiClient.get(`/api/merchant-type`);
+    return apiClient.get(`/api/merchant-types`);
+  },
+
+  /**
+   * 获取商家简介信息
+   * 
+   * @returns {Promise} 包含商家简介信息的 List
+   */
+  async getMerchantIntros() {
+    return apiClient.get(`/api/merchant-intros`)
   },
 
   /**
@@ -104,7 +99,7 @@ export default {
    * @param {number} merchantId - 商家的唯一标识符
    * @returns {Promise} 包含商家详情
    */
-  async getMerchantDetails(merchantId){
+  async getMerchantDetails(merchantId) {
     return apiClient.get(`/api/merchantInfo?merchantId=${merchantId}`);
   },
 
@@ -113,7 +108,7 @@ export default {
    * 
    * @returns {Promise} Promise 
    */
-  async getProductMch(){
+  async getProductMch() {
     return apiClient.get(`/api/productMch`)
   },
 
@@ -124,7 +119,7 @@ export default {
    * @param {number} merchantId - 商家的唯一标识符z
    * @returns {Promise} 包含商家的所有商品
    */
-  async getProductClt(){
+  async getProductClt() {
     return apiClient.get(`/api/productClt?merchantId=${merchantId}`);
   },
 
@@ -133,7 +128,7 @@ export default {
    * 
    * @returns {Promise} 包含所有分类列表
    */
-  async getProType(){
+  async getProType() {
     return apiClient.get(`/api/proType`)
   },
 
@@ -144,32 +139,32 @@ export default {
    * @param {number} cltId - 用户唯一标识符
    * @returns {Promise} 包含默认地址和全部地址列表
    */
-  async getCltAddress(cltId){
+  async getCltAddress(cltId) {
     return apiClient.get(`/api/cltAddress?cltId=${cltId}`);
   },
 
 
-  async getOrders(){
-      return apiClient.get(`/api/getOrders?`);
+  async getOrders() {
+    return apiClient.get(`/api/getOrders?`);
   },
 
-  async updateOrderStatus(orderId, status){
-      return apiClient.get(`/api/updateOrderStatus?orderId=${orderId}&status=${status}`);
-  },
-  
-  async deleteOrder(orderId){
-      return apiClient.get(`/api/deleteOrder?orderId=${orderId}`);
+  async updateOrderStatus(orderId, status) {
+    return apiClient.get(`/api/updateOrderStatus?orderId=${orderId}&status=${status}`);
   },
 
-  async getCltOrders(){
-      return apiClient.get(`/api/getCltOrders`);
+  async deleteOrder(orderId) {
+    return apiClient.get(`/api/deleteOrder?orderId=${orderId}`);
   },
 
-  async updateCltOrderStatus(orderId, status){
-      return apiClient.get(`/api/updateCltOrderStatus?orderId=${orderId}&status=${status}`);
+  async getCltOrders() {
+    return apiClient.get(`/api/getCltOrders`);
   },
 
-  async deleteCltOrder(orderId){
+  async updateCltOrderStatus(orderId, status) {
+    return apiClient.get(`/api/updateCltOrderStatus?orderId=${orderId}&status=${status}`);
+  },
+
+  async deleteCltOrder(orderId) {
     return apiClient.get(`/api/deleteCltOrder?orderId=${orderId}`);
   },
 
@@ -179,24 +174,24 @@ export default {
    * @param {number} merchantId
    * @return {Promise}
    */
-  async getMchData(merchantId){
+  async getMchData(merchantId) {
     return apiClient.get(`/api/salesData?merchantId=${merchantId}`);
   },
 
-  async getCltOrderDetail(orderId){
+  async getCltOrderDetail(orderId) {
     return apiClient.get(`/api/getCltOrderDetail?orderId=${orderId}`);
   },
 
-  async updateCltOrderDetailStatus(orderId, status){
+  async updateCltOrderDetailStatus(orderId, status) {
     return apiClient.get(`/api/updateCltOrderDetailStatus?orderId=${orderId}&status=${status}`);
   },
 
-  async deleteCltOrderDetail(orderId){
+  async deleteCltOrderDetail(orderId) {
     return apiClient.get(`/api/deleteCltOrderDetail?orderId=${orderId}`);
   },
 
-  async changeCltOrderRealtime(orderId, realtime){
-    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&realtime=${realtime}`);
+  async changeCltOrderRealtime(orderId, time) {
+    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
   },
 
   /**
@@ -204,7 +199,7 @@ export default {
    *
    * @returns {Promise} Promise
    */
-  async getCurData(){
+  async getCurData() {
     return apiClient.get(`/api/curData`)
   },
 
@@ -214,7 +209,7 @@ export default {
    * 
    * @returns {Promise} Promise
    */
-  async getMonthlyOrderStats(){
+  async getMonthlyOrderStats() {
     return apiClient.get(`/api/monthlyOrderStats`)
   },
 
@@ -223,7 +218,7 @@ export default {
    * 
    * @returns {Promise} Promise
    */
-  async getProdStats(){
+  async getProdStats() {
     return apiClient.get(`/api/prodStats`)
   },
 
@@ -232,12 +227,12 @@ export default {
    * 
    * @returns {PromiseM} Promise
    */
-  async getMerchantInfo(){
+  async getMerchantInfo() {
     return apiClient.get(`/api/merchantInfo`)
   },
 
-  async changeCltOrderRealtime(orderId, time){
-      return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
+  async changeCltOrderRealtime(orderId, time) {
+    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
   },
 
   /**
@@ -262,9 +257,20 @@ export default {
   //   return apiClient.get('/api/PresentName', { params: { id, flag } });
   // },
   
+  getPresentName(id, flag) {
+    return apiClient.get('/api/PresentName', { params: { id, flag } });
+  },
+
+
+  uploadImage(merchantId, formData) {
+    // 发送 POST 请求到 /api/merchants/{merchant_id}/upload-avatar 或 /upload-image 端点
+    return apiClient.post(`/api/merchants/upload-avatar`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
 };
-
-
 /**
  * 使用示例：
  * 

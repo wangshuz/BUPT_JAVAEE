@@ -31,4 +31,5 @@ public class CltOrderDetailController {
         cltOrderDetailService.deleteCltDetailOrder(orderId);
         return Result.success();
     }
+
 }

@@ -1,11 +1,10 @@
 package buptworker.controller;
 
+import buptworker.entity.Product;
 import buptworker.entity.Result;
 import buptworker.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : [Xieyx]
@@ -49,5 +48,59 @@ public class ProductController {
     public Result cltAddress(){
         return Result.success(productService.getCltAddress(cltId));
     }
+
+
+    @RequestMapping("/category/add")
+    public Result addCategory(String categoryName){
+        int t = productService.addCategory(categoryName);
+        if(t==1){
+            return Result.success();
+        }else{
+            return Result.error("类型已存在");
+        }
+    }
+
+    @RequestMapping("/product/delete")
+    public Result deleteProduct(int productId){
+        int t = productService.deleteProduct(productId);
+        if(t==1){
+            return Result.success();
+        }else{
+            return Result.error("删除失败");
+        }
+    }
+
+    @RequestMapping("/product/updateStatus")
+    public Result updateProductStatus(int productId, boolean status){
+        int t = productService.updateProductStatus(productId,status);
+        if(t==1){
+            return Result.success();
+        }else{
+            return Result.error("状态更新失败");
+        }
+    }
+
+    @RequestMapping("/product/add")
+    public Result addProduct(@RequestBody Product product) {
+        int result = productService.addProduct(product, merchantId);
+        if (result > 0) {
+            return Result.success();
+        } else {
+            return Result.error("新增商品失败");
+        }
+    }
+
+    @RequestMapping("/product/update")
+    public Result updataProduct(@RequestBody Product product){
+        int result = productService.updateProduct(product,merchantId);
+        if (result > 0) {
+            return Result.success();
+        } else {
+            return Result.error("新增商品失败");
+        }
+    }
+
+
+
 
 }

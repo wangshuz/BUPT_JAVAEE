@@ -1,9 +1,7 @@
 package buptworker.mapper;
 
 import buptworker.entity.*;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -44,6 +42,20 @@ public interface ProductMapper {
             "WHERE a.user_id = #{CltId}")
     public List<Address> listAddress(@Param("CltId") int cltId);
 
+    @Select("SELECT COUNT(*) FROM Product_Category WHERE category_name = #{categoryName} AND is_deleted = FALSE")
+    int countByCategoryName(@Param("categoryName") String categoryName);
 
+    @Insert("INSERT INTO Product_Category (category_name) VALUES (#{categoryName})")
+    int insertCategory(@Param("categoryName") String categoryName);
 
+    @Update("UPDATE Product SET is_deleted = TRUE WHERE product_id = #{productId} AND is_deleted = FALSE")
+    int deleteProduct(@Param("productId") int productId);
+
+    @Update("UPDATE Product SET available = #{status} WHERE product_id = #{productId} AND is_deleted = FALSE")
+    int updateProductStatus(@Param("productId") int productId, @Param("status") boolean status);
+
+    // 插入商品信息
+    @Insert("INSERT INTO Product (merchant_id, category_id, imageUrl, product_name, price, description, available, is_deleted) " +
+            "VALUES (#{merchantId}, #{product.category_id}, #{product.image}, #{product.name}, #{product.price}, #{product.description}, TRUE, FALSE)")
+    int insertProduct(@Param("product") Product product, @Param("merchantId") int merchantId);
 }

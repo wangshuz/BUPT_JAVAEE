@@ -70,7 +70,43 @@ public class ProductService_ implements ProductService {
         return new CltAddress(curAddress, addressList);
     }
 
+    @Override
+    public int addCategory(String categoryName) {
+        // 先检查分类名称是否已存在
+        int existingCount = productMapper.countByCategoryName(categoryName);
+        if (existingCount > 0) {
+            return 0;  // 分类名称已存在
+        }
 
+        // 插入新的分类
+        int result = productMapper.insertCategory(categoryName);
+        return result > 0 ? 1 : 0;  // 如果插入成功返回 1，否则返回 0
+    }
 
+    @Override
+    public int deleteProduct(int productId) {
+        // 调用Mapper层方法执行软删除
+        int result = productMapper.deleteProduct(productId);
+        return result > 0 ? 1 : 0;  // 如果删除成功返回 1，否则返回 0
+    }
 
+    @Override
+    public int updateProductStatus(int productId, boolean status) {
+        // 调用Mapper层执行更新操作
+        int result = productMapper.updateProductStatus(productId, status);
+        return result > 0 ? 1 : 0;  // 如果更新成功返回 1，否则返回 0
+    }
+
+    @Override
+    public int addProduct(Product product, int merchantId) {
+        // 调用Mapper层插入商品
+        return productMapper.insertProduct(product, merchantId);
+    }
+
+    @Override
+    public int updateProduct(Product product, int merchantId) {
+        productMapper.deleteProduct(product.getId());
+        int ret = productMapper.insertProduct(product, merchantId);
+        return ret;
+    }
 }

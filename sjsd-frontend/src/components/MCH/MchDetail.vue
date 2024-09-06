@@ -306,7 +306,7 @@ export default {
 
     async fetchMerchantDetails() {
       try {
-        const response = await api.getMerchantDetails();
+        const response = await api.getMerchantDetailChange();
         const data = response.data;
         console.log("获取的商家信息:", data);
         console.log("API 响应:", response);
@@ -376,7 +376,7 @@ export default {
 
     async fetchBusinessTypeOptions() {
       try {
-        const response = await api.getMerchantTypes();
+        const response = await api.getMerchantTypeChange();
         // 假设返回的是商家类型的数组
         this.businessTypeOptions = response.data.map((item) => ({
           value: item, // 用字符串本身作为 value

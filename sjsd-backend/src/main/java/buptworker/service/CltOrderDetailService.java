@@ -11,4 +11,6 @@ public interface CltOrderDetailService {
     public void updateCltOrderDetailStatus(String orderId, String status);
 
     public void deleteCltDetailOrder(String orderId);
+
+    public void actualDeliveryTime(String orderId, String realTime);
 }
