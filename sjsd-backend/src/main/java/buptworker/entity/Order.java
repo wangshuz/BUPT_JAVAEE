@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 
 
 public class Order {
+    private Integer orderId;
     private Integer merchantId;
     private Integer userId;
     private Integer addressId;
@@ -23,6 +24,14 @@ public class Order {
     private String orderStatus;
     private String notes;
     private BigDecimal totalAmount;
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
 
     // Getters and Setters
     public Integer getMerchantId() {

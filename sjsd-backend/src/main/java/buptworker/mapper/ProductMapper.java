@@ -70,6 +70,16 @@ public interface ProductMapper {
     @Options(useGeneratedKeys = true, keyProperty = "orderId", keyColumn = "order_id")
     int insertOrder(Order order);
 
+//    @Insert("INSERT INTO Orders (" +
+//            "merchant_id, user_id, address_id, payment_method, packaging_fee, " +
+//            "delivery_fee, order_status, notes, total_amount, order_date, estimated_delivery_time) " +
+//            "VALUES (" +
+//            "#{merchantId}, #{userId}, #{addressId}, #{paymentMethod}, #{packagingFee}, " +
+//            "#{deliveryFee}, #{orderStatus}, #{notes}, #{totalAmount}, NOW(), " +
+//            "DATE_ADD(NOW(), INTERVAL 30 MINUTE))")
+//    @Options(useGeneratedKeys = true, keyProperty = "orderId", keyColumn = "order_id")
+//    int insertOrder(Order order);
+
     @Insert("INSERT INTO Order_Item (order_id, product_id, quantity) " +
             "VALUES (#{order_id}, #{product_id}, #{quantity})")
     int insertOrderItem(OrderItem orderItem);
