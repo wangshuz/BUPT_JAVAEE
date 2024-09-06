@@ -364,7 +364,7 @@
         // 完成支付的逻辑
         // 构造订单数据
         const order = {
-          merchantId: this.merchantID,
+          merchantID: this.merchantID,
           addressId: this.current_addressID,
           paymentMethod: this.selectedPayment === 'alipay' ? '支付宝' : '微信',
           packagingFee: this.packaging_fee,

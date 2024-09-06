@@ -21,9 +21,9 @@
           <el-menu-item index="3" id="name">
             <personal-setting/>
           </el-menu-item>
-          <!-- <el-menu-item index="4" id="exit">
-            <router-link to="/">EXIT</router-link>
-          </el-menu-item> -->
+          <el-menu-item index="4" id="order">
+            <router-link to="/clt/order">订单详情</router-link>
+          </el-menu-item>
         </el-menu>
       </el-header>
 
@@ -71,8 +71,8 @@ import UploadPicture from '../components/UploadPicture.vue';
   left: 70%;
 }
 
-/* #exit {
+#order {
   left:70%
-} */
+}
 
 </style>
