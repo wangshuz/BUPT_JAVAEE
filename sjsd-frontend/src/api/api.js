@@ -282,7 +282,7 @@ export default {
   // };
   // 其中order数据结构:
   // const order = {
-  //    merchantId INT,
+  //    merchantID INT,
   //    addressId INT,
   //    paymentMethod VARCHAR(50) = '支付宝',
   //    packagingFee DECIMAL(10, 2) NOT NULL,
