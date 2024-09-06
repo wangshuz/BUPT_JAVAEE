@@ -32,9 +32,4 @@ public class CltOrderDetailController {
         return Result.success();
     }
 
-    @RequestMapping("/changeCltOrderRealtime")
-    public Result changeCltOrderRealtime(String orderId, String realtime) {
-        cltOrderDetailService.actualDeliveryTime(orderId, realtime);
-        return Result.success();
-    }
 }
