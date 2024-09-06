@@ -27,8 +27,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @RequestMapping("/productClt")
-    public Result productClt(HttpServletRequest request){
-        int merchantId = cookie.getUserID(request).intValue();
+    public Result productClt(int merchantId){
         return Result.success(productService.listProductClt(merchantId));
     }
 
@@ -43,8 +42,13 @@ public class ProductController {
         return Result.success(productService.getMerchant(merchantId));
     }
 
+    @RequestMapping("/proTypeClt")
+    public Result proTypeClt(int merchantId) {
+        return Result.success(productService.listProType(merchantId));
+    }
+
     @RequestMapping("/proType")
-    public Result proType(HttpServletRequest request) {
+    public Result proTypeMch(HttpServletRequest request) {
         int merchantId = cookie.getUserID(request).intValue();
         return Result.success(productService.listProType(merchantId));
     }
