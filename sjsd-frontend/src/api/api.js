@@ -127,8 +127,8 @@ export default {
    * 
    * @returns {Promise} 包含商家的所有商品
    */
-  async getProductClt() {
-    return apiClient.get(`/api/productClt`);
+  async getProductClt(id) {
+    return apiClient.get(`/api/productClt?merchantId=${id}`);
   },
 
   /**
@@ -136,10 +136,18 @@ export default {
    * 
    * @returns {Promise} 包含所有分类列表
    */
-  async getProType() {
-    return apiClient.get(`/api/proType`)
+  async getProTypeClt(id) {
+    return apiClient.get(`/api/proTypeClt?merchantId=${id}`)
   },
   
+   /**
+   * 获取特定商家的商品分类
+   * 
+   * @returns {Promise} 包含所有分类列表
+   */
+   async getProType() {
+    return apiClient.get(`/api/proType`)
+  },
  /**
    * 获取顶部推荐图片
    * 
