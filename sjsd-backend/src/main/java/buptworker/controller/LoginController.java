@@ -44,6 +44,33 @@ public class LoginController {
         }
     }
 
+
+    @RequestMapping("/clt/register")
+    public Result registerClt(@RequestBody LoginRequest loginRequest){
+        User clt = new User((long)0, loginRequest.getUsername(),loginRequest.getPassword());
+        boolean is_OK = authService.registerClt(clt);
+        Result ret = null;
+        if(is_OK==true){
+            ret = Result.success();
+        }else{
+            ret = Result.error("用户名已存在");
+        }
+        return ret;
+    }
+
+    @RequestMapping("/mch/register")
+    public Result registerMch(@RequestBody LoginRequest loginRequest){
+        User mch = new User((long)0, loginRequest.getUsername(),loginRequest.getPassword());
+        boolean is_OK = authService.registerMch(mch);
+        Result ret = null;
+        if(is_OK==true){
+            ret = Result.success();
+        }else{
+            ret = Result.error("用户名已存在");
+        }
+        return ret;
+    }
+
     // 登出接口
     @PostMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
