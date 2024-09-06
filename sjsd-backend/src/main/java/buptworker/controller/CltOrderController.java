@@ -32,8 +32,8 @@ public class CltOrderController {
     }
 
     @RequestMapping("/changeCltOrderRealtime")
-    public Result changeCltOrderRealtime(String orderId, String realtime) {
-        cltOrderService.actualDeliveryTime(orderId, realtime);
+    public Result changeCltOrderRealtime(String orderId, String time) {
+        cltOrderService.actualDeliveryTime(orderId, time);
         return Result.success();
     }
 }
