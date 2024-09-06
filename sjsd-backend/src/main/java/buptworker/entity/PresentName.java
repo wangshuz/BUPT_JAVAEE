@@ -1,19 +1,20 @@
 package buptworker.entity;
 
 public class PresentName {
-    private String name;
+    private String personName;
 
     public PresentName() {
     }
 
-    public PresentName(String name) {
-        this.name = name;
+    public PresentName(String personName) {
+        this.personName = personName;
     }
 
-    public String getName() {
-        return name;
+    public String getPersonName() {
+        return personName;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
 }

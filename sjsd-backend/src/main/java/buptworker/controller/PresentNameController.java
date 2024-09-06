@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
-@RequestMapping("/api")
 public class PresentNameController {
     @Autowired
     private PresentNameService presentNameService;
 
 
     // 用来存储 sessionID 对应的用户或商家ID及其类型
-    @RequestMapping("/PresentName")
+    @RequestMapping("/api/PresentName")
     public Result PresentName(Integer id,Integer flag){
         if (flag==1)
         {

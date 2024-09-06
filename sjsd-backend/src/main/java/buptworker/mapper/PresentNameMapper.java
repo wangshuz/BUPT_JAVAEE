@@ -9,13 +9,13 @@ import java.util.List;
 
 @Mapper
 public interface PresentNameMapper {
-    @Select("SELECT m.merchant_username as name " +
+    @Select("SELECT m.merchant_username as personName " +
             " from merchant m " +
             " where m.merchant_id=#{id} ")
     public PresentName listMchPresentName(@Param("id") int id);
 
 
-    @Select("select u.username as name "+
+    @Select("select u.username as personName "+
             " from user u "+
             " where u.user_id=#{id} ")
     public PresentName listCltPresentName(@Param("id") int id);
