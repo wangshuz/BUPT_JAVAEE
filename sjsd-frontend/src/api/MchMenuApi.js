@@ -21,26 +21,26 @@ export default {
   // get
   // return.data.code: 1:新增成功 0:失败
   async addCategory(CategoryName) {
-      return apiClient.get(`/category/add?CategoryName=${CategoryName}`)
+      return apiClient.get(`/api//category/add?CategoryName=${CategoryName}`)
   },
   // 删除指定商品
   // get
   // return.data.code: 1:删除成功 0:失败
   async deleteProduct(ProductId) {
-    return apiClient.get(`/product/delete?ProductId=${ProductId}`)
+    return apiClient.get(`/api/product/delete?ProductId=${ProductId}`)
   },
   // 添加商品
   // post
   // return.data.code: 1:添加成功 0:失败
   async addProduct(Product) {
-    return apiClient.post('/product/add', Product )
+    return apiClient.post('/api/product/add', Product )
   },
   // 修改商品信息
   // post
   // 通过软删除再新增的方式实现,注意在新增的时候不要把id拷贝过去
   // return.data.code: 1:修改成功 0:失败
   async updateProduct(Product) {
-    return apiClient.post('/product/update', Product )
+    return apiClient.post('/api/product/update', Product )
   },
   
   // 修改商品在售状态
@@ -48,7 +48,7 @@ export default {
   // 真修改
   // return.data.code: 1:修改成功 0:失败
   async updateProductStatus(ProductId, status) {
-    return apiClient.get(`/product/updateStatus?ProductId=${ProductId}&status=${status}`)
+    return apiClient.get(`/api/product/updateStatus?ProductId=${ProductId}&status=${status}`)
   },
   
 };

@@ -195,6 +195,10 @@ export default {
     return apiClient.get(`/api/deleteCltOrderDetail?orderId=${orderId}`);
   },
 
+  async changeCltOrderRealtime(orderId, realtime){
+    return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&realtime=${realtime}`);
+  },
+
   /**
    * 获取商家数据（首页）
    *
