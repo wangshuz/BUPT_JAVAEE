@@ -26,6 +26,7 @@ public class ProductController {
     private SessionUtil cookie;
     @Autowired
     private ProductService productService;
+
     @RequestMapping("/productClt")
     public Result productClt(int merchantId){
         return Result.success(productService.listProductClt(merchantId));
