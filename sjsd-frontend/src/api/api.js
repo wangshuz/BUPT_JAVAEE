@@ -149,8 +149,8 @@ export default {
   },
 
 
-  async getOrders(mchId){
-      return apiClient.get(`/api/getOrders?mchId=${mchId}`);
+  async getOrders(){
+      return apiClient.get(`/api/getOrders?`);
   },
 
   async updateOrderStatus(orderId, status){
@@ -161,8 +161,8 @@ export default {
       return apiClient.get(`/api/deleteOrder?orderId=${orderId}`);
   },
 
-  async getCltOrders(userId){
-      return apiClient.get(`/api/getCltOrders?userId=${userId}`);
+  async getCltOrders(){
+      return apiClient.get(`/api/getCltOrders`);
   },
 
   async updateCltOrderStatus(orderId, status){

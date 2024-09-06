@@ -471,7 +471,7 @@ import api from '../../api/api.js';
           //    return apiClient.get(`/api/getCltOrders?userId=${userId}`);
           //},
           try{
-            const response = await api.getCltOrders('1');
+            const response = await api.getCltOrders();
             this.tableData = response.data.data;
           }
           catch(error)
