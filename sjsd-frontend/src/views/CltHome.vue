@@ -12,7 +12,7 @@
           @select="handleSelect"
           style="background-color: #FFAC00; font-size:17px; height: 100%">
           <el-menu-item index="1" style="font-size:17px">
-              <router-link to="/">LOGO</router-link>
+              <router-link to="/clt/main">SJSD</router-link>
           </el-menu-item>
 
           <el-menu-item index="2" id="photo">
@@ -20,6 +20,9 @@
           </el-menu-item>
           <el-menu-item index="3" id="name">
             <personal-setting/>
+          </el-menu-item>
+          <el-menu-item index="4" id="exit">
+            <router-link to="/">EXIT</router-link>
           </el-menu-item>
         </el-menu>
       </el-header>
@@ -66,6 +69,10 @@ import UploadPicture from '../components/UploadPicture.vue';
 
 #name {
   left: 70%;
+}
+
+#exit {
+  left:70%
 }
 
 </style>

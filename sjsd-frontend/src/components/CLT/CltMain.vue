@@ -2,7 +2,7 @@
     <div class="container">
         <div class="block">
             <el-carousel trigger="click">
-                <el-carousel-item v-for="(item,index) in TopPicture" :key="index">
+                <el-carousel-item v-for="(item,index) in topPicture" :key="index">
                     <img
                         class="TPicture"
                         :src="item.url" 
@@ -56,21 +56,7 @@ export default {
             page: 1,
             content: "",
             pageSize:12,
-            TopPicture: [
-                {
-                    "id":"10001",
-                    "url":"https://th.bing.com/th?id=OIP.iLWguBQMXDriaDoVC4IBoQHaHa&w=250&h=250&c=8&rs=1&qlt=90&r=0&o=6&dpr=2&pid=3.1&rm=2"
-                },
-                // {
-                //     "id":"10002",
-                //     "url":"https://ts1.cn.mm.bing.net/th?id=OIP-C.Ge0ka-likMYd2EIeZjNfTgHaFV&w=294&h=212&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.5&pid=3.1&rm=2"
-                // },
-                // {
-                //     "id":"10003",
-                //     "url":"https://img-baofun.zhhainiao.com/fs/3fc54f2b553dc552c23fd2df0ee0159e.jpg"
-                // },
-            ],
-
+            topPicture: [],
             mchIntro:[],
             mchTypes:[]
         };
@@ -126,6 +112,12 @@ export default {
              
         } catch (error) {
             console.error('获取商家类型失败', error);
+        }
+        try {
+            const response = await api.getTopPicture();
+            this.topPicture = response.data.data;
+        } catch (error) {
+            console.error('获取推荐图片失败', error);
         }
     },
     mounted() {

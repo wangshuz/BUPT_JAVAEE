@@ -142,7 +142,15 @@ export default {
   async getProType() {
     return apiClient.get(`/api/proType`)
   },
-
+  
+ /**
+   * 获取顶部推荐图片
+   * 
+   * @returns {Promise}
+   */
+ async getTopPicture(){
+  return apiClient.get(`/api/cltMain/topPicture`)
+},
 
   /**
    * 获取用户地址
