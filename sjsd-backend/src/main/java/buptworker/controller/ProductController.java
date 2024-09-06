@@ -50,4 +50,34 @@ public class ProductController {
         return Result.success(productService.getCltAddress(cltId));
     }
 
+
+    @RequestMapping("/category/add")
+    public Result addCategory(String categoryName){
+        int t = productService.addCategory(categoryName);
+        if(t==1){
+            return Result.success();
+        }else{
+            return Result.error("类型已存在");
+        }
+    }
+
+    @RequestMapping("/product/delete")
+    public Result deleteProduct(int productId){
+        int t = productService.deleteProduct(productId);
+        if(t==1){
+            return Result.success();
+        }else{
+            return Result.error("删除失败");
+        }
+    }
+
+    @RequestMapping("/product/updateStatus")
+    public Result updateProductStatus(int productId, boolean status){
+        int t = productService.updateProductStatus(productId,status);
+        if(t==1){
+            return Result.success();
+        }else{
+            return Result.error("状态更新失败");
+        }
+    }
 }
