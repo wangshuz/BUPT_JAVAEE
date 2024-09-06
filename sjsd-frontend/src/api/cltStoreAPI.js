@@ -19,7 +19,7 @@ export default {
   // OrderAndOrderItemList数据结构
   // const OrderAndOrderItemList = {
   //   order: order,
-  //   orderItemsList: []
+  //   itemsList: []
   // };
   // 其中order数据结构:
   // const order = {
