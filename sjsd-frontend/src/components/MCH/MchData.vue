@@ -4,7 +4,7 @@
     <el-radio-group v-model="selectedRange" @change="updateData">
       <el-radio-button label="近七天"></el-radio-button>
       <el-radio-button label="近三十天"></el-radio-button>
-      <el-radio-button label="近一年"></el-radio-button>
+      <!-- <el-radio-button label="近一年"></el-radio-button> -->
     </el-radio-group>
 
     <!-- 统计信息 -->
@@ -50,6 +50,7 @@
 <script setup>
 import * as echarts from 'echarts';
 import { onMounted, ref } from 'vue';
+import api from '../../api/api.js';
 </script>
 
 <script>
@@ -66,94 +67,148 @@ export default {
     };
   },
   methods: {
-    updateData() {
+    async updateData() {
       switch (this.selectedRange) {
         case '近七天':
           this.xAxisLabel = '天';
-          this.setDataForSevenDays();
+          await this.setDataForSevenDays();
           break;
         case '近三十天':
           this.xAxisLabel = '天';
-          this.setDataForThirtyDays();
+          await this.setDataForThirtyDays();
           break;
-        case '近一年':
-          this.xAxisLabel = '月';
-          this.setDataForYear();
-          break;
+        // case '近一年':
+        //   this.xAxisLabel = '月';
+        //   this.setDataForYear();
+        //   break;
       }
     },
-    setDataForSevenDays() {
+    async setDataForSevenDays() {
       this.xAxisData = Array.from({ length: 7 }, (_, i) => (i + 1).toString()); // 生成 1 到 7 的数组
 
-      this.salesData = {
-        total: 1342.9,
-        chartData: [120, 140, 150, 130, 160, 180, 170]
-      };
-      this.orderData = {
-        total: 158,
-        valid: 130,
-        invalid: 28,
-        chartData: [100, 120, 130, 110, 150, 160, 140]
-      };
-      this.productSalesData = {
-        chartData: [50, 80, 90, 70, 60]
-      };
-      this.customerData = {
-        total: 139,
-        new: 18,
-        chartData: [100, 120, 130, 110, 150, 160, 140]
-      };
+      // this.salesData = {
+      //   total: 1342.9,
+      //   chartData: [120, 140, 150, 130, 160, 180, 170]
+      // };
+      // this.orderData = {
+      //   total: 158,
+      //   valid: 130,
+      //   invalid: 28,
+      //   chartData: [100, 120, 130, 110, 150, 160, 140]
+      // };
+      // this.productSalesData = {
+      //   chartData: [50, 80, 90, 70, 60]
+      // };
+      // this.customerData = {
+      //   total: 139,
+      //   new: 18,
+      //   chartData: [100, 120, 130, 110, 150, 160, 140]
+      // };
+      try {
+        const salesResponse = await apiClient.get(`/api/curData`);
+        const orderResponse = await apiClient.get(`/api/monthlyOrderStats`);
+
+        this.salesData = {
+          total: salesResponse.data.totalSalesAmount,
+          chartData: salesResponse.data.chartData
+        };
+        this.orderData = {
+          total: orderResponse.data.totalOrderCount,
+          valid: orderResponse.data.validOrderCount,
+          invalid: orderResponse.data.invalidOrderCount,
+          chartData: orderResponse.data.chartData
+        };
+        this.productSalesData = {
+          chartData: salesResponse.data.productSalesChartData
+        };
+        this.customerData = {
+          total: salesResponse.data.totalCustomerCount,
+          new: salesResponse.data.newCustomerCount,
+          chartData: salesResponse.data.customerChartData
+        };
+
+        this.initCharts();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
 
       this.initCharts();
     },
-    setDataForThirtyDays() {
+    async setDataForThirtyDays() {
       this.xAxisData = Array.from({ length: 30 }, (_, i) => (i + 1).toString()); // 生成 1 到 30 的数组
 
-      this.salesData = {
-        total: 7429.6,
-        chartData: [100, 200, 300, 150, 200, 250, 300]
-      };
-      this.orderData = {
-        total: 1058,
-        valid: 830,
-        invalid: 228,
-        chartData: [100, 200, 250, 150, 200, 180, 220]
-      };
-      this.productSalesData = {
-        chartData: [150, 180, 190, 170, 160]
-      };
-      this.customerData = {
-        total: 839,
-        new: 118,
-        chartData: [100, 200, 150, 150, 180, 200, 180]
-      };
+      // this.salesData = {
+      //   total: 7429.6,
+      //   chartData: [100, 200, 300, 150, 200, 250, 300]
+      // };
+      // this.orderData = {
+      //   total: 1058,
+      //   valid: 830,
+      //   invalid: 228,
+      //   chartData: [100, 200, 250, 150, 200, 180, 220]
+      // };
+      // this.productSalesData = {
+      //   chartData: [150, 180, 190, 170, 160]
+      // };
+      // this.customerData = {
+      //   total: 839,
+      //   new: 118,
+      //   chartData: [100, 200, 150, 150, 180, 200, 180]
+      // };
+      try {
+        const salesResponse = await apiClient.get(`/api/curData`);
+        const orderResponse = await apiClient.get(`/api/monthlyOrderStats`);
+
+        this.salesData = {
+          total: salesResponse.data.totalSalesAmount,
+          chartData: salesResponse.data.chartData
+        };
+        this.orderData = {
+          total: orderResponse.data.totalOrderCount,
+          valid: orderResponse.data.validOrderCount,
+          invalid: orderResponse.data.invalidOrderCount,
+          chartData: orderResponse.data.chartData
+        };
+        this.productSalesData = {
+          chartData: salesResponse.data.productSalesChartData
+        };
+        this.customerData = {
+          total: salesResponse.data.totalCustomerCount,
+          new: salesResponse.data.newCustomerCount,
+          chartData: salesResponse.data.customerChartData
+        };
+
+        this.initCharts();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
 
       this.initCharts();
     },
-    setDataForYear() {
-      this.xAxisData = Array.from({ length: 12 }, (_, i) => (i + 1).toString()); // 生成 1 到 12 的数组
+    // setDataForYear() {
+    //   this.xAxisData = Array.from({ length: 12 }, (_, i) => (i + 1).toString()); // 生成 1 到 12 的数组
 
-      this.salesData = {
-        total: 13429.6,
-        chartData: [1200, 1400, 1500, 1300, 1600, 1800, 1700, 1600, 1400, 1300, 1200, 1100]
-      };
-      this.orderData = {
-        total: 1580,
-        valid: 1300,
-        invalid: 280,
-        chartData: [1000, 1200, 1300, 1100, 1500, 1600, 1400, 1500, 1600, 1400, 1300, 1200]
-      };
-      this.productSalesData = {
-        chartData: [1500, 1800, 1900, 1700, 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900]
-      };
-      this.customerData = {
-        total: 1839,
-        new: 118,
-        chartData: [1000, 1200, 1300, 1100, 1500, 1600, 1400, 1500, 1600, 1400, 1300, 1200]
-      };
+    //   this.salesData = {
+    //     total: 13429.6,
+    //     chartData: [1200, 1400, 1500, 1300, 1600, 1800, 1700, 1600, 1400, 1300, 1200, 1100]
+    //   };
+    //   this.orderData = {
+    //     total: 1580,
+    //     valid: 1300,
+    //     invalid: 280,
+    //     chartData: [1000, 1200, 1300, 1100, 1500, 1600, 1400, 1500, 1600, 1400, 1300, 1200]
+    //   };
+    //   this.productSalesData = {
+    //     chartData: [1500, 1800, 1900, 1700, 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900]
+    //   };
+    //   this.customerData = {
+    //     total: 1839,
+    //     new: 118,
+    //     chartData: [1000, 1200, 1300, 1100, 1500, 1600, 1400, 1500, 1600, 1400, 1300, 1200]
+    //   };
 
-      this.initCharts();
-    },
+    //   this.initCharts();
+    // },
     initCharts() {
       this.initLineChart1();
       this.initLineChart2();

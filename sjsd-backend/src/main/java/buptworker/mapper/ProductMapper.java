@@ -59,7 +59,6 @@ public interface ProductMapper {
             "VALUES (#{merchantId}, #{product.category_id}, #{product.image}, #{product.name}, #{product.price}, #{product.description}, TRUE, FALSE)")
     int insertProduct(@Param("product") Product product, @Param("merchantId") int merchantId);
 
-    // 插入订单信息并返回生成的主键
     @Insert("INSERT INTO Orders (" +
             "merchant_id, user_id, address_id, order_date, " +
             "estimated_delivery_time, payment_method, packaging_fee, " +
@@ -68,7 +67,7 @@ public interface ProductMapper {
             "#{merchantId}, #{userId}, #{addressId}, NOW(), " +
             "DATE_ADD(NOW(), INTERVAL 30 MINUTE), #{paymentMethod}, " +
             "#{packagingFee}, #{deliveryFee}, #{orderStatus}, #{notes}, #{totalAmount})")
-    @Options(useGeneratedKeys = true, keyProperty = "userId", keyColumn = "order_id")
+    @Options(useGeneratedKeys = true, keyProperty = "orderId", keyColumn = "order_id")
     int insertOrder(Order order);
 
     @Insert("INSERT INTO Order_Item (order_id, product_id, quantity) " +
