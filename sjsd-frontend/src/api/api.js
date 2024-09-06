@@ -108,8 +108,8 @@ export default {
    * 
    * @returns {Promise} 包含商家详情
    */
-  async getMerchantDetails() {
-    return apiClient.get(`/api/mchInfo`);
+  async getMerchantDetails(id) {
+    return apiClient.get(`/api/mchInfo?merchantId=${id}`);
   },
 
   /**

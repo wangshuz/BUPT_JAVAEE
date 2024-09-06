@@ -262,14 +262,15 @@
       console.log('Component created');
       // 在实例创建完成后调用，此时，数据观测已完成，属性和方法也已被初始化，但 DOM 还未生成或挂载。
       // 可以在这里进行数据的初始化，如 API 请求
-      this.merchantID = this.$route.params.id;
+      this.merchantID = this.$route.query.id;
+      console.log("商家ID：",this.merchantID);
       if(this.merchantID!=this.merchant_id){
         this.clearCart();
       }
       this.setMerchantID(this.merchantID);
       try {
         // 使用 await 等待异步请求完成
-        const response = await api.getMerchantDetails();
+        const response = await api.getMerchantDetails(this.merchantID);
         const detail=response.data.data;
         console.log("商家详情：",detail);
         // 将商家详情逐个赋值
