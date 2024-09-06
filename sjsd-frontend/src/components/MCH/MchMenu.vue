@@ -8,9 +8,9 @@
           <!-- 遍历 categoryList 生成 el-option -->
           <el-option
             v-for="category in categoryList"
-            :key="category.typeId"
-            :label="category.typeName"
-            :value="category.typeId"
+            :key="category.category_id"
+            :label="category.category_name"
+            :value="category.category_id"
           ></el-option>
       </el-select>
       <el-select v-model="selectedStatus" placeholder="请选择状态" class="flex-item" clearable>
@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column label="菜品分类" align="center" header-align="center">
         <template slot-scope="scope">
-          {{categoryList.find(item => item.typeId === scope.row.typeId).typeName}}
+          {{categoryList.find(item => item.category_id === scope.row.category_id).category_name}}
         </template>
       </el-table-column>
       <el-table-column label="售价" width="100" align="center" header-align="center">
@@ -59,7 +59,7 @@
       <el-table-column label="操作" width="180" align="center" header-align="center">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="editProduct(scope.row)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteProduct(scope.$index)">删除</el-button>
+          <el-button type="text" size="small" @click="deleteProduct(scope.row.id)">删除</el-button>
           <el-button
             type="text"
             size="small"
@@ -83,13 +83,13 @@
         <el-form-item label="菜品名称" prop="name">
           <el-input v-model="productForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="菜品分类" prop="typeId">
-          <el-select v-model="productForm.typeId" placeholder="请选择分类">
+        <el-form-item label="菜品分类" prop="category_id">
+          <el-select v-model="productForm.category_id" placeholder="请选择分类">
             <el-option
               v-for="category in categoryList"
-              :key="category.typeId"
-              :label="category.typeName"
-              :value="category.typeId"
+              :key="category.category_id"
+              :label="category.category_name"
+              :value="category.category_id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -131,6 +131,7 @@
 
 <script>
 import api from '../../api/api.js';
+import MchMenuApi from '../../api/MchMenuApi.js';
 
 export default {
   data() {
@@ -146,42 +147,26 @@ export default {
       productForm: {
         id: null,
         name: '',
-        typeId: '',
+        category_id: '',
         price: null,
         image: '',
         description: '',
       },
       rules: {
         name: [{ required: true, message: '请输入菜品名称', trigger: 'blur' }],
-        typeId: [{ required: true, message: '请选择菜品分类', trigger: 'change' }],
+        category_id: [{ required: true, message: '请选择菜品分类', trigger: 'change' }],
         price: [{ required: true, message: '请输入菜品价格', trigger: 'blur' }],
         image: [{ required: true, message: '请输入菜品图片地址', trigger: 'blur' }],
         description: [{ required: true, message: '请输入菜品简介', trigger: 'blur' }],
       },
-      categoryList:[
-        {
-          category_:1,
-          categoryName:'分类1'
-        },
-        {
-          categoryID:2,
-          categoryName:'分类2'
-        },
-        {
-          categoryID:3,
-          categoryName:'分类3'
-        },
-        {
-          categoryID:10004,
-          categoryName:'分类4'
-        },
-        {
-          categoryID:10005,
-          categoryName:'分类5'
-        },
-      ],
+      // categoryList:[
+      //   {
+      //     category_id:1,
+      //     categor_name:'分类1'
+      //   },
+      // ],
 
-      // categoryList:[],
+      categoryList:[],
       products: [],
     };
   },
@@ -194,13 +179,15 @@ export default {
 
       const productResponse = await api.getProductMch();
       this.products = productResponse.data.data;
+      console.log(this.products);
     } catch (error) {
-      console.error('获取数据失败', error);
+      console.error('获取商品列表失败', error);
     }
     try {
         // 使用 await 等待异步请求完成
         const response = await api.getProType();
-        this.categoryList = response.data.data; // 将返回的结果赋值给 temp
+          this.categoryList = response.data.data;
+          console.log(this.categoryList);
         } catch (error) {
         console.error('获取商品类型列表失败', error);
         }
@@ -214,7 +201,7 @@ export default {
       return this.products.filter(product => {
         return (
           (this.searchName === '' || product.name.includes(this.searchName)) &&
-          (this.selectedCategory === '' || product.typeId === this.selectedCategory) &&
+          (this.selectedCategory === '' || product.category_id === this.selectedCategory) &&
           (this.selectedStatus === '' || product.status === this.selectedStatus)
         );
       });
@@ -226,17 +213,35 @@ export default {
     },
     // 批量删除
     deleteSelected() {
-      this.products = this.products.filter(
-        product => !this.selectedProducts.includes(product)
-      );
+      this.selectedProducts.forEach(product => {
+        this.deleteProduct(product.id);
+      });
     },
     // 单个删除
-    deleteProduct(index) {
-      this.products.splice(index, 1);
+    async deleteProduct(id) {
+      try {
+        // 使用 await 等待异步请求完成
+        await MchMenuApi.deleteProduct(id);
+      } catch (error) {
+        console.error(`删除商品${id}失败`, error);
+      }
+      // 重新获取产品列表
+      try {
+        const productResponse = await api.getProductMch();
+        this.products = productResponse.data.data;
+      } catch (error) {
+        console.error('获取商品列表失败', error);
+      }
     },
     // 切换状态
-    toggleStatus(product) {
+    async toggleStatus(product) {
       product.status = product.status === true ? false : true;
+      // 修改商品在售状态
+      try {
+        await MchMenuApi.updateProductStatus(product.id,product.status)
+      } catch (error) {
+        console.error('获取商品列表失败', error);
+      }
     },
 
     addProduct() {
@@ -251,19 +256,57 @@ export default {
     addCategory(){
       this.addCategoryDialog = true;
     },
-    submitProductForm() {
-      this.$refs.productForm.validate((valid) => {
+    async submitProductForm() {
+      this.$refs.productForm.validate(async(valid) => {
         if (valid) {
           if (this.isEdit) {
-            // 编辑产品，找到对应产品并更新
-            const index = this.products.findIndex(p => p.id === this.productForm.id);
-            if (index !== -1) {
-              this.$set(this.products, index, { ...this.productForm });
+            // 编辑产品
+            const newProduct = {
+              id:this.productForm.id,
+              name:this.productForm.name,
+              image:this.productForm.image,
+              category_id:this.productForm.category_id,
+              price:this.productForm.price,
+              description:this.productForm.description,
+              status: true,
+            };
+            try {
+              // 使用 await 等待异步请求完成
+              await MchMenuApi.updapteProduct(newProduct);
+            }catch (error) {
+              console.error('更新商品信息失败', error);
             }
+            // 重新获取产品列表
+            try {
+              const productResponse = await api.getProductMch();
+              this.products = productResponse.data.data;
+            } catch (error) {
+              console.error('获取商品列表失败', error);
+            }
+
           } else {
             // 新增产品，创建新的产品ID，并添加到产品列表
-            const newProduct = { ...this.productForm, id: this.products.length + 1 };
-            this.products.push(newProduct);
+            const newProduct = {
+              name:this.productForm.name,
+              image:this.productForm.image,
+              category_id:this.productForm.category_id,
+              price:this.productForm.price,
+              description:this.productForm.description,
+              status: true,
+            };
+            try {
+              // 使用 await 等待异步请求完成
+              await MchMenuApi.addProduct(newProduct);
+            }catch (error) {
+              console.error('新增商品失败', error);
+            }
+            // 重新获取产品列表
+            try {
+              const productResponse = await api.getProductMch();
+              this.products = productResponse.data.data;
+            } catch (error) {
+              console.error('获取商品列表失败', error);
+            }
           }
           this.add_edit_dialog = false;
           this.resetProductForm(); // 重置表单
@@ -274,24 +317,35 @@ export default {
       this.productForm = {
         id: null,
         name: '',
-        typeId: '',
+        category_id: '',
         price: null,
         image: '',
         description: '',
       };
     },
-    submitAddCategory(){
+    async submitAddCategory(){
       // 检查分类列表中是否有重名
-      const isDuplicate = this.categoryList.some(category => category.typeName === this.addCategoryInput);
+      const isDuplicate = this.categoryList.some(category => category.category_name === this.addCategoryInput);
       if (isDuplicate) {
         this.$message.error('分类已存在');
         return;
       }
       // 如果没有重名，可以继续执行添加逻辑
       // api添加
-      // ...
+      try {
+        // 使用 await 等待异步请求完成
+        await MchMenuApi.addCategory(this.addCategoryInput);
+      }catch (error) {
+        console.error('添加商品类型失败', error);
+      }
       // 刷新categoryList
-      // ...
+      try {
+        // 使用 await 等待异步请求完成
+        const response = await api.getProType();
+        this.categoryList = response.data.data;
+      } catch (error) {
+        console.error('获取商品类型列表失败', error);
+      }
       this.$message.success('分类已添加');
       this.addCategoryDialog = false;
       this.addCategoryInput = '';

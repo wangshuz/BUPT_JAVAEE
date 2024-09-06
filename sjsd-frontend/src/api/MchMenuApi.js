@@ -10,7 +10,8 @@ const apiClient = axios.create({
   timeout: 10000, // 请求超时时间
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
+  withCredentials: true,              // 允许发送 Cookie
 })
 
 
@@ -21,13 +22,13 @@ export default {
   // get
   // return.data.code: 1:新增成功 0:失败
   async addCategory(categoryName) {
-      return apiClient.get(`/api//category/add?CategoryName=${categoryName}`)
+      return apiClient.get(`/api/category/add?categoryName=${categoryName}`)
   },
   // 删除指定商品
   // get
   // return.data.code: 1:删除成功 0:失败
   async deleteProduct(productId) {
-    return apiClient.get(`/api/product/delete?ProductId=${productId}`)
+    return apiClient.get(`/api/product/delete?productId=${productId}`)
   },
 
 
