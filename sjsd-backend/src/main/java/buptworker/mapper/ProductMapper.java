@@ -42,11 +42,11 @@ public interface ProductMapper {
             "WHERE a.user_id = #{CltId}")
     public List<Address> listAddress(@Param("CltId") int cltId);
 
-    @Select("SELECT COUNT(*) FROM Product_Category WHERE category_name = #{categoryName} AND is_deleted = FALSE")
-    int countByCategoryName(@Param("categoryName") String categoryName);
+    @Select("SELECT COUNT(*) FROM Product_Category WHERE category_name = #{categoryName} AND is_deleted = FALSE AND merchant_id = #{merchantId}")
+    int countByCategoryName(@Param("categoryName") String categoryName,int merchantId);
 
-    @Insert("INSERT INTO Product_Category (category_name) VALUES (#{categoryName})")
-    int insertCategory(@Param("categoryName") String categoryName);
+    @Insert("INSERT INTO Product_Category (category_name, merchant_id) VALUES (#{categoryName}, #{merchantId})")
+    int insertCategory(@Param("categoryName") String categoryName, int merchantId);
 
     @Update("UPDATE Product SET is_deleted = TRUE WHERE product_id = #{productId} AND is_deleted = FALSE")
     int deleteProduct(@Param("productId") int productId);

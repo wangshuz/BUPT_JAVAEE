@@ -62,8 +62,9 @@ public class ProductController {
 
 
     @RequestMapping("/category/add")
-    public Result addCategory(String categoryName){
-        int t = productService.addCategory(categoryName);
+    public Result addCategory(String categoryName, HttpServletRequest request){
+        int merchantId = cookie.getUserID(request).intValue();
+        int t = productService.addCategory(categoryName, merchantId);
         if(t==1){
             return Result.success();
         }else{

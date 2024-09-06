@@ -149,7 +149,8 @@ CREATE TABLE Orders (
 -- 支付方式 (payment_method): 支付的方式，例如信用卡、微信支付等
 -- 打包费 (packaging_fee): 订单中的打包费用总计
 -- 配送费 (delivery_fee): 订单的配送费用
--- 订单状态 (order_status): 记录订单的当前状态，比如“已下单”、“正在配送”、“已完成”
+-- 订单状态 (order_status): 记录订单的当前状态（用字符'1','2','3','4','5'表示待接单 待派送 派送中 已完成 已取消）
+    
 -- 备注 (notes): 用户在下单时附加的备注信息
 -- 用户是否删除 (is_deleted_by_user): 用户是否标记删除，布尔值（是/否）
 -- 商家是否删除 (is_deleted_by_merchant): 商家是否标记删除，布尔值（是/否）

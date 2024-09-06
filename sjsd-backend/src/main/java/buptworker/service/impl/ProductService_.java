@@ -71,15 +71,15 @@ public class ProductService_ implements ProductService {
     }
 
     @Override
-    public int addCategory(String categoryName) {
+    public int addCategory(String categoryName, int merchantId) {
         // 先检查分类名称是否已存在
-        int existingCount = productMapper.countByCategoryName(categoryName);
+        int existingCount = productMapper.countByCategoryName(categoryName, merchantId);
         if (existingCount > 0) {
             return 0;  // 分类名称已存在
         }
 
         // 插入新的分类
-        int result = productMapper.insertCategory(categoryName);
+        int result = productMapper.insertCategory(categoryName, merchantId);
         return result > 0 ? 1 : 0;  // 如果插入成功返回 1，否则返回 0
     }
 

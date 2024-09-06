@@ -16,7 +16,7 @@ public interface ProductService {
 
     public CltAddress getCltAddress(int cltId);
 
-    public int addCategory(String categoryName);
+    public int addCategory(String categoryName, int merchantId);
 
     public int deleteProduct(int productId);
 
