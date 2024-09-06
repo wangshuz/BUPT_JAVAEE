@@ -236,6 +236,17 @@ export default {
       return apiClient.get(`/api/changeCltOrderRealtime?orderId=${orderId}&time=${time}`);
   },
 
+  /**
+   * 更改密码
+   *
+   * @param {String} password - 新密码
+   * @param {Number} id - 用户或者商家的id
+   * @param {Number} flag - 商家是1，用户是0
+   * @returns {Promise} - 返回的结果
+   */
+  async updatePassword(password, id, flag) {
+    return await apiClient.post(`/api/password/update`, { password, id, flag });
+  },
   
 };
 

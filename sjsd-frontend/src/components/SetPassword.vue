@@ -35,6 +35,7 @@
   </template>
   
   <script>
+  import api from '../../api/api.js';
   export default {
     data() {
       return {
@@ -56,6 +57,7 @@
       };
     },
     methods: {
+
       savePassword() {
         this.$refs.passwordForm.validate((valid) => {   /* $refs是一个对象，包含了模板中所有带有ref属性的DOM元素的引用。     */
             /* validate()：这是Element UI表单组件提供的一个方法，用于触发表单验证。它接受一个回调函数，
