@@ -23,14 +23,14 @@ export default {
   // };
   // 其中order数据结构:
   // const order = {
-  //    merchant_id INT,
-  //    address_id INT,
-  //    payment_method VARCHAR(50) = '支付宝',
-  //    packaging_fee DECIMAL(10, 2) NOT NULL,
-  //    delivery_fee DECIMAL(10, 2) NOT NULL,
-  //    order_status VARCHAR(50) = '1',
+  //    merchantId INT,
+  //    addressId INT,
+  //    paymentMethod VARCHAR(50) = '支付宝',
+  //    packagingFee DECIMAL(10, 2) NOT NULL,
+  //    deliveryFee DECIMAL(10, 2) NOT NULL,
+  //    orderStatus VARCHAR(50) = '1',
   //    notes TEXT,
-  //    total_amount DECIMAL(10, 2) NOT NULL,
+  //    totalAmount DECIMAL(10, 2) NOT NULL,
   // }
   // 其中orderItems数据结构:
   //  const orderItems = {
