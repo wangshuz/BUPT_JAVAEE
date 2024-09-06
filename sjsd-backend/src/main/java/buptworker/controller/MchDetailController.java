@@ -9,17 +9,22 @@ package buptworker.controller;
 import buptworker.entity.Merchant;
 import buptworker.service.MchDetailService;
 import buptworker.service.FileUploadService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import buptworker.util.SessionUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
+
+
+@CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
 @RestController
 @RequestMapping("/api")
 public class MchDetailController {
@@ -31,11 +36,13 @@ public class MchDetailController {
     private FileUploadService fileUploadService;  // 注入文件上传服务
 
     // 定义一个固定的 merchant_id
-    private final int defaultMerchantID = 5;  // 修改为cookie！！！
+    private int defaultMerchantID = 5;  // 修改为cookie！！！
+    private SessionUtil cookie;
 
     // 获取商家信息 API
     @GetMapping("/merchants")
-    public ResponseEntity<Merchant> getMerchant() {
+    public ResponseEntity<Merchant> getMerchant(HttpServletRequest request) {
+        defaultMerchantID = cookie.getUserID(request).intValue();
         // 使用默认的 merchantID 获取商家信息
         Merchant merchant = mchdetailService.getMerchantById(defaultMerchantID);
         if (merchant != null) {
