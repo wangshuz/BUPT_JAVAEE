@@ -32,7 +32,6 @@ export default {
     * 
     * 获取特定商家的所有详细信息。
     * 
-    * @param {number} merchantId - 商家的唯一标识符
     * @returns {Promise} 包含商家信息的 Promise 对象
     */
   getMerchantDetailChange() {
@@ -59,11 +58,10 @@ export default {
    * 
    * 上传商家的头像或店铺图片。
    * 
-   * @param {number} merchantId - 商家的唯一标识符
    * @param {FormData} formData - 包含文件数据的 FormData 对象
    * @returns {Promise} 包含操作结果的 Promise 对象
    */
-  uploadMerchantImage(merchantId, formData) {
+  uploadMerchantImage(formData) {
     // 发送 POST 请求到 /api/merchants/{merchant_id}/upload-avatar 或 /upload-image 端点
     return apiClient.post(`/api/merchants/upload-avatar`, formData, {
       headers: {
@@ -188,11 +186,10 @@ export default {
   /**
    * 获取商家统计数据
    * 
-   * @param {number} merchantId
    * @return {Promise}
    */
-  async getMchData(merchantId) {
-    return apiClient.get(`/api/salesData?merchantId=${merchantId}`);
+  async getMchData() {
+    return apiClient.get(`/api/salesData`);
   },
 
   async getCltOrderDetail(orderId) {

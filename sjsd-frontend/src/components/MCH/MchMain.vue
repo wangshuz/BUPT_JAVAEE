@@ -97,43 +97,45 @@ export default {
     async created(){
         try {
             // 使用 await 等待异步请求完成
-            const response = await api.getCurData(10001);
+            const response = await api.getCurData();
             this.statisticData = response.data.data;
         
         } catch (error) {
             console.error('获取商家统计数据失败', error);
         }
         try {
-            const response = await api.getMonthlyOrderStats(10001);
+            alert(111);
+            const response = await api.getMonthlyOrderStats();
             let data = response.data.data;
             this.orderData = [
                 {
                     "name":"待接单",
-                    "value":data.pendingOrderCount
+                    // "value":data.pendingOrderCount
+                    "value":1
                 },
-                {
-                    "name":"待派送",
-                    "value":data.waitingForDeliveryCount
-                },
-                {
-                    "name":"派送中",
-                    "value":data.deliveringCount
-                },
-                {
-                    "name":"已完成",
-                    "value":data.completedCount
-                },
-                {
-                    "name":"已取消",
-                    "value":data.canceledCount
-                },
+                // {
+                //     "name":"待派送",
+                //     "value":data.waitingForDeliveryCount
+                // },
+                // {
+                //     "name":"派送中",
+                //     "value":data.deliveringCount
+                // },
+                // {
+                //     "name":"已完成",
+                //     "value":data.completedCount
+                // },
+                // {
+                //     "name":"已取消",
+                //     "value":data.canceledCount
+                // },
             ]
 
         } catch (error) {
             console.error('获取商家订单数据失败', error);
         }
         try {
-            const response = await api.getProdStats(10001);
+            const response = await api.getProdStats();
             let data = response.data.data;
             this.menuData = [
                 {
@@ -154,7 +156,7 @@ export default {
             console.error('获取商家菜品信息失败', error);
         }
         try {
-            const response = await api.getMerchantInfo(10001);
+            const response = await api.getMerchantInfo();
             let data = response.data.data;
             this.detailData = [
                 {
