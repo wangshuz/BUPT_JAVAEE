@@ -31,4 +31,10 @@ public class CltOrderDetailController {
         cltOrderDetailService.deleteCltDetailOrder(orderId);
         return Result.success();
     }
+
+    @RequestMapping("/changeCltOrderRealtime")
+    public Result changeCltOrderRealtime(String orderId, String realtime) {
+        cltOrderDetailService.actualDeliveryTime(orderId, realtime);
+        return Result.success();
+    }
 }

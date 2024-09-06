@@ -27,16 +27,21 @@ public class CltOrderDetailService_ implements CltOrderDetailService {
         List<CltOrderDDetailInfo> cltOrderDetailInfos = cltOrderDetailMapper.listCltOrderDetailInfoByOrderId(orderId);
         return new CltOrderDetail(cltOrderDetailItems, cltOrderDetailInfos);
     }
-
+    @Override
     public void updateCltOrderDetailStatus(String orderId, String status)
     {
         cltOrderDetailMapper.updateOrderDetailStatus(orderId, status);
     }
-
+    @Override
     public void deleteCltDetailOrder(String orderId)
     {
         cltOrderDetailMapper.updateIsDeletedByUser(orderId);
     }
 
+    @Override
+    public void actualDeliveryTime(String orderId, String realTime)
+    {
+        cltOrderDetailMapper.changeCltOrderRealtime(orderId, realTime);
+    }
 
 }
