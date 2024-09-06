@@ -268,8 +268,8 @@ export default {
   //   return apiClient.get('/api/PresentName', { params: { id, flag } });
   // },
   
-  getPresentName(id, flag) {
-    return apiClient.get('/api/PresentName', { params: { id, flag } });
+  async getPresentName(id, flag) {
+    return apiClient.get(`/api/PresentName?id=${id}&flag=${flag}`);
   },
 
 

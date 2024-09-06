@@ -14,12 +14,12 @@ public class PresentNameService_ implements PresentNameService {
     private PresentNameMapper presentNameMapper;
 
     @Override
-    public List<PresentName> ListMchPresentName(Integer id) {
+    public PresentName ListMchPresentName(Integer id) {
         return presentNameMapper.listMchPresentName(id);
     }
 
     @Override
-    public List<PresentName> ListCltPresentName(Integer id) {
+    public PresentName ListCltPresentName(Integer id) {
         return presentNameMapper.listCltPresentName(id);
     }
 }

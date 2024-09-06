@@ -7,6 +7,6 @@ import buptworker.entity.MchType;
 
 import java.util.List;
 public interface PresentNameService {
-    public List<PresentName> ListCltPresentName(Integer id);
-    public List<PresentName> ListMchPresentName(Integer id);
+    public PresentName ListCltPresentName(Integer id);
+    public PresentName ListMchPresentName(Integer id);
 }
