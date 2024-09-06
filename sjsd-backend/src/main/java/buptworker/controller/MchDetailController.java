@@ -54,9 +54,10 @@ public class MchDetailController {
 
     // 更新商家信息 API
     @PutMapping("/merchants")
-    public ResponseEntity<Map<String, Object>> updateMerchant(
+    public ResponseEntity<Map<String, Object>> updateMerchant(HttpServletRequest request,
             @RequestBody Merchant merchant) {
         // 直接使用默认的 merchantID
+        defaultMerchantID = cookie.getUserID(request).intValue();
         merchant.setMerchantID(defaultMerchantID);
         boolean updated = mchdetailService.updateMerchant(merchant);
         Map<String, Object> response = new HashMap<>();
@@ -72,7 +73,8 @@ public class MchDetailController {
 
     // 后端Controller：上传商家头像 API
     @PostMapping("/merchants/upload-avatar")
-    public ResponseEntity<Map<String, Object>> uploadAvatar(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Map<String, Object>> uploadAvatar(HttpServletRequest request,@RequestParam("file") MultipartFile file) {
+        defaultMerchantID = cookie.getUserID(request).intValue();
         Map<String, Object> response = new HashMap<>();
         try {
             // 使用 FileUploadService 上传文件
