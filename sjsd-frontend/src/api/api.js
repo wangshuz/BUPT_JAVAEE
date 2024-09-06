@@ -249,7 +249,8 @@ export default {
    * @returns {Promise} - 返回的结果
    */
   async updatePassword(password, id, flag) {
-    return apiClient.post(`/api/password/update`, { password, id, flag });
+      // console.log(password, id, flag);
+      return apiClient.get(`/api/updatePassword?password=${password}&id=${id}&flag=${flag}`);
   },
   /*
   *
@@ -257,9 +258,9 @@ export default {
   * @param {Number} id - 用户或者商家的id
   * @param {Number} flag - 商家是1，用户是0
   */
-  getPresentName(id, flag) {
-    return apiClient.get('/api/PresentName', { params: { id, flag } });
-  },
+  // getPresentName(id, flag) {
+  //   return apiClient.get('/api/PresentName', { params: { id, flag } });
+  // },
   
 };
 
