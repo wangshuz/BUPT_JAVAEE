@@ -65,20 +65,142 @@ public class CltOrderDetail {
 //    pdtmoney:'198',
 //    totalmoney:'496'
 
-    private CltOrderDetailItem cltOrderDetailItem;
+    //private CltOrderDetailItem cltOrderDetailItem;
+
+    private String mchname;//merchant_name
+    private String mchId;//merchant_id
+    private String address;//address_line
+    private String note;//notes
+    private String packingCharge;//packaging_fee
+    private String deliveryCharge;//delivery_fee
+    private String orderdate;//order_date
+    private String predictdate;//estimated_delivery_time
+    private String realdate;//actual_delivery_time
+    private String payway;//payment_method
+    private String state;//order_status
+    private String pdtmoney;//total_amount - packaging_fee - delivery_fee
+    private String totalmoney;//total_amount
     private List<CltOrderDDetailInfo> cltOrderDDetailInfoList;
 
     public CltOrderDetail(CltOrderDetailItem cltOrderDetailItem, List<CltOrderDDetailInfo> cltOrderDDetailInfoList) {
-        this.cltOrderDetailItem = cltOrderDetailItem;
+        this.mchname = cltOrderDetailItem.getMchname();
+        this.mchId = cltOrderDetailItem.getMchId();
+        this.address = cltOrderDetailItem.getAddress();
+        this.note = cltOrderDetailItem.getNote();
+        this.packingCharge = cltOrderDetailItem.getPackingCharge();
+        this.deliveryCharge = cltOrderDetailItem.getDeliveryCharge();
+        this.orderdate = cltOrderDetailItem.getOrderdate();
+        this.predictdate = cltOrderDetailItem.getPredictdate();
+        this.realdate = cltOrderDetailItem.getRealdate();
+        this.payway = cltOrderDetailItem.getPayway();
+        this.state = cltOrderDetailItem.getState();
+        this.pdtmoney = cltOrderDetailItem.getPdtmoney();
+        this.totalmoney = cltOrderDetailItem.getTotalmoney();
         this.cltOrderDDetailInfoList = cltOrderDDetailInfoList;
     }
 
-    public CltOrderDetailItem getCltOrderDetailItem() {
-        return cltOrderDetailItem;
+    public String getMchname() {
+        return mchname;
     }
 
-    public void setCltOrderDetailItem(CltOrderDetailItem cltOrderDetailItem) {
-        this.cltOrderDetailItem = cltOrderDetailItem;
+    public void setMchname(String mchname) {
+        this.mchname = mchname;
+    }
+
+    public String getMchId() {
+        return mchId;
+    }
+
+    public void setMchId(String mchId) {
+        this.mchId = mchId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getPackingCharge() {
+        return packingCharge;
+    }
+
+    public void setPackingCharge(String packingCharge) {
+        this.packingCharge = packingCharge;
+    }
+
+    public String getDeliveryCharge() {
+        return deliveryCharge;
+    }
+
+    public void setDeliveryCharge(String deliveryCharge) {
+        this.deliveryCharge = deliveryCharge;
+    }
+
+    public String getOrderdate() {
+        return orderdate;
+    }
+
+    public void setOrderdate(String orderdate) {
+        this.orderdate = orderdate;
+    }
+
+    public String getPredictdate() {
+        return predictdate;
+    }
+
+    public void setPredictdate(String predictdate) {
+        this.predictdate = predictdate;
+    }
+
+    public String getRealdate() {
+        return realdate;
+    }
+
+    public void setRealdate(String realdate) {
+        this.realdate = realdate;
+    }
+
+    public String getPayway() {
+        return payway;
+    }
+
+    public void setPayway(String payway) {
+        this.payway = payway;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getPdtmoney() {
+        return pdtmoney;
+    }
+
+    public void setPdtmoney(String pdtmoney) {
+        this.pdtmoney = pdtmoney;
+    }
+
+    public String getTotalmoney() {
+        return totalmoney;
+    }
+
+    public void setTotalmoney(String totalmoney) {
+        this.totalmoney = totalmoney;
     }
 
     public List<CltOrderDDetailInfo> getCltOrderDDetailInfoList() {

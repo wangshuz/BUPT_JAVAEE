@@ -286,32 +286,32 @@
                     </div>
                 </div>
                 <div class="containbox" style="margin-top: 5px; background-color: #CECECE; border-radius: 20px; position: relative; padding-top: 10px; padding-left: 2%; padding-bottom: 10px; padding-right: 2%;">
-                    <div>
-                        <span>菜品名称</span>
-                        <span style="margin-left: 68%;">数量</span>
-                        <span style="margin-left: 6%;">单价</span>
+                    <div style="display: flex;">
+                        <div style="width: 500px;">菜品名称</div>
+                        <div style=" width: 100px; text-align: center">数量</div>
+                        <div style=" text-align: center ; width: 150px;">单价</div>
                     </div>
                     <hr style="height: 1px; border-top: 3px solid black;">
                     <div v-for="(item) in dialogitem.info" style="margin-top: 10px; display: flex;">
-                        <div style="width: 500px; white-space: normal;">{{ item.name }}</div>
-                        <div style="margin-left: 13%;">x{{ item.num }}</div>
-                        <div style="margin-left: 6%;">￥ {{ item.price }}</div>
+                        <div style="width: 500px; white-space: normal; ">{{ item.name }}</div>
+                        <div style="width: 100px; text-align: center">x{{ item.num }}</div>
+                        <div style=" text-align: center ; width: 150px;">￥ {{ item.price }}</div>
                     </div>
                     <hr style="height: 1px; border-top: 3px solid black;">
                     <div>
                         <span>菜品小计：</span>
-                        <span style="margin-left: 74%">￥ {{ dialogitem.totalmchpricenote }}</span>
+                        <span style="margin-left: 70%;">￥ {{ dialogitem.totalmchpricenote }}</span>
                     </div>
                 </div>
                 <div class="containbox" style="margin-top: 5px; background-color: #CECECE; border-radius: 20px; position: relative; padding-top: 10px; padding-left: 2%; padding-bottom: 10px; padding-right: 2%;">
                     <div style="display: flex;">
                         <div style="width: 300px;">派送费：￥ {{ dialogitem.deliveryCharge }}</div>
-                        <div style="margin-left: 41%;">打包费：￥ {{ dialogitem.packingCharge }}</div>
+                        <div style=" justify-content: flex-end;">打包费：￥ {{ dialogitem.packingCharge }}</div>
                     </div>
                     <div style="margin-top: 10px;">菜品小计：￥ {{ dialogitem.totalmchpricenote }}</div>
                     <div style="margin-top: 10px;">送达时间：{{ dialogitem.ordertime }}</div>
                     <div style="margin-top: 10px;">支付方式：{{ dialogitem.realtime }}</div>
-                    <div style="margin-top: 10px; margin-left: 65%;">合计：
+                    <div style="margin-top: 10px; text-align: right;">合计：
                         <span style=" font-size: 50px;">
                             ￥{{ dialogitem.money }}
                         </span>
@@ -429,326 +429,326 @@ import api from '../../api/api.js';
                 //table========================================================================================================
                 tableData: [
                     //orderstate: 1.待接单  2.待派送  3.派送中  4.已完成  5.已取消
-                    // {
-                    //     orderId:'1',
-                    //     username:'不爱吃海底捞',
-                    //     phonenumber:'13655263459',
-                    //     location:'北京邮电大学学十三公寓美团外卖柜',
-                    //     ordertime:'2024-08-30 10:30:45',
-                    //     perdicttime:'2024-08-30 11:00:45',
-                    //     realtime:'2024-08-30 10:55:45',
-                    //     note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
-                    //     info:[ 
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '2'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         }
-                    //     ],
-                    //     packingCharge:'5',
-                    //     deliveryCharge:'5',
-                    //     totalmchpricenote:'9999',
-                    //     // payway: 1.微信支付  2.支付宝支付
-                    //     payway:'1',
-                    //     money:'154',
-                    //     orderstate:'1'
-                    // }, 
-                    //{
-                    //     orderId:'1332666559995544598',
-                    //     username:'爱吃海底捞',
-                    //     phonenumber:'13655263459',
-                    //     location:'北京邮电大学学十三公寓美团外卖柜',
-                    //     ordertime:'2024-08-30 10:30:45',
-                    //     perdicttime:'2024-08-30 11:00:45',
-                    //     realtime:'2024-08-30 10:55:45',
-                    //     note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
-                    //     info:[ 
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '2'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         }
-                    //     ],
-                    //     packingCharge:'5',
-                    //     deliveryCharge:'5',
-                    //     totalmchpricenote:'9999',
-                    //     // payway: 1.微信支付  2.支付宝支付
-                    //     payway:'1',
-                    //     money:'154',
-                    //     orderstate:'2'
-                    // },  {
-                    //     orderId:'1332666559995544597',
-                    //     username:'爱吃海底捞',
-                    //     phonenumber:'13655263459',
-                    //     location:'北京邮电大学学十三公寓美团外卖柜',
-                    //     ordertime:'2024-08-30 10:30:45',
-                    //     perdicttime:'2024-08-30 11:00:45',
-                    //     realtime:'2024-08-30 10:55:45',
-                    //     note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
-                    //     info:[ 
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '2'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         }
-                    //     ],
-                    //     packingCharge:'5',
-                    //     deliveryCharge:'5',
-                    //     totalmchpricenote:'9999',
-                    //     // payway: 1.微信支付  2.支付宝支付
-                    //     payway:'1',
-                    //     money:'154',
-                    //     orderstate:'3'
-                    // },  {
-                    //     orderId:'1332666559995544596',
-                    //     username:'不爱吃海底捞',
-                    //     phonenumber:'13655263459',
-                    //     location:'北京邮电大学学十三公寓美团外卖柜',
-                    //     ordertime:'2024-08-30 10:30:45',
-                    //     perdicttime:'2024-08-30 11:00:45',
-                    //     realtime:'2024-08-30 10:55:45',
-                    //     note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
-                    //     info:[ 
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '2'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         }
-                    //     ],
-                    //     packingCharge:'5',
-                    //     deliveryCharge:'5',
-                    //     totalmchpricenote:'9999',
-                    //     // payway: 1.微信支付  2.支付宝支付
-                    //     payway:'1',
-                    //     money:'154',
-                    //     orderstate:'4'
-                    // },  {
-                    //     orderId:'1332666559995544595',
-                    //     username:'爱吃海底捞',
-                    //     phonenumber:'13655263459',
-                    //     location:'北京邮电大学学十三公寓美团外卖柜',
-                    //     ordertime:'2024-08-30 10:30:45',
-                    //     perdicttime:'2024-08-30 11:00:45',
-                    //     realtime:'2024-08-30 10:55:45',
-                    //     note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
-                    //     info:[ 
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '2'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         }
-                    //     ],
-                    //     packingCharge:'5',
-                    //     deliveryCharge:'5',
-                    //     totalmchpricenote:'9999',
-                    //     // payway: 1.微信支付  2.支付宝支付
-                    //     payway:'1',
-                    //     money:'154',
-                    //     orderstate:'5'
-                    // },  {
-                    //     orderId:'1332666559995544594',
-                    //     username:'爱吃海底捞',
-                    //     phonenumber:'13655263459',
-                    //     location:'北京邮电大学学十三公寓美团外卖柜',
-                    //     ordertime:'2024-08-30 10:30:45',
-                    //     perdicttime:'2024-08-30 11:00:45',
-                    //     realtime:'2024-08-30 10:55:45',
-                    //     note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
-                    //     info:[ 
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '2'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         },
-                    //         {
-                    //             name: '六神清爽小火锅',
-                    //             price: '198',
-                    //             num: '1'
-                    //         }
-                    //     ],
-                    //     packingCharge:'5',
-                    //     deliveryCharge:'5',
-                    //     totalmchpricenote:'9999',
-                    //     // payway: 1.微信支付  2.支付宝支付
-                    //     payway:'1',
-                    //     money:'154',
-                    //     orderstate:'1'
-                    // }, 
+                    {
+                        orderId:'1',
+                        username:'不爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'1'
+                    }, 
+                    {
+                        orderId:'1332666559995544598',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'2'
+                    },  {
+                        orderId:'1332666559995544597',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'3'
+                    },  {
+                        orderId:'1332666559995544596',
+                        username:'不爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'4'
+                    },  {
+                        orderId:'1332666559995544595',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'5'
+                    },  {
+                        orderId:'1332666559995544594',
+                        username:'爱吃海底捞',
+                        phonenumber:'13655263459',
+                        location:'北京邮电大学学十三公寓美团外卖柜',
+                        ordertime:'2024-08-30 10:30:45',
+                        perdicttime:'2024-08-30 11:00:45',
+                        realtime:'2024-08-30 10:55:45',
+                        note:'不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜不吃香菜',
+                        info:[ 
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '2'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            },
+                            {
+                                name: '六神清爽小火锅',
+                                price: '198',
+                                num: '1'
+                            }
+                        ],
+                        packingCharge:'5',
+                        deliveryCharge:'5',
+                        totalmchpricenote:'9999',
+                        // payway: 1.微信支付  2.支付宝支付
+                        payway:'1',
+                        money:'154',
+                        orderstate:'1'
+                    }, 
                 ]
             };
         },
@@ -1017,8 +1017,9 @@ import api from '../../api/api.js';
             async handledialogdelete()
             {
                 //this.tableData.splice(this.dialogindex, 1);
-                await this.deleteOrder(this.tableData[this.dialogindex].orderId);
                 this.dialogVisible = false;
+                await this.deleteOrder(this.tableData[this.dialogindex].orderId);
+                
             },
             async handledialogaccept()
             {
@@ -1098,13 +1099,28 @@ import api from '../../api/api.js';
 
             
         },
-        // async mounted() {
-        //     //fetchOrders();
-        //     await this.fetchOrders();
-        // },
+        mounted() {
+            // 每隔3秒刷新一次页面
+            // setInterval(() => {
+            //     console.log("界面刷新");
+            //     window.location.reload();
+            // }, 3000); // 3000 毫秒等于 3 秒
+        },
         async created()
         {
             await this.fetchOrders();
+            // 每隔5秒钟刷新数据
+            console.log('数据获取完成，启动定时器');
+                this.interval = setInterval(async () => {
+                    console.log('定时器触发'); // 确认定时器是否被触发
+                this.currentTime = new Date().toLocaleTimeString();
+                console.log(this.currentTime);
+                await this.fetchOrders();
+                }, 3000); // 5000 毫秒 = 5秒
+        },
+        beforeDestroy() {
+            // 销毁组件前清除定时器，防止内存泄漏
+            clearInterval(this.interval);
         },
         computed: {
             filteredData() {

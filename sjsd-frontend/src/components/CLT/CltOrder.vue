@@ -35,7 +35,7 @@
               <div style="font-size: 17px; margin-top: 5px; margin-bottom: 5px; height: 30px;"  @click="goToStore(scope.$index)">{{ scope.row.mchname }}</div>
               <div class="scroll-box">
                 <!-- 使用 v-for 循环订单信息 -->
-                <div id="msgbox" v-for="(order, index) in scope.row.info" :key="index" style="display: flex; align-items: flex-start; margin-right: 20px; background-color: #CECECE; border-radius: 10px;">
+                <div id="msgbox" v-for="(order, index) in scope.row.cltOrderInfoList" :key="index" style="display: flex; align-items: flex-start; margin-right: 20px; background-color: #CECECE; border-radius: 10px;">
                   <!-- 图片部分 -->
                   <span>
                     <img id="msgpicture" class="msgcmp" :src="order.picture" alt="商品图片" style="width: 60px; height: 60px; margin-right: 10px;">
@@ -98,6 +98,7 @@
 import SideBar from '../SideBar.vue';
 import SearchBox from '../SearchBox.vue';
 import { time } from 'echarts';
+import api from '../../api/api.js';
 
   export default {
     components: { SideBar,SearchBox },
@@ -140,7 +141,7 @@ import { time } from 'echarts';
           mchId:'1',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -161,7 +162,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -182,7 +183,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -197,7 +198,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -224,7 +225,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -245,7 +246,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -260,7 +261,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -275,7 +276,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -302,7 +303,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -317,7 +318,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -332,7 +333,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -347,7 +348,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -374,7 +375,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -389,7 +390,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -404,7 +405,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -419,7 +420,7 @@ import { time } from 'echarts';
           mchId:'',
           orderId:'',
           mchname:'火锅小旋转（北京邮电大学学二四楼店）',
-          info:[ 
+          cltOrderInfoList:[ 
           {
             picture: 'https://th.bing.com/th/id/R.02c432c82120394cfd3d0ee2b68458ff?rik=5fFZd%2bU2AOZITQ&riu=http%3a%2f%2fpic.ntimg.cn%2ffile%2f20190704%2f8720431_212819635000_2.jpg&ehk=lwHXio%2bGcrLhC92opR8DbiIuL0QoQnOkEB4%2fZIWtf6o%3d&risl=&pid=ImgRaw&r=0',
             name: '六神清爽小火锅',
@@ -470,8 +471,8 @@ import { time } from 'echarts';
           //    return apiClient.get(`/api/getCltOrders?userId=${userId}`);
           //},
           try{
-            const response = await api.getCltOrders(this.userId);
-            this.tableData = response;
+            const response = await api.getCltOrders('1');
+            this.tableData = response.data.data;
           }
           catch(error)
           {
@@ -668,8 +669,8 @@ import { time } from 'echarts';
         // 如果当前标签页是“全部订单”
         if (this.pagestate === '0') {
         //this.tableData[index].state = '2';
-        await changeCltOrderRealtime(this.tableData[index].orderId);
-        await changeCltOrderStatus(this.tableData[index].orderId, '4') 
+        await this.changeCltOrderRealtime(this.tableData[index].orderId);
+        await this.changeCltOrderStatus(this.tableData[index].orderId, '4') 
         } 
         // 如果当前标签页是“待接单”
         else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
@@ -679,8 +680,8 @@ import { time } from 'echarts';
             if (this.tableData[i].state === '1') {
             if (count === index) {
                 //this.tableData[i].state = '2';
-                await changeCltOrderRealtime(this.tableData[i].orderId);
-                await changeCltOrderStatus(this.tableData[i].orderId, '4') 
+                await this.changeCltOrderRealtime(this.tableData[i].orderId);
+                await this.changeCltOrderStatus(this.tableData[i].orderId, '4') 
                 break;
             }
             count++;
@@ -692,7 +693,7 @@ import { time } from 'echarts';
           // 如果当前标签页是“全部订单”
           if (this.pagestate === '0') {
           //this.tableData[index].state = '3';
-          await changeCltOrderStatus(this.tableData[index].orderId, '5');
+          await this.changeCltOrderStatus(this.tableData[index].orderId, '5');
           } 
           // 如果当前标签页是“待接单”
           else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
@@ -702,7 +703,7 @@ import { time } from 'echarts';
               if (this.tableData[i].state === '1') {
               if (count === index) {
                   //this.tableData[i].state = '3';
-                  await changeCltOrderStatus(this.tableData[i].orderId, '5'); 
+                  await this.changeCltOrderStatus(this.tableData[i].orderId, '5'); 
                   break;
               }
               count++;
@@ -714,7 +715,7 @@ import { time } from 'echarts';
         // 如果当前标签页是“全部订单”
         if (this.pagestate === '0') {
             //this.tableData.splice(index, 1);
-            await deleteCltOrder(this.tableData[index].orderId);
+            await this.deleteCltOrder(this.tableData[index].orderId);
         } 
         // 如果当前标签页是“待接单”
         else if (this.pagestate === '1') {  // 假设“待接单”标签页的 name 是 'second'
@@ -724,7 +725,7 @@ import { time } from 'echarts';
                 if (this.tableData[i].state === '1') {
                 if (count === index) {
                     //this.tableData.splice(i, 1);
-                    await deleteCltOrder(this.tableData[i].orderId);
+                    await this.deleteCltOrder(this.tableData[i].orderId);
                     break;
                 }
                 count++;
@@ -739,7 +740,7 @@ import { time } from 'echarts';
                 if (this.tableData[i].state === '2') {
                 if (count === index) {
                     //this.tableData.splice(i, 1);
-                    await deleteCltOrder(this.tableData[i].orderId);
+                    await this.deleteCltOrder(this.tableData[i].orderId);
                     break;
                 }
                 count++;
@@ -754,7 +755,7 @@ import { time } from 'echarts';
                 if (this.tableData[i].state === '3') {
                 if (count === index) {
                     //this.tableData.splice(i, 1);
-                    await deleteCltOrder(this.tableData[i].orderId);
+                    await this.deleteCltOrder(this.tableData[i].orderId);
                     break;
                 }
                 count++;
@@ -778,8 +779,20 @@ import { time } from 'echarts';
     },
     async created()
     {
-      await fetchOrders();
+      await this.fetchOrders();
+      // 每隔5秒钟刷新数据
+      console.log('数据获取完成，启动定时器');
+                this.interval = setInterval(async () => {
+                    console.log('定时器触发'); // 确认定时器是否被触发
+                this.currentTime = new Date().toLocaleTimeString();
+                console.log(this.currentTime);
+                await this.fetchOrders();
+                }, 3000); // 5000 毫秒 = 5秒
     },
+    beforeDestroy() {
+            // 销毁组件前清除定时器，防止内存泄漏
+            clearInterval(this.interval);
+        },
     computed: {
         filteredData() {
             let filtered = this.tableData;
@@ -854,7 +867,7 @@ import { time } from 'echarts';
     }
     #msgnum {
       margin-top: 50px;
-      margin-left: 100px;
+      margin-left: 80px;
     }
     #timeselecter {
       position:absolute;

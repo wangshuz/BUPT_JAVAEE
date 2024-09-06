@@ -23,28 +23,79 @@ public class CltOrder {
 //                state:'1',
 //            money:'496'
 //    }
-    private CltOrderItem cltOrderItem;
-    private List<CltOrderInfo> cltOrderInfoList;
+    //private CltOrderItem cltOrderItem;
+    private String orderId;//order_id
+    private String mchId;//merchant_id
+    private String mchname;//merchant_name
+    private String date;//order_date
+    private String state;//order_status
+    private String money;//total_amount
 
+    private List<CltOrderInfo> info;
 
     public CltOrder(CltOrderItem cltOrderItem, List<CltOrderInfo> cltOrderInfoList) {
-        this.cltOrderItem = cltOrderItem;
-        this.cltOrderInfoList = cltOrderInfoList;
+        this.orderId = cltOrderItem.getOrderId();
+        this.mchId = cltOrderItem.getMchId();
+        this.mchname = cltOrderItem.getMchname();
+        this.date = cltOrderItem.getDate();
+        this.state = cltOrderItem.getState();
+        this.money = cltOrderItem.getMoney();
+        this.info = cltOrderInfoList;
     }
 
-    public CltOrderItem getCltOrderItem() {
-        return cltOrderItem;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setCltOrderItem(CltOrderItem cltOrderItem) {
-        this.cltOrderItem = cltOrderItem;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getMchId() {
+        return mchId;
+    }
+
+    public void setMchId(String mchId) {
+        this.mchId = mchId;
+    }
+
+    public String getMchname() {
+        return mchname;
+    }
+
+    public void setMchname(String mchname) {
+        this.mchname = mchname;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
     }
 
     public List<CltOrderInfo> getCltOrderInfoList() {
-        return cltOrderInfoList;
+        return info;
     }
 
     public void setCltOrderInfoList(List<CltOrderInfo> cltOrderInfoList) {
-        this.cltOrderInfoList = cltOrderInfoList;
+        this.info = cltOrderInfoList;
     }
 }

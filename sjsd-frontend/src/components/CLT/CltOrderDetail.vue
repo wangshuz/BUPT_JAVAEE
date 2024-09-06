@@ -44,7 +44,7 @@
                 <span v-if="payway === '2'">支付宝支付</span>
             </div>
             <div class="totalmoney">合计：
-                <span style="font-size: 100px;">¥{{ totalmoney }}</span>
+                <span style="font-size: 60px;">¥{{ totalmoney }}</span>
             </div>
         </div>
         <hr class="bottom_line_hr">
@@ -82,10 +82,11 @@
     </div>
 </template>
 <script>
+import api from '../../api/api.js';
 export default {
   data() {
     return {
-        userId:'',
+        userId:'1',
         orderId: '1332666565499548852',
         // state:  1.待收货  2.已完成  3.已取消
         mchname:'火锅小旋转（北京邮电大学学二四楼店）',
@@ -162,30 +163,44 @@ export default {
              }); // 通过路由的名称跳转
         },
         async handledelete(){
-            await deleteCltOrderDetail(this.orderId);
-            goToOrder();
+            await this.deleteCltOrderDetail(this.orderId);
+            this.goToOrder();
 
         },
         async handleaccept()
         {
-            await changeCltOrderRealtime(this.orderId);
-            await changeCltOrderDetailStatus(this.orderId, '4');
+            await this.changeCltOrderRealtime(this.orderId);
+            await this.changeCltOrderDetailStatus(this.orderId, '4');
         },
         async handlecancle()
         {
-            await changeCltOrderDetailStatus(this.orderId, '5');
+            await this.changeCltOrderDetailStatus(this.orderId, '5');
         },
         handleonemoretime()
         {
-            goToStore();
+            this.goToStore();
         },
         async fetchOrderDetail() {
           //getCltOrderDetail(orderId){
           //    return apiClient.get(`/api/getCltOrderDetail?orderId=${orderId}`);
           //},
           try{
-            const response = await api.getCltOrderDetail(this.orderId);
-            this.tableData = response;
+            const response = (await api.getCltOrderDetail(this.orderId)).data.data;
+            this.mchname = response.mchname;
+            this.mchId = response.mchId;
+            
+            this.address = response.address;
+            this.note = response.note;
+            this.packingCharge = response.packingCharge;
+            this.deliveryCharge = response.deliveryCharge;
+            this.orderdate = response.orderdate;
+            this.predictdate = response.predictdate;
+            this.realdate = response.realdate;
+            this.payway = response.payway;
+            this.state = response.state;
+            this.pdtmoney = response.pdtmoney;
+            this.totalmoney = response.totalmoney;
+            this.info = response.cltOrderDDetailInfoList;
           }
           catch(error)
           {
@@ -249,7 +264,17 @@ export default {
           //},
           try{
             const now = new Date();
-            const response = await api.changeCltOrderRealtime(orderId, now.toString());
+
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');  // 确保月份为两位数
+            const day = String(now.getDate()).padStart(2, '0');         // 确保日期为两位数
+            const hour = String(now.getHours()).padStart(2, '0');       // 确保小时为两位数
+            const minute = String(now.getMinutes()).padStart(2, '0');   // 确保分钟为两位数
+            const second = String(now.getSeconds()).padStart(2, '0');   // 确保秒数为两位数
+
+            const formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+            console.log(now.toString());
+            const response = await api.changeCltOrderRealtime(orderId, now);
             console.log(response);
             await this.fetchCltOrders(); // 更新状态后重新获取订单列表
           }
@@ -268,15 +293,28 @@ export default {
         //   });
       },
     },
-    mounted()
+    async mounted()
     {
-        const orderId = this.$route.query.orderId;
+        this.orderId = this.$route.query.orderId;
+        await this.fetchOrderDetail();
+        // 每隔5秒钟刷新数据
+      console.log('数据获取完成，启动定时器');
+                this.interval = setInterval(async () => {
+                    console.log('定时器触发'); // 确认定时器是否被触发
+                this.currentTime = new Date().toLocaleTimeString();
+                console.log(this.currentTime);
+                await this.fetchOrders();
+                }, 3000); // 5000 毫秒 = 5秒
     },
-    async created()
-    {
+    beforeDestroy() {
+            // 销毁组件前清除定时器，防止内存泄漏
+            clearInterval(this.interval);
+        },
+    // async created()
+    // {
         
-        await fetchOrderDetail();
-    }
+    //     await fetchOrderDetail();
+    // }
 }
 </script>
 <style scoped>
@@ -381,7 +419,6 @@ export default {
     }
     .totalmoney {
         margin-top: 130px;
-        margin-left: 100px;
     }
     .bottom-button {
         margin-left: 1350px;
