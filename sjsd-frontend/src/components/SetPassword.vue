@@ -59,7 +59,7 @@
     methods: {
 
       savePassword() {
-        this.$refs.passwordForm.validate((valid) => {   /* $refs是一个对象，包含了模板中所有带有ref属性的DOM元素的引用。     */
+        this.$refs.passwordForm.validate(async (valid) => {   /* $refs是一个对象，包含了模板中所有带有ref属性的DOM元素的引用。     */
             /* validate()：这是Element UI表单组件提供的一个方法，用于触发表单验证。它接受一个回调函数，
             该回调函数带有一个参数valid，表示验证是否通过（true表示通过，false表示失败）。 */
             /* valid 通常用于表单验证规则，表示当输入框失去焦点（blur 事件）时触发验证 */
@@ -70,7 +70,7 @@
             const flag = 0; // 或者根据具体情况设置为 0
             const id = 11; // 替换为实际的用户/商家 ID
             // alart(this.passwordForm.password);
-            const response = api.updatePassword(this.passwordForm.password, id, flag);
+            const response = await api.updatePassword(this.passwordForm.password, id, flag);
             
             this.$message({
               message: '密码设置成功',
